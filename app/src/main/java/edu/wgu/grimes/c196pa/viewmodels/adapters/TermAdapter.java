@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.R;
@@ -34,8 +35,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TermEntity currentTerm = terms.get(position);
         holder.textViewTitle.setText(currentTerm.getTitle());
-        String startDate = getFormattedDate(currentTerm.getStartDate());
-        String endDate = getFormattedDate(currentTerm.getEndDate());
+        Date sDate = currentTerm.getStartDate();
+        Date eDate = currentTerm.getEndDate();
+        String startDate = sDate == null ? "????" : getFormattedDate(sDate);
+        String endDate = eDate == null ? "???? " : getFormattedDate(eDate);
         String dateRange = startDate + " - " + endDate;
         holder.textViewDateRange.setText(dateRange);
     }

@@ -22,10 +22,6 @@ public class TermsListViewModel extends AndroidViewModel {
         allTerms = mRepository.getAllTerms();
     }
 
-    public void insert(TermEntity term) {
-        mRepository.saveTerm(term);
-    }
-
     public void delete(TermEntity term) {
         mRepository.deleteTerm(term);
     }
@@ -39,4 +35,7 @@ public class TermsListViewModel extends AndroidViewModel {
     }
 
 
+    public void addSampleData() {
+        mRepository.addSampleData();
+    }
 }

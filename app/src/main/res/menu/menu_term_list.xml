@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/add_sample_terms"
+        android:title="Add sample terms"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/delete_all_terms"
         android:title="Delete all terms"
         app:showAsAction="never"/>

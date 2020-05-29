@@ -11,4 +11,5 @@ public class Constants {
             "edu.wgu.grimes.c196pa.utilities.term.editor.extra.start_date";
     public static final String EXTRA_END_DATE =
             "edu.wgu.grimes.c196pa.utilities.term.editor.extra.end_date";
+    public static final String DATE_PATTERN = "MMMM d, yyyy";
 }

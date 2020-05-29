@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196pa;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -34,10 +36,10 @@ public class TermEditorActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_title)
     EditText mTitle;
 
-    @BindView(R.id.text_view_term_details_start_date)
+    @BindView(R.id.text_view_term_editor_start_date_value)
     TextView mStartDate;
 
-    @BindView(R.id.text_view_term_details_end_date)
+    @BindView(R.id.text_view_term_editor_end_date_value)
     TextView mEndDate;
 
     @BindView(R.id.recycler_view_course_list)
@@ -92,6 +94,16 @@ public class TermEditorActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.text_view_term_editor_start_date_value)
+    void startDateClickHandler() {
+        Toast.makeText(this, "start date clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.text_view_term_editor_end_date_value)
+    void endDateClickHandler() {
+        Toast.makeText(this, "end date clicked", Toast.LENGTH_SHORT).show();
+    }
+
     private void initViewModel() {
 
 //        final Observer<List<CourseEntity>> coursesObserver = courseEntities -> {
@@ -144,11 +156,13 @@ public class TermEditorActivity extends AppCompatActivity {
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
         if (title.trim().isEmpty()) {
-            Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 8);
+            toast.show();
             return;
         }
         mViewModel.saveTerm(title, startDate, endDate);
-        Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Term Saved", Toast.LENGTH_SHORT).show();
         finish();
     }
 

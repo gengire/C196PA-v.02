@@ -11,12 +11,14 @@ import java.util.concurrent.Executors;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
+import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
+
 public class AppRepository {
 
     private static AppRepository instance;
 
     private TermDao termDao;
-    private LiveData<List<TermEntity>> allTerms;
+    public LiveData<List<TermEntity>> mTerms;
     private AppDatabase mDb;
     Executor executor = Executors.newSingleThreadExecutor();
 
@@ -30,7 +32,7 @@ public class AppRepository {
     public AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
         termDao = mDb.termDao();
-        allTerms = termDao.getAllTerms();
+        mTerms = termDao.getAllTerms();
     }
 
     public void saveTerm(TermEntity term) {
@@ -46,10 +48,19 @@ public class AppRepository {
     }
 
     public LiveData<List<TermEntity>> getAllTerms() {
-        return allTerms;
+        return mTerms;
     }
 
     public TermEntity getTermById(int termId) {
         return mDb.termDao().selectTermById(termId);
+    }
+
+    public void addSampleData() {
+        executor.execute(() -> {
+            termDao.insert(new TermEntity("Term 1", getDate("October 1, 2018"), getDate("March 31, 2019")));
+            termDao.insert(new TermEntity("Term 2", getDate("April 1, 2019"), getDate("September 30, 2019")));
+            termDao.insert(new TermEntity("Term 3", getDate("October 1, 2019"), getDate("March 31, 2020")));
+            termDao.insert(new TermEntity("Term 4", getDate("April 1, 2020"), getDate("September 30, 2020")));
+        });
     }
 }

@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
 import edu.wgu.grimes.c196pa.viewmodels.adapters.TermAdapter;
@@ -28,7 +29,9 @@ public class TermsListActivity extends AppCompatActivity {
 
     private TermsListViewModel mViewModel;
     private TermAdapter mAdapter;
-    private RecyclerView mRecyclerView;
+
+    @BindView(R.id.recycler_view_terms_list)
+    RecyclerView mRecyclerView;
 
     @BindView(R.id.fab_add_term)
     FloatingActionButton fabAddTerm;
@@ -39,12 +42,13 @@ public class TermsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_terms_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ButterKnife.bind(this);
 
         initRecyclerView();
         initViewModel();
-        initSwipeDelete();
 
-        ButterKnife.bind(this);
     }
 
     @Override
@@ -60,6 +64,11 @@ public class TermsListActivity extends AppCompatActivity {
             case R.id.delete_all_terms:
                 mViewModel.deleteAll();
                 Toast.makeText(this, "All terms deleted", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.add_sample_terms:
+                mViewModel.addSampleData();
+                Toast.makeText(this, "Sample terms added", Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -72,26 +81,25 @@ public class TermsListActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView mRecyclerView = findViewById(R.id.terms_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
-
         mAdapter = new TermAdapter();
+
         mAdapter.setOnItemClickListener(term -> {
             Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
             intent.putExtra(Constants.TERM_ID_KEY, term.getId());
             startActivity(intent);
         });
-
         mRecyclerView.setAdapter(mAdapter);
+        initSwipeDelete();
     }
 
     private void initViewModel() {
         ViewModelProvider.Factory factory =
                 new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
-        mViewModel.getAllTerms().observe(TermsListActivity.this, termEntities -> {
-            mAdapter.setTerms(termEntities);
+        mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> {
+            mAdapter.setTerms(terms);
         });
     }
 
@@ -106,8 +114,10 @@ public class TermsListActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                mViewModel.delete(mAdapter.getTermAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(TermsListActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+                TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
+                String termTitle = term.getTitle();
+                mViewModel.delete(term);
+                Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(mRecyclerView);
     }
