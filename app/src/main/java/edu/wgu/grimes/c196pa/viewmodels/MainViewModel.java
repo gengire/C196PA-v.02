@@ -59,4 +59,12 @@ public class MainViewModel extends AndroidViewModel {
     public String getAssessmentsFailed() {
         return String.valueOf(0);
     }
+
+    public void addSampleData() {
+        mRepository.addSampleData();
+    }
+
+    public void deleteAll() {
+        mRepository.deleteAllTerms();
+    }
 }

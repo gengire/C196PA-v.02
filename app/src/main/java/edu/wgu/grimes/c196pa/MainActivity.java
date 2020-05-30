@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.OnConflictStrategy;
 
 import java.util.List;
 
@@ -28,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
     void termsClickHandler() {
         Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_add_sample_terms)
+    void addSamplesClickHandler() {
+        mViewModel.addSampleData();
+    }
+
+    @OnClick(R.id.btn_delete_all_terms)
+    void deleteAllClickHandler() {
+        mViewModel.deleteAll();
     }
 
     @Override
