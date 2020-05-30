@@ -19,6 +19,9 @@ public interface TermDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(TermEntity term);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void saveAll(List<TermEntity> term);
+
     @Delete
     void delete(TermEntity term);
 
@@ -31,12 +34,15 @@ public interface TermDao {
     @Query("select * from terms where term_id = :termId")
     TermEntity selectTermById(int termId);
 
+    @Query("select count(*) from terms")
+    Integer getCount();
+
     @Transaction
     @Query("select * from terms")
     LiveData<List<TermWithCourses>> getAllTermsWithCourses();
 
     @Transaction
     @Query("select * from terms where term_id = :termId")
-    LiveData<List<TermWithCourses>> getTermWithCourses(int termId);
+    TermWithCourses getTermWithCourses(int termId);
 
 }

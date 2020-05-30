@@ -10,6 +10,7 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 
 public class TermsListViewModel extends AndroidViewModel {
 
@@ -37,5 +38,11 @@ public class TermsListViewModel extends AndroidViewModel {
 
     public void addSampleData() {
         mRepository.addSampleData();
+    }
+
+    public boolean getTermHasCourses(TermEntity term) {
+        TermWithCourses termWithCourses = mRepository.getTermWithCourses(term.getId());
+        //TODO: null terms coming back for some weird reason.
+        return !termWithCourses.courses.isEmpty();
     }
 }

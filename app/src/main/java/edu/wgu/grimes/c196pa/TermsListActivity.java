@@ -116,8 +116,14 @@ public class TermsListActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
                 String termTitle = term.getTitle();
-                mViewModel.delete(term);
-                Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
+
+                boolean hasCourses = mViewModel.getTermHasCourses(term);
+                if (hasCourses) {
+                    Toast.makeText(TermsListActivity.this, termTitle + " can't be deleted because it has courses", Toast.LENGTH_SHORT).show();
+                } else {
+                    mViewModel.delete(term);
+                    Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
+                }
             }
         }).attachToRecyclerView(mRecyclerView);
     }

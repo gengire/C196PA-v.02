@@ -19,6 +19,9 @@ public interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(CourseEntity course);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void saveAll(List<CourseEntity> sampleCourses);
+
     @Delete
     void delete(CourseEntity course);
 
@@ -36,6 +39,9 @@ public interface CourseDao {
 
     @Query("select count(*) from courses where status = :status")
     LiveData<Integer> getCoursesByStatus(String status);
+
+    @Query("select count(*) from courses")
+    Integer getCount();
 
 //    @Transaction
 //    @Query("select * from courses")

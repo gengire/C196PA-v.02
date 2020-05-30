@@ -14,6 +14,7 @@ import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
@@ -88,5 +89,13 @@ public class AppRepository {
                 assessmentDao.save(sampleAssessment);
             }
         });
+    }
+
+    public TermWithCourses getTermWithCourses(int id) {
+        final TermWithCourses[] termWithCourses = new TermWithCourses[1];
+        executor.execute(() -> {
+            termWithCourses[0] = termDao.getTermWithCourses(id);
+        });
+        return termWithCourses[0];
     }
 }
