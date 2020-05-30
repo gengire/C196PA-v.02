@@ -13,21 +13,31 @@ public class CourseEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")
     private int id;
+    @ColumnInfo(name = "term_id")
+    private int termId;
+    private int competencyUnits;
+    private String code;
     private String title;
     private Date startDate;
     private Date endDate; // anticipated
     private String status;
 
     @Ignore
-    public CourseEntity(String title, Date startDate, Date endDate, String status) {
+    public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, Date endDate, String status) {
+        this.termId = termId;
+        this.competencyUnits = competencyUnits;
+        this.code = code;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
     }
 
-    public CourseEntity(int id, String title, Date startDate, Date endDate, String status) {
+    public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, Date endDate, String status) {
         this.id = id;
+        this.termId = termId;
+        this.competencyUnits = competencyUnits;
+        this.code = code;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -40,6 +50,30 @@ public class CourseEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTermId() {
+        return termId;
+    }
+
+    public void setTermId(int termId) {
+        this.termId = termId;
+    }
+
+    public int getCompetencyUnits() {
+        return competencyUnits;
+    }
+
+    public void setCompetencyUnits(int competencyUnits) {
+        this.competencyUnits = competencyUnits;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getTitle() {
@@ -78,6 +112,9 @@ public class CourseEntity {
     public String toString() {
         return "CourseEntity{" +
                 "id=" + id +
+                ", termId=" + termId +
+                ", competencyUnits=" + competencyUnits +
+                ", code='" + code + '\'' +
                 ", title='" + title + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

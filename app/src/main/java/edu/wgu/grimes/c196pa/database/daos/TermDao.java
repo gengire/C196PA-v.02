@@ -6,10 +6,12 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 
 @Dao
 public interface TermDao {
@@ -28,4 +30,13 @@ public interface TermDao {
 
     @Query("select * from terms where term_id = :termId")
     TermEntity selectTermById(int termId);
+
+    @Transaction
+    @Query("select * from terms")
+    LiveData<List<TermWithCourses>> getAllTermsWithCourses();
+
+    @Transaction
+    @Query("select * from terms where term_id = :termId")
+    LiveData<List<TermWithCourses>> getTermWithCourses(int termId);
+
 }
