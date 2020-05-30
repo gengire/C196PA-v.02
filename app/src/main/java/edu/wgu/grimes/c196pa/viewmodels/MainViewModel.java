@@ -25,14 +25,12 @@ public class MainViewModel extends AndroidViewModel {
         mRepository = AppRepository.getInstance(application.getApplicationContext());
         mCoursesCompleted = mRepository.getCoursesByStatus("Complete");
         mCoursesInProgress = mRepository.getCoursesByStatus("In Progress");
-    }
+        mCoursesDropped = mRepository.getCoursesByStatus("Dropped");
+        mCoursesFailed = mRepository.getCoursesByStatus("Failed");
+        mAssessmentsPassed = mRepository.getAssessmentsByStatus("Pass");
+        mAssessmentsPending = mRepository.getAssessmentsByStatus("Pending");
+        mAssessmentsFailed = mRepository.getAssessmentsByStatus("Fail");
 
-    public String getCoursesDropped() {
-        return String.valueOf(0);
-    }
-
-    public String getCoursesFailed() {
-        return String.valueOf(0);
     }
 
     public String getAssessmentsPending() {
@@ -52,6 +50,6 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void deleteAll() {
-        mRepository.deleteAllTerms();
+        mRepository.deleteAllData();
     }
 }

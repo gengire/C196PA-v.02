@@ -16,4 +16,6 @@
     <string name="pending">Pending</string>
     <string name="passed">Passed</string>
     <string name="term_list">Term List</string>
+    <string name="add_samples">Add Sample Data</string>
+    <string name="delete_all">Delete All Data</string>
 </resources>

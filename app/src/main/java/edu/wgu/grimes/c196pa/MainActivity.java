@@ -26,6 +26,21 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.text_view_courses_in_progress_value)
     TextView mCoursesInProgress;
 
+    @BindView(R.id.text_view_courses_dropped_value)
+    TextView mCoursesDropped;
+
+    @BindView(R.id.text_view_courses_failed_value)
+    TextView mCoursesFailed;
+
+    @BindView(R.id.text_view_assessments_passed_value)
+    TextView mAssessmentsPassed;
+
+    @BindView(R.id.text_view_assessments_pending_value)
+    TextView mAssessmentsPending;
+
+    @BindView(R.id.text_view_assessments_failed_value)
+    TextView mAssessmentsFailed;
+
     @OnClick(R.id.btn_terms_list)
     void termsClickHandler() {
         Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
@@ -82,23 +97,32 @@ public class MainActivity extends AppCompatActivity {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
-        mViewModel.mCoursesCompleted.observe(MainActivity.this, coursesCompleted -> {
-            mCoursesCompleted.setText(String.valueOf(coursesCompleted));
+        mViewModel.mCoursesCompleted.observe(MainActivity.this, courses -> {
+            mCoursesCompleted.setText(String.valueOf(courses));
         });
-        mViewModel.mCoursesInProgress.observe(MainActivity.this, coursesInProgress -> {
-           mCoursesInProgress.setText(String.valueOf(coursesInProgress));
+        mViewModel.mCoursesInProgress.observe(MainActivity.this, courses -> {
+           mCoursesInProgress.setText(String.valueOf(courses));
+        });
+        mViewModel.mCoursesDropped.observe(MainActivity.this, courses -> {
+           mCoursesDropped.setText(String.valueOf(courses));
+        });
+        mViewModel.mCoursesFailed.observe(MainActivity.this, courses -> {
+           mCoursesFailed.setText(String.valueOf(courses));
+        });
+        mViewModel.mAssessmentsPassed.observe(MainActivity.this, assessments -> {
+           mAssessmentsPassed.setText(String.valueOf(assessments));
+        });
+        mViewModel.mAssessmentsPending.observe(MainActivity.this, assessments -> {
+           mAssessmentsPending.setText(String.valueOf(assessments));
+        });
+        mViewModel.mAssessmentsFailed.observe(MainActivity.this, assessments -> {
+           mAssessmentsFailed.setText(String.valueOf(assessments));
         });
 
     }
 
 
     private void populateStatistics() {
-
-        TextView coursesDropped = findViewById(R.id.text_view_courses_dropped_value);
-        coursesDropped.setText(mViewModel.getCoursesDropped());
-
-        TextView coursesFailed = findViewById(R.id.text_view_courses_failed_value);
-        coursesFailed.setText(mViewModel.getCoursesFailed());
 
         TextView assessmentsPending = findViewById(R.id.text_view_assessments_pending_value);
         assessmentsPending.setText(mViewModel.getAssessmentsPending());

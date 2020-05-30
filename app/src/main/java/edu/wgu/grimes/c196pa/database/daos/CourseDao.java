@@ -32,10 +32,10 @@ public interface CourseDao {
     LiveData<List<CourseEntity>> getAllCoursesForTerm(int termId);
 
     @Query("select * from courses where course_id = :courseId")
-    LiveData<List<CourseEntity>> getCourseById(int courseId);
+    CourseEntity getCourseById(int courseId);
 
     @Query("select count(*) from courses where status = :status")
-    LiveData<Integer> getCompletedCoursesByStatus(String status);
+    LiveData<Integer> getCoursesByStatus(String status);
 
 //    @Transaction
 //    @Query("select * from courses")
