@@ -15,7 +15,7 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 public interface TermDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(TermEntity term);
+    void save(TermEntity term);
 
     @Delete
     void delete(TermEntity term);

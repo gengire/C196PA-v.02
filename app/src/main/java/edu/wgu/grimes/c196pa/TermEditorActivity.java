@@ -1,29 +1,37 @@
 package edu.wgu.grimes.c196pa;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
+import edu.wgu.grimes.c196pa.utilities.StringUtils;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -96,12 +104,14 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @OnClick(R.id.text_view_term_editor_start_date_value)
     void startDateClickHandler() {
-        Toast.makeText(this, "start date clicked", Toast.LENGTH_SHORT).show();
+        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
+        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
     }
 
     @OnClick(R.id.text_view_term_editor_end_date_value)
     void endDateClickHandler() {
-        Toast.makeText(this, "end date clicked", Toast.LENGTH_SHORT).show();
+        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
+        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
     }
 
     private void initViewModel() {
@@ -149,6 +159,7 @@ public class TermEditorActivity extends AppCompatActivity {
             int termId = extras.getInt(TERM_ID_KEY);
             mViewModel.loadData(termId);
         }
+
     }
 
     private void saveTerm() {
@@ -162,7 +173,7 @@ public class TermEditorActivity extends AppCompatActivity {
             return;
         }
         mViewModel.saveTerm(title, startDate, endDate);
-        Toast.makeText(this, "Term Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, title + " Saved", Toast.LENGTH_SHORT).show();
         finish();
     }
 

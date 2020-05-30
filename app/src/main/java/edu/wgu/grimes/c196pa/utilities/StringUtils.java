@@ -13,6 +13,12 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.DATE_PATTERN;
 
 public class StringUtils {
 
+    public static String getFormattedDate(int month, int dayOfMonth, int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, dayOfMonth);
+        return getFormattedDate(c.getTime());
+    }
+
     public static String getFormattedDate(Date date) {
         return getFormattedDate(DATE_PATTERN, date);
     }
@@ -36,6 +42,5 @@ public class StringUtils {
     public static Date getDate(String dateText) {
         return getDate(DATE_PATTERN, dateText);
     }
-
 
 }
