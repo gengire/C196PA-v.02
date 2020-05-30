@@ -3,6 +3,7 @@ package edu.wgu.grimes.c196pa.database;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -49,6 +50,7 @@ public class AppRepository {
     }
 
     public void deleteAllTerms() {
+        executor.execute(() -> courseDao.deleteAll());
         executor.execute(() -> termDao.deleteAll());
     }
 
@@ -60,9 +62,13 @@ public class AppRepository {
         return mDb.termDao().selectTermById(termId);
     }
 
+    public LiveData<Integer> getCoursesByStatus(String status) {
+        return courseDao.getCompletedCoursesByStatus(status);
+    }
+
     public void addSampleData() {
         executor.execute(() -> {
-            termDao.save(new TermEntity("Term 1", getDate("October 1, 2018"), getDate("March 31, 2019")));
+            termDao.save(new TermEntity(1,"Term 1", getDate("October 1, 2018"), getDate("March 31, 2019")));
             courseDao.save(new CourseEntity(1, 1, 4, "C182",
                     "Introduction to IT",
                     getDate("October 10, 2018"),
@@ -104,9 +110,65 @@ public class AppRepository {
                     getDate("March 16, 2019"),
                     getDate("March 18, 2019"), "Complete"));
 
-            termDao.save(new TermEntity("Term 2", getDate("April 1, 2019"), getDate("September 30, 2019")));
-            termDao.save(new TermEntity("Term 3", getDate("October 1, 2019"), getDate("March 31, 2020")));
-            termDao.save(new TermEntity("Term 4", getDate("April 1, 2020"), getDate("September 30, 2020")));
+            termDao.save(new TermEntity(2,"Term 2", getDate("April 1, 2019"), getDate("September 30, 2019")));
+            courseDao.save(new CourseEntity(11, 2, 6, "C777",
+                    "Web Development Applications",
+                    getDate("April 1, 2019"),
+                    getDate("April 4, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(12, 2, 3, "C172",
+                    "Network and Security - Foundations",
+                    getDate("May 20, 2019"),
+                    getDate("May 28, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(13, 2, 4, "C176",
+                    "Business of IT - Project Management",
+                    getDate("June 19, 2019"),
+                    getDate("June 25, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(14, 2, 4, "C393",
+                    "IT Foundations",
+                    getDate("July 7, 2019"),
+                    getDate("July 14, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(15, 2, 3, "C857",
+                    "Software Quality Assurance",
+                    getDate("August 20, 2019"),
+                    getDate("August 27, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(16, 2, 4, "C188",
+                    "Software Engineering",
+                    getDate("September 19, 2019"),
+                    getDate("September 26, 2019"), "Complete"));
+            termDao.save(new TermEntity(3,"Term 3", getDate("October 1, 2019"), getDate("March 31, 2020")));
+            courseDao.save(new CourseEntity(17, 3, 4, "C867",
+                    "Scripting and Programming - Applications",
+                    getDate("October 1, 2019"),
+                    getDate("October 8, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(18, 3, 4, "C394",
+                    "IT Applications",
+                    getDate("October 15, 2019"),
+                    getDate("October 22, 2019"), "Complete"));
+            courseDao.save(new CourseEntity(19, 3, 4, "C846",
+                    "Business of IT - Applications",
+                    getDate("December 20, 2019"),
+                    getDate("January 5, 2020"), "Complete"));
+            courseDao.save(new CourseEntity(20, 3, 4, "C773",
+                    "User Interface Design",
+                    getDate("January 7, 2020"),
+                    getDate("January 12, 2020"), "Complete"));
+            courseDao.save(new CourseEntity(21, 3, 3, "C484",
+                    "Organizational Behavior and Leadership",
+                    getDate("January 26, 2020"),
+                    getDate("February 4, 2020"), "Complete"));
+            courseDao.save(new CourseEntity(22, 3, 3, "C856",
+                    "User Experience Design",
+                    getDate("February 1, 2020"),
+                    getDate("February 6, 2020"), "Complete"));
+            termDao.save(new TermEntity(4,"Term 4", getDate("April 1, 2020"), getDate("September 30, 2020")));
+            courseDao.save(new CourseEntity(23, 4, 3, "C191",
+                    "Operating Systems for Programmers",
+                    getDate("February 7, 2020"),
+                    getDate("May 18, 2020"), "Complete"));
+            courseDao.save(new CourseEntity(24, 4, 3, "C196",
+                    "Mobile Application Development",
+                    getDate("May 19, 2020"),
+                    null, "In Progress"));
             termDao.save(new TermEntity("Term 5", getDate("October 1, 2020"), getDate("March 31, 2021")));
             termDao.save(new TermEntity("Term 6", getDate("April 1, 2021"), getDate("September 30, 2021")));
             termDao.save(new TermEntity("Term 7", getDate("October 1, 2021"), getDate("March 31, 2022")));

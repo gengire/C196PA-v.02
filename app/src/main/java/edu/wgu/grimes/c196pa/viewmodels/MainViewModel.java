@@ -6,38 +6,25 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
-
 import edu.wgu.grimes.c196pa.database.AppRepository;
-import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 public class MainViewModel extends AndroidViewModel {
 
-
-    public LiveData<List<TermEntity>> mTerms;
-
     private AppRepository mRepository;
-    private LiveData<Integer> pendingCourses;
-    private LiveData<Integer> completedCourses;
-    private LiveData<Integer> droppedCourses;
-    private LiveData<Integer> failedCourses;
-    private LiveData<Integer> pendingAssessments;
-    private LiveData<Integer> passedAssessments;
-    private LiveData<Integer> failedAssessments;
+    public LiveData<Integer> mCoursesCompleted;
+    public LiveData<Integer> mCoursesInProgress;
+    public LiveData<Integer> mCoursesDropped;
+    public LiveData<Integer> mCoursesFailed;
+    public LiveData<Integer> mAssessmentsPending;
+    public LiveData<Integer> mAssessmentsPassed;
+    public LiveData<Integer> mAssessmentsFailed;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
 
         mRepository = AppRepository.getInstance(application.getApplicationContext());
-        mTerms = mRepository.mTerms;
-    }
-
-    public String getCoursesCompleted() {
-        return String.valueOf(23);
-    }
-
-    public String getCoursesInProgress() {
-        return String.valueOf(1);
+        mCoursesCompleted = mRepository.getCoursesByStatus("Complete");
+        mCoursesInProgress = mRepository.getCoursesByStatus("In Progress");
     }
 
     public String getCoursesDropped() {

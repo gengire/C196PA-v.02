@@ -4,26 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.OnConflictStrategy;
 
-import java.util.List;
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainViewModel mViewModel;
+
+    @BindView(R.id.text_view_courses_completed_value)
+    TextView mCoursesCompleted;
+
+    @BindView(R.id.text_view_courses_in_progress_value)
+    TextView mCoursesInProgress;
 
     @OnClick(R.id.btn_terms_list)
     void termsClickHandler() {
@@ -81,18 +82,17 @@ public class MainActivity extends AppCompatActivity {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
-//        mViewModel.mTerms.observe(this, terms -> {
-            populateStatistics();
-//        });
+        mViewModel.mCoursesCompleted.observe(MainActivity.this, coursesCompleted -> {
+            mCoursesCompleted.setText(String.valueOf(coursesCompleted));
+        });
+        mViewModel.mCoursesInProgress.observe(MainActivity.this, coursesInProgress -> {
+           mCoursesInProgress.setText(String.valueOf(coursesInProgress));
+        });
+
     }
 
 
     private void populateStatistics() {
-        TextView coursesCompleted = findViewById(R.id.text_view_courses_completed_value);
-        coursesCompleted.setText(mViewModel.getCoursesCompleted());
-
-        TextView coursesInProgress = findViewById(R.id.text_view_courses_in_progress_value);
-        coursesInProgress.setText(mViewModel.getCoursesInProgress());
 
         TextView coursesDropped = findViewById(R.id.text_view_courses_dropped_value);
         coursesDropped.setText(mViewModel.getCoursesDropped());

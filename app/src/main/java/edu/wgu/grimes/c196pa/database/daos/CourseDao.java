@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196pa.database.daos;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -32,6 +33,9 @@ public interface CourseDao {
 
     @Query("select * from courses where course_id = :courseId")
     LiveData<List<CourseEntity>> getCourseById(int courseId);
+
+    @Query("select count(*) from courses where status = :status")
+    LiveData<Integer> getCompletedCoursesByStatus(String status);
 
 //    @Transaction
 //    @Query("select * from courses")
