@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -26,7 +23,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @Override
     public CourseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.course_item, parent, false);
+                .inflate(R.layout.item_course, parent, false);
         return new ViewHolder(itemView);
     }
 

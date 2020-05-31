@@ -9,11 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".CourseEditorActivity"
+            android:label="@string/title_activity_course_editor"
+            android:parentActivityName=".TermEditorActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
             android:label="Grimes C196 PA"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TermEditorActivity"
             android:label="@string/title_activity_term_details"

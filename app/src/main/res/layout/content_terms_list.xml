@@ -10,5 +10,5 @@
         android:id="@+id/recycler_view_terms_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/term_item" />
+        tools:listitem="@layout/item_term" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

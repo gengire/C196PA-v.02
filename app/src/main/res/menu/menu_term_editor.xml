@@ -5,6 +5,6 @@
         android:id="@+id/save_term"
         android:icon="@drawable/ic_save"
         android:title="Save Term"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
 </menu>

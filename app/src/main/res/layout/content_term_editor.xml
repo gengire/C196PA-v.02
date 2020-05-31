@@ -9,26 +9,32 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <EditText
-        android:id="@+id/edit_text_title"
+        android:id="@+id/edit_text_term_editor_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:hint="Enter Term Title"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:inputType="text" />
 
     <LinearLayout
-        android:id="@+id/layout_term_details_start_date"
+        android:id="@+id/layout_term_editor_start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:layout_marginLeft="20sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginLeft="10sp"
         android:layout_marginTop="5sp"
         android:layout_marginEnd="20sp"
         android:layout_marginRight="20sp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text_view_term_details_start_date"
+            android:id="@+id/text_view_term_editor_start_date"
             android:layout_width="100dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_height="wrap_content"
@@ -44,18 +50,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_term_details_end_date"
+        android:id="@+id/layout_term_editor_end_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:layout_marginLeft="20sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginLeft="10sp"
         android:layout_marginTop="5sp"
         android:layout_marginEnd="20sp"
         android:layout_marginRight="20sp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text_view_term_details_end_date"
+            android:id="@+id/text_view_term_editor_end_date"
             android:layout_width="100dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_height="wrap_content"
@@ -71,9 +77,9 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_course_list"
+        android:id="@+id/recycler_view_term_editor_course_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        tools:listitem="@layout/course_item" />
+        tools:listitem="@layout/item_course" />
 </LinearLayout>
