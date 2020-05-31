@@ -11,7 +11,6 @@ import java.util.concurrent.Executors;
 import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
-import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
@@ -52,13 +51,24 @@ public class AppRepository {
     }
 
     public void deleteTerm(TermEntity term) {
-        executor.execute(() -> termDao.delete(term));
+        executor.execute(() -> {
+            // can't delete terms with courses
+//            TermWithCourses termWithCourses = termDao.getTermWithCourses(term.getId());
+//            if (termWithCourses != null && termWithCourses.courses != null) {
+//                for (CourseEntity course : termWithCourses.courses) {
+//                    courseDao.delete(course);
+//                }
+//            }
+            termDao.delete(term);
+        });
     }
 
     public void deleteAllData() {
-        executor.execute(() -> assessmentDao.deleteAll());
-        executor.execute(() -> courseDao.deleteAll());
-        executor.execute(() -> termDao.deleteAll());
+        executor.execute(() -> {
+            assessmentDao.deleteAll();
+            courseDao.deleteAll();
+            termDao.deleteAll();
+        });
     }
 
     public LiveData<List<TermEntity>> getAllTerms() {
@@ -66,7 +76,7 @@ public class AppRepository {
     }
 
     public TermEntity getTermById(int termId) {
-        return mDb.termDao().selectTermById(termId);
+        return mDb.termDao().getTermById(termId);
     }
 
     public LiveData<Integer> getCoursesByStatus(String status) {
@@ -79,23 +89,17 @@ public class AppRepository {
 
     public void addSampleData() {
         executor.execute(() -> {
-            for (TermEntity sampleTerm : SampleData.getSampleTerms()) {
-                termDao.save(sampleTerm);
-            }
-            for (CourseEntity sampleCourse : SampleData.getSampleCourses()) {
-                courseDao.save(sampleCourse);
-            }
-            for (AssessmentEntity sampleAssessment : SampleData.getSampleAssessments()) {
-                assessmentDao.save(sampleAssessment);
-            }
+            termDao.saveAll(SampleData.getSampleTerms());
+            courseDao.saveAll(SampleData.getSampleCourses());
+            assessmentDao.saveAll(SampleData.getSampleAssessments());
         });
     }
 
     public TermWithCourses getTermWithCourses(int id) {
-        final TermWithCourses[] termWithCourses = new TermWithCourses[1];
-        executor.execute(() -> {
-            termWithCourses[0] = termDao.getTermWithCourses(id);
-        });
-        return termWithCourses[0];
+        return  termDao.getTermWithCourses(id);
+    }
+
+    public CourseEntity getCourseById(int i) {
+        return courseDao.getCourseById(i);
     }
 }

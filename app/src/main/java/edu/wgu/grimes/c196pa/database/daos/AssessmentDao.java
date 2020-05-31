@@ -18,6 +18,9 @@ public interface AssessmentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(AssessmentEntity course);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void saveAll(List<AssessmentEntity> sampleAssessments);
+
     @Delete
     void delete(AssessmentEntity course);
 

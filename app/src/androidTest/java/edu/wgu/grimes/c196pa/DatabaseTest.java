@@ -69,7 +69,7 @@ public class DatabaseTest {
         List<TermEntity> terms = SampleData.getSampleTerms();
         mTermDao.saveAll(terms);
         TermEntity original = terms.get(0);
-        TermEntity fromDb = mTermDao.selectTermById(1);
+        TermEntity fromDb = mTermDao.getTermById(1);
         assertThat(fromDb, notNullValue());
         assertThat(fromDb.getTitle(), is(original.getTitle()));
         assertThat(fromDb.getId(), is(original.getId()));

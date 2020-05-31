@@ -1,7 +1,9 @@
 package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -117,13 +119,16 @@ public class TermsListActivity extends AppCompatActivity {
                 TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
                 String termTitle = term.getTitle();
 
-                boolean hasCourses = mViewModel.getTermHasCourses(term);
-                if (hasCourses) {
-                    Toast.makeText(TermsListActivity.this, termTitle + " can't be deleted because it has courses", Toast.LENGTH_SHORT).show();
-                } else {
-                    mViewModel.delete(term);
-                    Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
-                }
+                mViewModel.validateDelete(term,
+                    () -> { // success
+                        mViewModel.delete(term);
+                        Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
+                    }, () -> { // failure
+                        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                        Toast toast = Toast.makeText(TermsListActivity.this, termTitle + " can't be deleted because it has courses associated with it", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    });
             }
         }).attachToRecyclerView(mRecyclerView);
     }

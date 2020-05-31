@@ -32,7 +32,10 @@ public interface TermDao {
     LiveData<List<TermEntity>> getAllTerms();
 
     @Query("select * from terms where term_id = :termId")
-    TermEntity selectTermById(int termId);
+    TermEntity getTermById(int termId);
+
+    @Query("select * from terms where title = :title")
+    List<TermEntity> getTermByTitle(String title);
 
     @Query("select count(*) from terms")
     Integer getCount();
