@@ -99,7 +99,7 @@ public class TermsListActivity extends AppCompatActivity {
                 new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
         mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> {
-            mAdapter.setTerms(terms);
+            mAdapter.submitList(terms);
         });
     }
 

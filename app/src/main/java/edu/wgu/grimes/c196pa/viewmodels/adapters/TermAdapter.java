@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,13 +17,37 @@ import java.util.List;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
+import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
+public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder> {
 
-    private List<TermEntity> terms = new ArrayList<>();
     private OnItemClickListener listener;
 
+    public TermAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<TermEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<TermEntity>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
+            boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
+
+            Date oStartDate = oldItem.getStartDate();
+            Date nStartDate = newItem.getStartDate();
+            Date oEndDate = oldItem.getEndDate();
+            Date nEndDate = newItem.getEndDate();
+
+            boolean sameStartDate = sameDate(oldItem.getStartDate(), newItem.getStartDate());
+            boolean sameEndDate = sameDate(oldItem.getEndDate(), newItem.getEndDate());
+            return sameTitle && sameStartDate && sameEndDate;
+        }
+    };
 
     @NonNull
     @Override
@@ -33,7 +59,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TermEntity currentTerm = terms.get(position);
+        TermEntity currentTerm = getItem(position);
         holder.textViewTitle.setText(currentTerm.getTitle());
         Date sDate = currentTerm.getStartDate();
         Date eDate = currentTerm.getEndDate();
@@ -43,18 +69,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         holder.textViewDateRange.setText(dateRange);
     }
 
-    @Override
-    public int getItemCount() {
-        return terms.size();
-    }
 
-    public void setTerms(List<TermEntity> terms) {
-        this.terms = terms;
-        notifyDataSetChanged();
-    }
 
     public TermEntity getTermAt(int position) {
-        return terms.get(position);
+        return getItem(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +87,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(terms.get(position));
+                    listener.onItemClick(getItem(position));
                 }
             });
         }

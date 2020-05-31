@@ -45,9 +45,6 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_course_editor_cus)
     EditText mCompetencyUnits;
 
-    @BindView(R.id.edit_text_course_editor_term_id)
-    EditText mTermId;
-
     @BindView(R.id.edit_text_course_editor_status)
     EditText mStatus;
 
@@ -63,6 +60,7 @@ public class CourseEditorActivity extends AppCompatActivity {
 
     private boolean mNewTerm;
     private boolean mEditing;
+    private int mTermId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +127,6 @@ public class CourseEditorActivity extends AppCompatActivity {
                     mCode.setText(course.getCode());
                     mCompetencyUnits.setText(String.valueOf(course.getCompetencyUnits()));
                     mStatus.setText(course.getStatus());
-                    mTermId.setText(String.valueOf(course.getTermId()));
                 }
                 startDate = course.getStartDate();
                 endDate = course.getEndDate();
@@ -143,6 +140,8 @@ public class CourseEditorActivity extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
+        mTermId = extras.getInt(TERM_ID_KEY);
+
         if (extras == null) {
             setTitle(getString(R.string.new_course));
             mNewTerm = true;
@@ -162,7 +161,7 @@ public class CourseEditorActivity extends AppCompatActivity {
         String code = mCode.getText().toString();
         String cus = mCompetencyUnits.getText().toString();
         String status = mStatus.getText().toString();
-        String termId = mTermId.getText().toString();
+        String termId = String.valueOf(mTermId);
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
 

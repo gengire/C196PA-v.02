@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Date;
@@ -52,12 +51,16 @@ public class TermEditorActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view_term_editor_course_list)
     RecyclerView mRecyclerViewCourseList;
 
+    @BindView(R.id.fab_add_course)
+    FloatingActionButton mFab;
+
     private boolean mNewTerm;
     private boolean mEditing;
 
     private Date startDate;
     private Date endDate;
     private CourseAdapter mAdapter;
+    private int mTermId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +74,11 @@ public class TermEditorActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        FloatingActionButton fab = findViewById(R.id.fab_add_course);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
+                intent.putExtra(Constants.TERM_ID_KEY, mTermId);
                 startActivity(intent);
             }
         });
@@ -91,6 +94,7 @@ public class TermEditorActivity extends AppCompatActivity {
 
         mAdapter.setOnItemClickListener(course -> {
             Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
+            intent.putExtra(Constants.TERM_ID_KEY, mTermId);
             intent.putExtra(Constants.COURSE_ID_KEY, course.getId());
             startActivity(intent);
 //            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
@@ -155,14 +159,16 @@ public class TermEditorActivity extends AppCompatActivity {
         if (extras == null) {
             setTitle(getString(R.string.new_term));
             mNewTerm = true;
+            mFab.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.edit_term));
-            int termId = extras.getInt(TERM_ID_KEY);
-            mViewModel.loadTerm(termId);
-            mViewModel.loadTermCourses(termId);
+            mTermId = extras.getInt(TERM_ID_KEY);
+            mViewModel.loadTerm(mTermId);
+            mViewModel.loadTermCourses(mTermId);
             mViewModel.getTermCourses().observe(this, (courses) -> {
-                mAdapter.setCourses(courses);
+                mAdapter.submitList(courses);
             });
+            mFab.setVisibility(View.VISIBLE);
         }
 
     }

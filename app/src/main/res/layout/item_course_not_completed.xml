@@ -17,7 +17,7 @@
             android:id="@+id/image_view_cu_badge_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_course_complete"
+            app:srcCompat="@drawable/ic_course_not_complete"
             android:scaleY="1.1"
             android:scaleX="1.2"
             android:paddingTop="3dp"
@@ -34,7 +34,7 @@
             android:layout_alignBottom="@id/image_view_cu_badge_background"
             android:gravity="center"
             android:text="4"
-            android:textColor="@color/color_badge_complete"
+            android:textColor="@color/color_badge_not_complete"
             />
 
         <TextView
@@ -47,15 +47,16 @@
             android:layout_alignBottom="@id/text_view_cu_amount"
             android:singleLine="true"
             android:ellipsize="end"
-
+            android:layout_alignParentEnd="true"
             />
         <ImageView
             android:id="@+id/image_view_assessment_badge_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_assessment_complete"
+            app:srcCompat="@drawable/ic_assessment_not_complete"
             android:layout_marginLeft="10dp"
             android:layout_alignParentEnd="true"
+            android:visibility="gone"
             android:paddingTop="3dp"
             />
 
@@ -68,9 +69,10 @@
             android:layout_alignTop="@id/image_view_assessment_badge_background"
             android:layout_alignBottom="@id/image_view_assessment_badge_background"
             android:paddingTop="2dp"
+            android:visibility="gone"
             android:gravity="center"
             android:text="P"
-            android:textColor="@color/color_badge_complete"
+            android:textColor="@color/color_badge_not_complete"
 
             />
     </RelativeLayout>

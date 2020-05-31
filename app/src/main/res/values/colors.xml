@@ -6,4 +6,5 @@
     <color name="color_completed">#558F45</color>
     <color name="color_failed">#CC392E</color>
     <color name="color_badge_complete">#FFF</color>
+    <color name="color_badge_not_complete">#555</color>
 </resources>
