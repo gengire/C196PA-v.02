@@ -1,9 +1,7 @@
 package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,11 +64,11 @@ public class TermsListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.delete_all_terms:
                 mViewModel.deleteAll();
-                Toast.makeText(this, "All terms deleted", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(TermsListActivity.this, "All terms deleted", R.style.toast_message).show();
                 return true;
             case R.id.add_sample_terms:
                 mViewModel.addSampleData();
-                Toast.makeText(this, "Sample terms added", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(TermsListActivity.this, "Sample terms added", R.style.toast_message).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -122,12 +121,12 @@ public class TermsListActivity extends AppCompatActivity {
                 mViewModel.validateDelete(term,
                     () -> { // success
                         mViewModel.delete(term);
-                        Toast.makeText(TermsListActivity.this, termTitle + " Deleted", Toast.LENGTH_SHORT).show();
+                        String text = termTitle + " Deleted";
+                        StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_message).show();
                     }, () -> { // failure
                         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                        Toast toast = Toast.makeText(TermsListActivity.this, termTitle + " can't be deleted because it has courses associated with it", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                            String text = termTitle + " can't be deleted because it has courses associated with it";
+                            StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_validation_failure).show();
                     });
             }
         }).attachToRecyclerView(mRecyclerView);
