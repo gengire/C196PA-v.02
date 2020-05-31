@@ -51,16 +51,15 @@ public class AppRepository {
     }
 
     public void deleteTerm(TermEntity term) {
-        executor.execute(() -> {
-            // can't delete terms with courses
-//            TermWithCourses termWithCourses = termDao.getTermWithCourses(term.getId());
-//            if (termWithCourses != null && termWithCourses.courses != null) {
-//                for (CourseEntity course : termWithCourses.courses) {
-//                    courseDao.delete(course);
-//                }
-//            }
-            termDao.delete(term);
-        });
+        executor.execute(() -> termDao.delete(term));
+    }
+
+    public void saveCourse(CourseEntity course) {
+        executor.execute(() -> courseDao.save(course));
+    }
+
+    public void deleteCourse(CourseEntity course) {
+        executor.execute(() -> courseDao.delete(course));
     }
 
     public void deleteAllData() {
@@ -81,6 +80,10 @@ public class AppRepository {
 
     public LiveData<Integer> getCoursesByStatus(String status) {
         return courseDao.getCoursesByStatus(status);
+    }
+
+    public LiveData<List<CourseEntity>> getCoursesByTermId(int termId) {
+        return courseDao.getAllCoursesForTerm(termId);
     }
 
     public LiveData<Integer> getAssessmentsByStatus(String status) {

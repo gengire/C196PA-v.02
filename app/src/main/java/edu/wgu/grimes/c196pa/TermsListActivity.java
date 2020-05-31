@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -118,9 +117,9 @@ public class TermsListActivity extends AppCompatActivity {
                 TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
                 String termTitle = term.getTitle();
 
-                mViewModel.validateDelete(term,
+                mViewModel.validateDeleteTerm(term,
                     () -> { // success
-                        mViewModel.delete(term);
+                        mViewModel.deleteTerm(term);
                         String text = termTitle + " Deleted";
                         StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_message).show();
                     }, () -> { // failure
@@ -132,9 +131,4 @@ public class TermsListActivity extends AppCompatActivity {
         }).attachToRecyclerView(mRecyclerView);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
 }

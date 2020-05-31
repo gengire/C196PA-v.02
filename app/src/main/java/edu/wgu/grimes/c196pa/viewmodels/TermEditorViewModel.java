@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196pa.viewmodels;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import java.util.concurrent.Executors;
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
+import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
@@ -22,7 +25,7 @@ public class TermEditorViewModel extends AndroidViewModel {
 
     public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
 
-    public LiveData<List<CourseEntity>> mCourses;
+    private LiveData<List<CourseEntity>> mCourses;
 
     private AppRepository mRepository;
 
@@ -31,14 +34,17 @@ public class TermEditorViewModel extends AndroidViewModel {
     public TermEditorViewModel(@NonNull Application application) {
         super(application);
         mRepository = AppRepository.getInstance(getApplication());
-//        mCourses = mRepository.mCourses;
     }
 
-    public void loadData(int termId) {
+    public void loadTerm(int termId) {
         executor.execute(() -> {
             TermEntity term = mRepository.getTermById(termId);
             mLiveTerm.postValue(term);
         });
+    }
+
+    public void loadTermCourses(int termId) {
+        mCourses = mRepository.getCoursesByTermId(termId);
     }
 
     public void saveTerm(String title, String sDate, String eDate) {
@@ -58,5 +64,37 @@ public class TermEditorViewModel extends AndroidViewModel {
 
     public void deleteTerm() {
         mRepository.deleteTerm(mLiveTerm.getValue());
+    }
+
+    public LiveData<List<CourseEntity>> getTermCourses() {
+        return mCourses;
+    }
+
+    public void deleteCourse(CourseEntity course) {
+        mRepository.deleteCourse(course);
+    }
+
+    public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
+        AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+//                TermWithCourses termWithCourses = mRepository.getTermWithCourses(term.getId());
+//                return !(termWithCourses != null && // we have a term with courses
+//                        termWithCourses.courses != null && // there are courses
+//                        !termWithCourses.courses.isEmpty()); // the courses are not empty
+                // TODO: implement validation for deleting courses
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+                if (success) {
+                    onSuccess.callback();
+                } else {
+                    onFailure.callback();
+                }
+            }
+        };
+        async.execute();
     }
 }

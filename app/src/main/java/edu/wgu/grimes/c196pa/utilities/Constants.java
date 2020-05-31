@@ -3,6 +3,8 @@ package edu.wgu.grimes.c196pa.utilities;
 public class Constants {
     public static final String TERM_ID_KEY =
             "edu.wgu.grimes.c196pa.utilities.term_editor.term_id_key";
+    public static final String COURSE_ID_KEY =
+            "edu.wgu.grimes.c196pa.utilities.course_editor.term_id_key";
     public static final String EXTRA_ID =
             "edu.wgu.grimes.c196pa.utilities.term.editor.extra.id";
     public static final String EXTRA_TITLE =

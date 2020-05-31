@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/image_view_cu_badge_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_course_complete"
+            android:scaleY="1.1"
+            android:scaleX="1.2"
+            android:paddingTop="3dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <TextView
+            android:id="@+id/text_view_cu_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/image_view_cu_badge_background"
+            android:layout_alignRight="@id/image_view_cu_badge_background"
+            android:layout_alignTop="@id/image_view_cu_badge_background"
+            android:layout_alignBottom="@id/image_view_cu_badge_background"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/color_badge_complete"
+            />
+
+        <TextView
+            android:id="@+id/text_view_course_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scripting and Programming - Applications - C867"
+            android:layout_toRightOf="@id/image_view_cu_badge_background"
+            android:layout_toLeftOf="@id/image_view_assessment_badge_background"
+            android:layout_alignBottom="@id/text_view_cu_amount"
+            android:singleLine="true"
+            android:ellipsize="end"
+
+            />
+        <ImageView
+            android:id="@+id/image_view_assessment_badge_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_assessment_complete"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentEnd="true"
+            android:paddingTop="3dp"
+            />
+
+        <TextView
+            android:id="@+id/text_view_assessment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/image_view_assessment_badge_background"
+            android:layout_alignRight="@id/image_view_assessment_badge_background"
+            android:layout_alignTop="@id/image_view_assessment_badge_background"
+            android:layout_alignBottom="@id/image_view_assessment_badge_background"
+            android:paddingTop="2dp"
+            android:gravity="center"
+            android:text="P"
+            android:textColor="@color/color_badge_complete"
+
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

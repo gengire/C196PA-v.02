@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     void termsClickHandler() {
         Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @OnClick(R.id.btn_add_sample_terms)

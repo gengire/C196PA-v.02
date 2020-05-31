@@ -30,7 +30,7 @@ public class TermsListViewModel extends AndroidViewModel {
         allTerms = mRepository.getAllTerms();
     }
 
-    public void delete(TermEntity term) {
+    public void deleteTerm(TermEntity term) {
         mRepository.deleteTerm(term);
     }
 
@@ -42,12 +42,11 @@ public class TermsListViewModel extends AndroidViewModel {
         return allTerms;
     }
 
-
     public void addSampleData() {
         mRepository.addSampleData();
     }
 
-    public void validateDelete(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
+    public void validateDeleteTerm(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... voids) {

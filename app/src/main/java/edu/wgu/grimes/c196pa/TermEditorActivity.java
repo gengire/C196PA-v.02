@@ -1,38 +1,37 @@
 package edu.wgu.grimes.c196pa;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.muddzdev.styleabletoast.StyleableToast;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
-import edu.wgu.grimes.c196pa.utilities.StringUtils;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
+import edu.wgu.grimes.c196pa.viewmodels.adapters.CourseAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
@@ -58,6 +57,7 @@ public class TermEditorActivity extends AppCompatActivity {
 
     private Date startDate;
     private Date endDate;
+    private CourseAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,23 @@ public class TermEditorActivity extends AppCompatActivity {
             }
         });
 
+        initRecyclerView();
         initViewModel();
+    }
+
+    private void initRecyclerView() {
+        mRecyclerViewCourseList.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewCourseList.setHasFixedSize(true);
+        mAdapter = new CourseAdapter();
+
+        mAdapter.setOnItemClickListener(course -> {
+//            Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
+//            intent.putExtra(Constants.COURSE_ID_KEY, course.getId());
+//            startActivity(intent);
+            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
+        });
+        mRecyclerViewCourseList.setAdapter(mAdapter);
+        initSwipeDelete();
     }
 
     @Override
@@ -116,31 +132,19 @@ public class TermEditorActivity extends AppCompatActivity {
 
     private void initViewModel() {
 
-//        final Observer<List<CourseEntity>> coursesObserver = courseEntities -> {
-//            coursesData.clear();
-//            coursesData.addAll(courseEntities);
-//
-//            if (mAdapter == null) {
-//                mAdapter = new CoursesAdapter(coursesData, TermEditorActivity.this);
-//                mRecyclerViewCourseList.setAdapter(mAdapter);
-//            } else {
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        };
-
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
 
 //        mViewModel.mCourses.observe(this, coursesObserver);
 
         // update the view when the model is changed
-        mViewModel.mLiveTerm.observe(this, (termEntity) -> {
-            if (termEntity != null) {
+        mViewModel.mLiveTerm.observe(this, (term) -> {
+            if (term != null) {
                 if (!mEditing) {
-                    mTitle.setText(termEntity.getTitle());
+                    mTitle.setText(term.getTitle());
                 }
-                startDate = termEntity.getStartDate();
-                endDate = termEntity.getEndDate();
+                startDate = term.getStartDate();
+                endDate = term.getEndDate();
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
@@ -157,7 +161,25 @@ public class TermEditorActivity extends AppCompatActivity {
         } else {
             setTitle(getString(R.string.edit_term));
             int termId = extras.getInt(TERM_ID_KEY);
-            mViewModel.loadData(termId);
+            mViewModel.loadTerm(termId);
+            mViewModel.loadTermCourses(termId);
+            mViewModel.getTermCourses().observe(this, (courses) -> {
+                StyleableToast.makeText(TermEditorActivity.this, "courses updated", R.style.toast_message).show();
+                mAdapter.setCourses(courses);
+
+
+//            coursesData.clear();
+//            coursesData.addAll(courseEntities);
+//
+//            if (mAdapter == null) {
+//                mAdapter = new CoursesAdapter(coursesData, TermEditorActivity.this);
+//                mRecyclerViewCourseList.setAdapter(mAdapter);
+//            } else {
+//                mAdapter.notifyDataSetChanged();
+//            }
+
+            });
+
         }
 
     }
@@ -175,6 +197,33 @@ public class TermEditorActivity extends AppCompatActivity {
         mViewModel.saveTerm(title, startDate, endDate);
         Toast.makeText(this, title + " Saved", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private void initSwipeDelete() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
+                String courseTitle = course.getTitle();
+
+                mViewModel.validateDeleteCourse(course,
+                        () -> { // success
+                            mViewModel.deleteCourse(course);
+                            String text = courseTitle + " Deleted";
+                            StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                        }, () -> { // failure
+                            mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                            String text = courseTitle + " can't be deleted because it has courses associated with it";
+                            StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+                        });
+            }
+        }).attachToRecyclerView(mRecyclerViewCourseList);
     }
 
 }
