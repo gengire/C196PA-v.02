@@ -16,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -42,8 +45,8 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_course_editor_code)
     EditText mCode;
 
-    @BindView(R.id.edit_text_course_editor_cus)
-    EditText mCompetencyUnits;
+    @BindView(R.id.spinner_course_editor_cus)
+    Spinner mCompetencyUnits;
 
     @BindView(R.id.edit_text_course_editor_status)
     EditText mStatus;
@@ -61,6 +64,7 @@ public class CourseEditorActivity extends AppCompatActivity {
     private boolean mNewTerm;
     private boolean mEditing;
     private int mTermId;
+    private String compUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,18 @@ public class CourseEditorActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        mCompetencyUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                compUnits = String.valueOf(parent.getSelectedItem());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         initViewModel();
     }
@@ -125,7 +141,7 @@ public class CourseEditorActivity extends AppCompatActivity {
                 if (!mEditing) {
                     mTitle.setText(course.getTitle());
                     mCode.setText(course.getCode());
-                    mCompetencyUnits.setText(String.valueOf(course.getCompetencyUnits()));
+                    mCompetencyUnits.setSelection(Integer.valueOf(course.getCompetencyUnits()));
                     mStatus.setText(course.getStatus());
                 }
                 startDate = course.getStartDate();
@@ -159,7 +175,7 @@ public class CourseEditorActivity extends AppCompatActivity {
     private void saveCourse() {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
-        String cus = mCompetencyUnits.getText().toString();
+        String cus = compUnits;
         String status = mStatus.getText().toString();
         String termId = String.valueOf(mTermId);
         String startDate = mStartDate.getText().toString();

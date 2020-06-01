@@ -73,11 +73,9 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         String dateRange = startDate + " - " + endDate;
         holder.textViewDateRange.setText(dateRange);
         Integer cus = termCus.get(currentTerm.getId());
-        String sCus = cus == null ? "????" : String.valueOf(cus);
+        String sCus = cus == null ? "0" : String.valueOf(cus);
         holder.textViewCompetencyUnits.setText(sCus);
     }
-
-
 
     public TermEntity getTermAt(int position) {
         return getItem(position);
