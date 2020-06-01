@@ -2,8 +2,6 @@ package edu.wgu.grimes.c196pa;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import androidx.annotation.NonNull;
@@ -16,9 +14,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -48,8 +46,8 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.spinner_course_editor_cus)
     Spinner mCompetencyUnits;
 
-    @BindView(R.id.edit_text_course_editor_status)
-    EditText mStatus;
+    @BindView(R.id.spinner_course_editor_status)
+    Spinner mStatus;
 
     @BindView(R.id.text_view_course_editor_start_date_value)
     TextView mStartDate;
@@ -64,7 +62,8 @@ public class CourseEditorActivity extends AppCompatActivity {
     private boolean mNewTerm;
     private boolean mEditing;
     private int mTermId;
-    private String compUnits;
+//    private int compUnitsPosition;
+//    private int statusPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,8 @@ public class CourseEditorActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         ButterKnife.bind(this);
 
@@ -87,17 +88,29 @@ public class CourseEditorActivity extends AppCompatActivity {
 //            }
 //        });
 
-        mCompetencyUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                compUnits = String.valueOf(parent.getSelectedItem());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        mCompetencyUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                compUnitsPosition = position;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//        mStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                statusPosition = position;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
 
         initViewModel();
     }
@@ -142,7 +155,10 @@ public class CourseEditorActivity extends AppCompatActivity {
                     mTitle.setText(course.getTitle());
                     mCode.setText(course.getCode());
                     mCompetencyUnits.setSelection(Integer.valueOf(course.getCompetencyUnits()));
-                    mStatus.setText(course.getStatus());
+                    mCompetencyUnits.setSelection(((ArrayAdapter)mCompetencyUnits.getAdapter())
+                            .getPosition(String.valueOf(course.getCompetencyUnits())));
+                    mStatus.setSelection(((ArrayAdapter)mStatus.getAdapter())
+                            .getPosition(course.getStatus()));
                 }
                 startDate = course.getStartDate();
                 endDate = course.getEndDate();
@@ -175,8 +191,8 @@ public class CourseEditorActivity extends AppCompatActivity {
     private void saveCourse() {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
-        String cus = compUnits;
-        String status = mStatus.getText().toString();
+        String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
+        String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mTermId);
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();

@@ -27,6 +27,18 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string-array name="status_values">
+        <item>Not Started</item>
+        <item>In Progress</item>
+        <item>Complete</item>
+        <item>Dropped</item>
+        <item>Failed</item>
+    </string-array>
+    <string-array name="assessment_values">
+        <item>Pending</item>
+        <item>Passed</item>
+        <item>Failed</item>
+    </string-array>
     <string-array name="competency_unit_values">
         <item>0</item>
         <item>1</item>

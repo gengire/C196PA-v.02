@@ -133,7 +133,7 @@ public class SampleData {
         list.add(new CourseEntity(25, 4, 4, "C868",
                         "Software Development Capstone",
                         null,
-                        null, "In Progress"));
+                        null, "Not Started"));
         return list;
     }
 
