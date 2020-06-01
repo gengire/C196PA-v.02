@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
@@ -66,5 +67,9 @@ public class TermsListViewModel extends AndroidViewModel {
             }
         };
         async.execute();
+    }
+
+    public LiveData<List<TermCusTuple>> getAllTermCus() {
+        return mRepository.getAllTermCus();
     }
 }

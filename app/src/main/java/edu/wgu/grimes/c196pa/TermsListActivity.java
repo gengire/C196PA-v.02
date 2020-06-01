@@ -101,6 +101,9 @@ public class TermsListActivity extends AppCompatActivity {
         mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> {
             mAdapter.submitList(terms);
         });
+        mViewModel.getAllTermCus().observe(TermsListActivity.this, termCus -> {
+          mAdapter.setTotalCus(termCus);
+        });
     }
 
 

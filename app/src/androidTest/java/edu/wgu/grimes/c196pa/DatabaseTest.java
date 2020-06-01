@@ -3,6 +3,8 @@ package edu.wgu.grimes.c196pa;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -18,6 +20,7 @@ import edu.wgu.grimes.c196pa.database.AppDatabase;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
@@ -100,4 +103,19 @@ public class DatabaseTest {
         assertThat(term.courses.isEmpty(), is(Boolean.FALSE));
         assertThat(term.courses.size(), is(Integer.valueOf(10)));
     }
+
+    // having trouble testing live data
+//    @Test
+//    public void termCusTest() {
+//        mTermDao.saveAll(SampleData.getSampleTerms());
+//        mCourseDao.saveAll(SampleData.getSampleCourses());
+//        List<TermCusTuple> list = mTermDao.getTermCus().getValue();
+//        assertThat(list, notNullValue());
+//        assertThat(list, notNullValue());
+//        assertThat(list.size(), is(4));
+//        assertThat(list.get(0).cus, is(36));
+//        assertThat(list.get(1).cus, is(24));
+//        assertThat(list.get(2).cus, is(22));
+//        assertThat(list.get(3).cus, is(10));
+//    }
 }

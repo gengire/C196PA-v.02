@@ -12,6 +12,7 @@ import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
@@ -104,5 +105,9 @@ public class AppRepository {
 
     public CourseEntity getCourseById(int i) {
         return courseDao.getCourseById(i);
+    }
+
+    public LiveData<List<TermCusTuple>> getAllTermCus() {
+        return termDao.getTermCus();
     }
 }

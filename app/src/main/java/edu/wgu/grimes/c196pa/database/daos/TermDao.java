@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196pa.database.daos;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,6 +11,7 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
+import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 
@@ -48,4 +50,8 @@ public interface TermDao {
     @Query("select * from terms where term_id = :termId")
     TermWithCourses getTermWithCourses(int termId);
 
+    @Query("select term_id, sum(competencyUnits) \"cus\" from terms " +
+            "join courses using (term_id) " +
+            "group by term_id")
+    LiveData<List<TermCusTuple>> getTermCus();
 }

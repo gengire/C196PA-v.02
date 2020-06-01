@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.wgu.grimes.c196pa.R;
+import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
@@ -27,6 +30,8 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
     public TermAdapter() {
         super(DIFF_CALLBACK);
     }
+
+    Map<Integer, Integer> termCus = new HashMap<>();
 
     private static final DiffUtil.ItemCallback<TermEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<TermEntity>() {
         @Override
@@ -67,6 +72,9 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         String endDate = eDate == null ? "???? " : getFormattedDate(eDate);
         String dateRange = startDate + " - " + endDate;
         holder.textViewDateRange.setText(dateRange);
+        Integer cus = termCus.get(currentTerm.getId());
+        String sCus = cus == null ? "????" : String.valueOf(cus);
+        holder.textViewCompetencyUnits.setText(sCus);
     }
 
 
@@ -75,14 +83,25 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         return getItem(position);
     }
 
+    public void setTotalCus(List<TermCusTuple> allTermCus) {
+        if (allTermCus != null) {
+            for (TermCusTuple tc : allTermCus) {
+                termCus.put(tc.termId, tc.cus);
+            }
+            notifyDataSetChanged();
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewDateRange;
+        private TextView textViewCompetencyUnits;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewDateRange = itemView.findViewById(R.id.text_view_date_range);
+            textViewCompetencyUnits = itemView.findViewById(R.id.text_view_competency_units_value);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
