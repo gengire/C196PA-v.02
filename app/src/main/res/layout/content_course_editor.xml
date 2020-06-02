@@ -145,4 +145,13 @@
             android:hint="Select End Date" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_course_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/layout_course_editor_end_date"
+        android:text="Course Notes" />
+
 </RelativeLayout>

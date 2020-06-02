@@ -10,29 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CourseEditorActivity"
-            android:label="@string/title_activity_course_editor"
-            android:parentActivityName=".TermEditorActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".MainActivity"
-            android:label="Grimes C196 PA"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TermEditorActivity"
-            android:label="@string/title_activity_term_details"
-            android:launchMode="singleTop"
-            android:parentActivityName=".TermsListActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TermsListActivity"
-            android:label="@string/title_activity_terms_list"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -42,6 +19,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="Grimes C196 PA"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TermsListActivity"
+            android:label="@string/title_activity_terms_list"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TermEditorActivity"
+            android:label="TermEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".TermsListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CourseEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".TermEditorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NoteEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".NotesListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".NotesListActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".CourseEditorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

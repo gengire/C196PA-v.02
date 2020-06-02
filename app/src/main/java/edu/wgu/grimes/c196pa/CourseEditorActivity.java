@@ -1,5 +1,6 @@
 package edu.wgu.grimes.c196pa;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -13,10 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +26,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 
@@ -55,6 +56,8 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.text_view_course_editor_end_date_value)
     TextView mEndDate;
 
+    @BindView(R.id.btn_course_notes)
+    Button courseNotes;
 
     private Date startDate;
     private Date endDate;
@@ -62,8 +65,7 @@ public class CourseEditorActivity extends AppCompatActivity {
     private boolean mNewTerm;
     private boolean mEditing;
     private int mTermId;
-//    private int compUnitsPosition;
-//    private int statusPosition;
+    private int courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +135,13 @@ public class CourseEditorActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.btn_course_notes)
+    void courseNotesClickHandler() {
+        Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
+        intent.putExtra(Constants.COURSE_ID_KEY, courseId);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.text_view_course_editor_start_date_value)
     void startDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
@@ -174,12 +183,12 @@ public class CourseEditorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mTermId = extras.getInt(TERM_ID_KEY);
 
-        if (extras == null) {
+        if (extras.getInt(COURSE_ID_KEY) == 0) {
             setTitle(getString(R.string.new_course));
             mNewTerm = true;
         } else {
             setTitle(getString(R.string.edit_course));
-            int courseId = extras.getInt(COURSE_ID_KEY);
+            courseId = extras.getInt(COURSE_ID_KEY);
             mViewModel.loadCourse(courseId);
 //            mViewModel.loadTermCourses(courseId);
 //            mViewModel.getTermCourses().observe(this, (courses) -> {

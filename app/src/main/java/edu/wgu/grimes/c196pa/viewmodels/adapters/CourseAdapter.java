@@ -57,10 +57,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
     @NonNull
     @Override
     public CourseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
         View view;
-
         if (viewType == TYPE_COMPLETE) {
             view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_course_completed, parent, false);
@@ -107,7 +104,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
     }
 
     public interface OnItemClickListener {
-        void onItemClick(CourseEntity term);
+        void onItemClick(CourseEntity course);
     }
 
     public void setOnItemClickListener(CourseAdapter.OnItemClickListener listener) {

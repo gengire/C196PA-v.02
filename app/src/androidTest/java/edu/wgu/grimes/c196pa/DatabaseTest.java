@@ -17,9 +17,12 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.AppDatabase;
+import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
+import edu.wgu.grimes.c196pa.database.daos.NoteDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
@@ -36,6 +39,7 @@ public class DatabaseTest {
     private AppDatabase mDb;
     private TermDao mTermDao;
     private CourseDao mCourseDao;
+    private NoteDao mNoteDao;
 
     @Before
     public void createDb() {
@@ -43,6 +47,7 @@ public class DatabaseTest {
         mDb = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         mTermDao = mDb.termDao();
         mCourseDao = mDb.courseDao();
+        mNoteDao = mDb.noteDao();
         Log.i(TAG, "createDb");
     }
 
@@ -65,6 +70,20 @@ public class DatabaseTest {
         mCourseDao.saveAll(SampleData.getSampleCourses());
         int count = mCourseDao.getCount();
         assertThat(count, is(25));
+    }
+
+    @Test
+    public void createAndCountNotes() {
+        mTermDao.saveAll(SampleData.getSampleTerms());
+        mCourseDao.saveAll(SampleData.getSampleCourses());
+        mNoteDao.saveAll(SampleData.getSampleCourseNotes());
+        int count = mNoteDao.getCount();
+        assertThat(count, is(1));
+        NoteEntity note = mNoteDao.getNoteById(1);
+        assertThat(note, notNullValue());
+        assertThat(note.getTitle(), is("This is my course note title"));
+        assertThat(note.getDescription(), is("This is my course note description"));
+        assertThat(note.getCourse_id(), is(1));
     }
 
     @Test

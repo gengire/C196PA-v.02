@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
@@ -134,6 +135,14 @@ public class SampleData {
                         "Software Development Capstone",
                         null,
                         null, "Not Started"));
+        return list;
+    }
+
+    public static List<NoteEntity> getSampleCourseNotes() {
+        List<NoteEntity> list = new ArrayList<>();
+        list.add(new NoteEntity(1, 1, "This is my first course note title", "This is my first course note description"));
+        list.add(new NoteEntity(2, 1, "This is my second course note title", "This is my second course note description"));
+        list.add(new NoteEntity(3, 1, "This is my third course note title", "This is my third course note description"));
         return list;
     }
 

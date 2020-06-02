@@ -10,8 +10,10 @@ import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
+import edu.wgu.grimes.c196pa.database.daos.NoteDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
@@ -26,6 +28,7 @@ public class AppRepository {
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
+    private NoteDao noteDao;
 
     public LiveData<List<TermEntity>> mTerms;
 
@@ -44,6 +47,7 @@ public class AppRepository {
         termDao = mDb.termDao();
         courseDao = mDb.courseDao();
         assessmentDao = mDb.assessmentDao();
+        noteDao = mDb.noteDao();
         mTerms = termDao.getAllTerms();
     }
 
@@ -63,9 +67,18 @@ public class AppRepository {
         executor.execute(() -> courseDao.delete(course));
     }
 
+    public void saveNote(NoteEntity note) {
+        executor.execute(() -> noteDao.save(note));
+    }
+
+    public void deleteNote(NoteEntity note) {
+        executor.execute(() -> noteDao.delete(note));
+    }
+
     public void deleteAllData() {
         executor.execute(() -> {
             assessmentDao.deleteAll();
+            noteDao.deleteAll();
             courseDao.deleteAll();
             termDao.deleteAll();
         });
@@ -87,6 +100,14 @@ public class AppRepository {
         return courseDao.getAllCoursesForTerm(termId);
     }
 
+    public LiveData<List<NoteEntity>> getNotesForCourse(int courseId) {
+        return noteDao.getNotesForCourse(courseId);
+    }
+
+    public NoteEntity getNoteById(int noteId) {
+        return noteDao.getNoteById(noteId);
+    }
+
     public LiveData<Integer> getAssessmentsByStatus(String status) {
         return assessmentDao.getAssessmentsByStatus(status);
     }
@@ -96,6 +117,7 @@ public class AppRepository {
             termDao.saveAll(SampleData.getSampleTerms());
             courseDao.saveAll(SampleData.getSampleCourses());
             assessmentDao.saveAll(SampleData.getSampleAssessments());
+            noteDao.saveAll(SampleData.getSampleCourseNotes());
         });
     }
 

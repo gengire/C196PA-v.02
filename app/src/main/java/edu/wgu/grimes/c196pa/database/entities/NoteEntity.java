@@ -10,17 +10,20 @@ public class NoteEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
     private int id;
+    private int course_id;
     private String title;
     private String description;
 
     @Ignore
-    public NoteEntity(String title, String description) {
+    public NoteEntity(int course_id, String title, String description) {
+        this.course_id = course_id;
         this.title = title;
         this.description = description;
     }
 
-    public NoteEntity(int id, String title, String description) {
+    public NoteEntity(int id, int course_id, String title, String description) {
         this.id = id;
+        this.course_id = course_id;
         this.title = title;
         this.description = description;
     }
@@ -31,6 +34,14 @@ public class NoteEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
     }
 
     public String getTitle() {
@@ -53,6 +64,7 @@ public class NoteEntity {
     public String toString() {
         return "NoteEntity{" +
                 "id=" + id +
+                ", course_id=" + course_id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';
