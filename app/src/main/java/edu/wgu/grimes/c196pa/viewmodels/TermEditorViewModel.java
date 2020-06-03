@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
+import edu.wgu.grimes.c196pa.utilities.DeleteTermValidator;
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
@@ -75,26 +76,10 @@ public class TermEditorViewModel extends AndroidViewModel {
     }
 
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
-        AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-//                TermWithCourses termWithCourses = mRepository.getTermWithCourses(term.getId());
-//                return !(termWithCourses != null && // we have a term with courses
-//                        termWithCourses.courses != null && // there are courses
-//                        !termWithCourses.courses.isEmpty()); // the courses are not empty
-                // TODO: implement validation for deleting courses
-                return true;
-            }
+        DeleteCourseValidator.validateDeleteCourse(getApplication().getApplicationContext(), course, onSuccess, onFailure);
+    }
 
-            @Override
-            protected void onPostExecute(Boolean success) {
-                if (success) {
-                    onSuccess.callback();
-                } else {
-                    onFailure.callback();
-                }
-            }
-        };
-        async.execute();
+    public void validateDeleteTerm(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
+        DeleteTermValidator.validateDeleteTerm(getApplication(), term, onSuccess, onFailure);
     }
 }

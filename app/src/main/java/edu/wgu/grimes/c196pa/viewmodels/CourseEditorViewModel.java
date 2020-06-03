@@ -12,6 +12,8 @@ import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
+import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
@@ -56,5 +58,9 @@ public class CourseEditorViewModel extends AndroidViewModel {
 
     public void deleteCourse() {
         mRepository.deleteCourse(mLiveCourse.getValue());
+    }
+
+    public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
+        DeleteCourseValidator.validateDeleteCourse(getApplication(), course, onSuccess, onFailure);
     }
 }

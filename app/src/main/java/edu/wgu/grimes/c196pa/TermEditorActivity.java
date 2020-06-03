@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
@@ -107,6 +109,13 @@ public class TermEditorActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem deleteTerm = menu.findItem(R.id.delete_term);
+        deleteTerm.setVisible(!mNewTerm);
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_term_editor, menu);
@@ -118,6 +127,9 @@ public class TermEditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_term:
                 saveTerm();
+                return true;
+            case R.id.delete_term:
+                deleteTerm();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -187,6 +199,21 @@ public class TermEditorActivity extends AppCompatActivity {
         mViewModel.saveTerm(title, startDate, endDate);
         StyleableToast.makeText(TermEditorActivity.this, title + " saved", R.style.toast_message).show();
         finish();
+    }
+
+    private void deleteTerm() {
+        TermEntity term = mViewModel.mLiveTerm.getValue();
+        String termTitle = term.getTitle();
+        mViewModel.validateDeleteTerm(term,
+            () -> { // success
+                mViewModel.deleteTerm();
+                String text = termTitle + " Deleted";
+                StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                finish();
+            }, () -> { // failure
+                String text = termTitle + " can't be deleted because it has courses associated with it";
+                StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+            });
     }
 
     private void initSwipeDelete() {

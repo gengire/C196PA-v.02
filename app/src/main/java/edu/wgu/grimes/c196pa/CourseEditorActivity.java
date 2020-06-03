@@ -26,6 +26,8 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
@@ -62,7 +64,7 @@ public class CourseEditorActivity extends AppCompatActivity {
     private Date startDate;
     private Date endDate;
 
-    private boolean mNewTerm;
+    private boolean mNewCourse;
     private boolean mEditing;
     private int mTermId;
     private int courseId;
@@ -125,11 +127,20 @@ public class CourseEditorActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem deleteCourse = menu.findItem(R.id.delete_course);
+        deleteCourse.setVisible(!mNewCourse);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_course:
                 saveCourse();
                 return true;
+            case R.id.delete_course:
+                deleteCourse();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -163,7 +174,7 @@ public class CourseEditorActivity extends AppCompatActivity {
                 if (!mEditing) {
                     mTitle.setText(course.getTitle());
                     mCode.setText(course.getCode());
-                    mCompetencyUnits.setSelection(Integer.valueOf(course.getCompetencyUnits()));
+                    mCompetencyUnits.setSelection(course.getCompetencyUnits());
                     mCompetencyUnits.setSelection(((ArrayAdapter)mCompetencyUnits.getAdapter())
                             .getPosition(String.valueOf(course.getCompetencyUnits())));
                     mStatus.setSelection(((ArrayAdapter)mStatus.getAdapter())
@@ -185,7 +196,7 @@ public class CourseEditorActivity extends AppCompatActivity {
 
         if (extras.getInt(COURSE_ID_KEY) == 0) {
             setTitle(getString(R.string.new_course));
-            mNewTerm = true;
+            mNewCourse = true;
         } else {
             setTitle(getString(R.string.edit_course));
             courseId = extras.getInt(COURSE_ID_KEY);
@@ -215,5 +226,19 @@ public class CourseEditorActivity extends AppCompatActivity {
         finish();
     }
 
+    private void deleteCourse() {
+        CourseEntity course = mViewModel.mLiveCourse.getValue();
+        String title = course.getTitle();
+        mViewModel.validateDeleteCourse(course,
+                () -> { // success
+                    mViewModel.deleteCourse();
+                    String text = title + " Deleted";
+                    StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
+                    finish();
+                }, () -> { // failure
+                    String text = title + " can't be deleted because it has courses associated with it";
+                    StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
+                });
+    }
 
 }
