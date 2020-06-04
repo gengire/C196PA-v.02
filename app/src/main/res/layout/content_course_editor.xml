@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <EditText
@@ -177,13 +178,21 @@
             app:srcCompat="@drawable/ic_add_alert" />
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_course_editor_assessment_list"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/layout_course_editor_end_date"
+        tools:listitem="@layout/item_assessment" />
+
     <Button
         android:id="@+id/btn_course_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_below="@id/layout_course_editor_end_date"
+        android:layout_below="@id/recycler_view_course_editor_assessment_list"
         android:text="Course Notes" />
 
 </RelativeLayout>

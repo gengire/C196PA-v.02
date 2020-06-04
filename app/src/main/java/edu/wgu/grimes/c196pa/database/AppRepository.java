@@ -12,6 +12,7 @@ import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
 import edu.wgu.grimes.c196pa.database.daos.NoteDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
+import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
@@ -64,7 +65,11 @@ public class AppRepository {
     }
 
     public void deleteCourse(CourseEntity course) {
-        executor.execute(() -> courseDao.delete(course));
+        executor.execute(() -> {
+                courseDao.delete(course);
+                noteDao.deleteNotesForCourse(course.getId());
+                assessmentDao.deleteAssessmentsForCourse(course.getId());
+            });
     }
 
     public void saveNote(NoteEntity note) {
@@ -73,6 +78,14 @@ public class AppRepository {
 
     public void deleteNote(NoteEntity note) {
         executor.execute(() -> noteDao.delete(note));
+    }
+
+    public void saveAssessment(AssessmentEntity assessment) {
+        executor.execute(() -> assessmentDao.save(assessment));
+    }
+
+    public void deleteAssessment(AssessmentEntity assessment) {
+        executor.execute(() -> assessmentDao.delete(assessment));
     }
 
     public void deleteAllData() {
@@ -112,6 +125,10 @@ public class AppRepository {
         return assessmentDao.getAssessmentsByStatus(status);
     }
 
+    public LiveData<List<AssessmentEntity>> getAssessmentsForCourse(int courseId) {
+        return assessmentDao.getAllAssessmentsForCourse(courseId);
+    }
+
     public void addSampleData() {
         executor.execute(() -> {
             termDao.saveAll(SampleData.getSampleTerms());
@@ -122,7 +139,7 @@ public class AppRepository {
     }
 
     public TermWithCourses getTermWithCourses(int id) {
-        return  termDao.getTermWithCourses(id);
+        return termDao.getTermWithCourses(id);
     }
 
     public CourseEntity getCourseById(int i) {

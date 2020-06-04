@@ -5,12 +5,15 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
+import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
 import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
@@ -20,6 +23,8 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 public class CourseEditorViewModel extends AndroidViewModel {
 
     public MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
+
+    private LiveData<List<AssessmentEntity>> mAssessments;
 
     private AppRepository mRepository;
 
@@ -35,6 +40,10 @@ public class CourseEditorViewModel extends AndroidViewModel {
             CourseEntity course = mRepository.getCourseById(courseId);
             mLiveCourse.postValue(course);
         });
+    }
+
+    public void loadCourseAssessments(int courseId) {
+        mAssessments = mRepository.getAssessmentsForCourse(courseId);
     }
 
     public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, String endDate) {
@@ -60,7 +69,15 @@ public class CourseEditorViewModel extends AndroidViewModel {
         mRepository.deleteCourse(mLiveCourse.getValue());
     }
 
+    public LiveData<List<AssessmentEntity>> getCourseAssessments() {
+        return mAssessments;
+    }
+
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteCourseValidator.validateDeleteCourse(getApplication(), course, onSuccess, onFailure);
+    }
+
+    public void deleteAssessment(AssessmentEntity assessment) {
+        mRepository.deleteAssessment(assessment);
     }
 }

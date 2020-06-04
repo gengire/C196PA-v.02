@@ -20,6 +20,10 @@
     <string name="add_samples">Add Sample Data</string>
     <string name="delete_all">Delete All Data</string>
     <!-- Strings used for fragments for navigation -->
+    <string-array name="assessment_types">
+        <item>Performance</item>
+        <item>Objective</item>
+    </string-array>
     <string-array name="status_values">
         <item>Not Started</item>
         <item>In Progress</item>

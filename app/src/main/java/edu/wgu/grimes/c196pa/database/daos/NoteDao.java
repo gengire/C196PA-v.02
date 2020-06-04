@@ -26,6 +26,9 @@ public interface NoteDao {
     @Query("delete from notes")
     void deleteAll();
 
+    @Query("delete from notes where course_id = :courseId")
+    void deleteNotesForCourse(int courseId);
+
     @Query("select * from notes where note_id = :noteId")
     NoteEntity getNoteById(int noteId);
 
@@ -34,4 +37,5 @@ public interface NoteDao {
 
     @Query("select count(*) from notes")
     int getCount();
+
 }

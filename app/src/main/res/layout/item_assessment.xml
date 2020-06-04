@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/text_view_assessment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:hint="Assessment Title"
+            android:layout_toStartOf="@id/text_view_assessment_completion_date"
+            android:layout_alignParentStart="true"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/text_view_assessment_completion_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:singleLine="true"
+            android:text="99/99/9999"
+            />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

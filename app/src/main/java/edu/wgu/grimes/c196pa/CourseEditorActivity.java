@@ -3,6 +3,8 @@ package edu.wgu.grimes.c196pa;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import androidx.annotation.NonNull;
@@ -10,10 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,11 +32,12 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
+import edu.wgu.grimes.c196pa.viewmodels.adapters.AssessmentAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -58,16 +65,24 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.text_view_course_editor_end_date_value)
     TextView mEndDate;
 
+    @BindView(R.id.recycler_view_course_editor_assessment_list)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.fab_add_assessment)
+    FloatingActionButton mFab;
+
     @BindView(R.id.btn_course_notes)
-    Button courseNotes;
+    Button mCourseNotes;
+
+    private boolean mNewCourse;
+    private boolean mEditing;
 
     private Date startDate;
     private Date endDate;
 
-    private boolean mNewCourse;
-    private boolean mEditing;
+    AssessmentAdapter mAdapter;
     private int mTermId;
-    private int courseId;
+    private int mCourseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +98,14 @@ public class CourseEditorActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
 //        mCompetencyUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -115,7 +130,7 @@ public class CourseEditorActivity extends AppCompatActivity {
 //            }
 //        });
 //
-
+        initRecyclerView();
         initViewModel();
     }
 
@@ -149,7 +164,7 @@ public class CourseEditorActivity extends AppCompatActivity {
     @OnClick(R.id.btn_course_notes)
     void courseNotesClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
-        intent.putExtra(Constants.COURSE_ID_KEY, courseId);
+        intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
         startActivity(intent);
     }
 
@@ -163,6 +178,22 @@ public class CourseEditorActivity extends AppCompatActivity {
     void endDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new AssessmentAdapter();
+
+        mAdapter.setOnItemClickListener(assessment -> {
+//            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
+//            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+//            intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
+//            startActivity(intent);
+            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
+        });
+        mRecyclerView.setAdapter(mAdapter);
+        initSwipeDelete();
     }
 
     private void initViewModel() {
@@ -197,15 +228,19 @@ public class CourseEditorActivity extends AppCompatActivity {
         if (extras.getInt(COURSE_ID_KEY) == 0) {
             setTitle(getString(R.string.new_course));
             mNewCourse = true;
+            mCourseNotes.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.edit_course));
-            courseId = extras.getInt(COURSE_ID_KEY);
-            mViewModel.loadCourse(courseId);
-//            mViewModel.loadTermCourses(courseId);
-//            mViewModel.getTermCourses().observe(this, (courses) -> {
-//                mAdapter.setCourses(courses);
-//            });
+            mCourseId = extras.getInt(COURSE_ID_KEY);
+            mViewModel.loadCourse(mCourseId);
+            mViewModel.loadCourseAssessments(mCourseId);
+            mViewModel.getCourseAssessments().observe(this, (assessments) -> {
+                mAdapter.submitList(assessments);
+            });
         }
+
+
+
     }
 
     private void saveCourse() {
@@ -239,6 +274,26 @@ public class CourseEditorActivity extends AppCompatActivity {
                     String text = title + " can't be deleted because it has courses associated with it";
                     StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
                 });
+    }
+
+    private void initSwipeDelete() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
+                String courseTitle = assessment.getTitle();
+
+                mViewModel.deleteAssessment(assessment);
+                String text = courseTitle + " Deleted";
+                StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
+            }
+        }).attachToRecyclerView(mRecyclerView);
     }
 
 }

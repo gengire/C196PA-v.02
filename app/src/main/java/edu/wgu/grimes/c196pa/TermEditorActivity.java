@@ -1,7 +1,6 @@
 package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +51,7 @@ public class TermEditorActivity extends AppCompatActivity {
     TextView mEndDate;
 
     @BindView(R.id.recycler_view_term_editor_course_list)
-    RecyclerView mRecyclerViewCourseList;
+    RecyclerView mRecyclerView;
 
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
@@ -93,8 +92,8 @@ public class TermEditorActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        mRecyclerViewCourseList.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerViewCourseList.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new CourseAdapter();
 
         mAdapter.setOnItemClickListener(course -> {
@@ -104,7 +103,7 @@ public class TermEditorActivity extends AppCompatActivity {
             startActivity(intent);
 //            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
         });
-        mRecyclerViewCourseList.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
     }
 
@@ -240,7 +239,7 @@ public class TermEditorActivity extends AppCompatActivity {
                             StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
                         });
             }
-        }).attachToRecyclerView(mRecyclerViewCourseList);
+        }).attachToRecyclerView(mRecyclerView);
     }
 
 }
