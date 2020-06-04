@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Date;
-import java.util.List;
 
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
@@ -35,7 +34,7 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         @Override
         public boolean areContentsTheSame(@NonNull AssessmentEntity oldItem, @NonNull AssessmentEntity newItem) {
             boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
-            boolean sameCourseId = oldItem.getCourse_id() == newItem.getCourse_id();
+            boolean sameCourseId = oldItem.getCourseId() == newItem.getCourseId();
             boolean sameCompletionDate = sameDate(oldItem.getCompletionDate(), newItem.getCompletionDate());
             return sameTitle && sameCourseId && sameCompletionDate;
         }

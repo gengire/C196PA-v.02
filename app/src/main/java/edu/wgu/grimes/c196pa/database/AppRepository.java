@@ -20,8 +20,6 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
 
-import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
-
 public class AppRepository {
 
     private static AppRepository instance;
@@ -148,5 +146,9 @@ public class AppRepository {
 
     public LiveData<List<TermCusTuple>> getAllTermCus() {
         return termDao.getTermCus();
+    }
+
+    public AssessmentEntity getAssessmentById(int assessmentId) {
+        return assessmentDao.getAssessmentById(assessmentId);
     }
 }

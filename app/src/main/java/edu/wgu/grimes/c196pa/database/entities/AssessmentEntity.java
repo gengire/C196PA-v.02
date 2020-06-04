@@ -12,24 +12,25 @@ public class AssessmentEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "assessment_id")
     private int id;
-    private int course_id;
+    @ColumnInfo(name = "course_id")
+    private int courseId;
     private String type;
     private String title;
     private String status;
     private Date completionDate;
 
     @Ignore
-    public AssessmentEntity(int course_id, String type, String title, String status, Date completionDate) {
-        this.course_id = course_id;
+    public AssessmentEntity(int courseId, String type, String title, String status, Date completionDate) {
+        this.courseId = courseId;
         this.type = type;
         this.title = title;
         this.status = status;
         this.completionDate = completionDate;
     }
 
-    public AssessmentEntity(int id, int course_id, String type, String title, String status, Date completionDate) {
+    public AssessmentEntity(int id, int courseId, String type, String title, String status, Date completionDate) {
         this.id = id;
-        this.course_id = course_id;
+        this.courseId = courseId;
         this.type = type;
         this.title = title;
         this.status = status;
@@ -44,12 +45,12 @@ public class AssessmentEntity {
         this.id = id;
     }
 
-    public int getCourse_id() {
-        return course_id;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public String getType() {
@@ -88,7 +89,7 @@ public class AssessmentEntity {
     public String toString() {
         return "AssessmentEntity{" +
                 "id=" + id +
-                ", course_id=" + course_id +
+                ", courseId=" + courseId +
                 ", type='" + type + '\'' +
                 ", title='" + title + '\'' +
                 ", status='" + status + '\'' +

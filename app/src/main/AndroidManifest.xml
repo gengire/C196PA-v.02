@@ -45,12 +45,17 @@
             android:name=".NoteEditorActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".NotesListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NotesListActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".CourseEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AssessmentEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".CourseEditorActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

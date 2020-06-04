@@ -102,8 +102,9 @@ public class CourseEditorActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
+                intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+                startActivity(intent);
             }
         });
 
@@ -156,6 +157,7 @@ public class CourseEditorActivity extends AppCompatActivity {
                 return true;
             case R.id.delete_course:
                 deleteCourse();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -186,11 +188,11 @@ public class CourseEditorActivity extends AppCompatActivity {
         mAdapter = new AssessmentAdapter();
 
         mAdapter.setOnItemClickListener(assessment -> {
-//            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
-//            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-//            intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
-//            startActivity(intent);
-            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
+            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+            intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
+            startActivity(intent);
+//            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
@@ -205,7 +207,6 @@ public class CourseEditorActivity extends AppCompatActivity {
                 if (!mEditing) {
                     mTitle.setText(course.getTitle());
                     mCode.setText(course.getCode());
-                    mCompetencyUnits.setSelection(course.getCompetencyUnits());
                     mCompetencyUnits.setSelection(((ArrayAdapter)mCompetencyUnits.getAdapter())
                             .getPosition(String.valueOf(course.getCompetencyUnits())));
                     mStatus.setSelection(((ArrayAdapter)mStatus.getAdapter())
