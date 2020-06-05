@@ -34,7 +34,7 @@
     <string-array name="assessment_values">
         <item>Pending</item>
         <item>Pass</item>
-        <item>Failed</item>
+        <item>Fail</item>
     </string-array>
     <string-array name="competency_unit_values">
         <item>0</item>

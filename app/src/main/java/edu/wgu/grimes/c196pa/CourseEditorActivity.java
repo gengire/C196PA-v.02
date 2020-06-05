@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,7 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class CourseEditorActivity extends AppCompatActivity {
+public class CourseEditorActivity extends AbstractEditorActivity {
 
     private CourseEditorViewModel mViewModel;
 
@@ -74,99 +73,55 @@ public class CourseEditorActivity extends AppCompatActivity {
     @BindView(R.id.btn_course_notes)
     Button mCourseNotes;
 
-    private boolean mNewCourse;
-    private boolean mEditing;
-
     private Date startDate;
     private Date endDate;
 
     AssessmentAdapter mAdapter;
-    private int mTermId;
-    private int mCourseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_editor);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        ButterKnife.bind(this);
-
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
-                intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+                intent.putExtra(Constants.COURSE_ID_KEY, mId);
                 startActivity(intent);
             }
         });
-
-//        mCompetencyUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                compUnitsPosition = position;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//        mStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                statusPosition = position;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-        initRecyclerView();
-        initViewModel();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_course_editor, menu);
-        return true;
+    public int getContentView() {
+        return R.layout.activity_course_editor;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem deleteCourse = menu.findItem(R.id.delete_course);
-        deleteCourse.setVisible(!mNewCourse);
-        return true;
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_course:
-                saveCourse();
-                return true;
-            case R.id.delete_course:
-                deleteCourse();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public int getMenu() {
+        return R.menu.menu_course_editor;
     }
+
+    @Override
+    protected int getDeleteMenuItem() {
+        return R.id.delete_course;
+    }
+
+    @Override
+    protected int getSaveMenuItem() {
+        return R.id.save_course;
+    }
+
 
     @OnClick(R.id.btn_course_notes)
     void courseNotesClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
-        intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+        intent.putExtra(Constants.COURSE_ID_KEY, mId);
         startActivity(intent);
     }
 
@@ -182,14 +137,14 @@ public class CourseEditorActivity extends AppCompatActivity {
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
-    private void initRecyclerView() {
+    protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new AssessmentAdapter();
 
         mAdapter.setOnItemClickListener(assessment -> {
             Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
-            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+            intent.putExtra(Constants.COURSE_ID_KEY, mId);
             intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
             startActivity(intent);
 //            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
@@ -198,7 +153,7 @@ public class CourseEditorActivity extends AppCompatActivity {
         initSwipeDelete();
     }
 
-    private void initViewModel() {
+    protected void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
 
@@ -224,17 +179,17 @@ public class CourseEditorActivity extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        mTermId = extras.getInt(TERM_ID_KEY);
+        mParentId = extras.getInt(TERM_ID_KEY);
 
         if (extras.getInt(COURSE_ID_KEY) == 0) {
             setTitle(getString(R.string.new_course));
-            mNewCourse = true;
+            mNew = true;
             mCourseNotes.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.edit_course));
-            mCourseId = extras.getInt(COURSE_ID_KEY);
-            mViewModel.loadCourse(mCourseId);
-            mViewModel.loadCourseAssessments(mCourseId);
+            mId = extras.getInt(COURSE_ID_KEY);
+            mViewModel.loadCourse(mId);
+            mViewModel.loadCourseAssessments(mId);
             mViewModel.getCourseAssessments().observe(this, (assessments) -> {
                 mAdapter.submitList(assessments);
             });
@@ -244,12 +199,12 @@ public class CourseEditorActivity extends AppCompatActivity {
 
     }
 
-    private void saveCourse() {
+    protected void save() {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
         String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
         String status = String.valueOf(mStatus.getSelectedItem());
-        String termId = String.valueOf(mTermId);
+        String termId = String.valueOf(mParentId);
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
 
@@ -262,7 +217,7 @@ public class CourseEditorActivity extends AppCompatActivity {
         finish();
     }
 
-    private void deleteCourse() {
+    protected void delete() {
         CourseEntity course = mViewModel.mLiveCourse.getValue();
         String title = course.getTitle();
         mViewModel.validateDeleteCourse(course,
