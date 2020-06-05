@@ -2,17 +2,12 @@ package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -37,7 +32,7 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.CourseAdapter;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class TermEditorActivity extends AppCompatActivity {
+public class TermEditorActivity extends AbstractEditorActivity {
 
     private TermEditorViewModel mViewModel;
 
@@ -56,83 +51,67 @@ public class TermEditorActivity extends AppCompatActivity {
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
 
-    private boolean mNewTerm;
+    private boolean mNew;
     private boolean mEditing;
+    private int mId;
 
     private Date startDate;
     private Date endDate;
     private CourseAdapter mAdapter;
-    private int mTermId;
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_term_editor;
+    }
+
+    @Override
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_term_editor);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ButterKnife.bind(this);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
-                intent.putExtra(Constants.TERM_ID_KEY, mTermId);
+                intent.putExtra(Constants.TERM_ID_KEY, mId);
                 startActivity(intent);
             }
         });
-
-        initRecyclerView();
-        initViewModel();
     }
 
-    private void initRecyclerView() {
+    @Override
+    protected int getDeleteMenuItem() {
+        return R.id.delete_term;
+    }
+
+    @Override
+    protected int getMenu() {
+        return R.menu.menu_term_editor;
+    }
+
+    @Override
+    protected int getSaveMenuItem() {
+        return R.id.save_term;
+    }
+
+    protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new CourseAdapter();
 
         mAdapter.setOnItemClickListener(course -> {
             Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
-            intent.putExtra(Constants.TERM_ID_KEY, mTermId);
+            intent.putExtra(Constants.TERM_ID_KEY, mId);
             intent.putExtra(Constants.COURSE_ID_KEY, course.getId());
             startActivity(intent);
 //            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem deleteTerm = menu.findItem(R.id.delete_term);
-        deleteTerm.setVisible(!mNewTerm);
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_term_editor, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_term:
-                saveTerm();
-                return true;
-            case R.id.delete_term:
-                deleteTerm();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @OnClick(R.id.text_view_term_editor_start_date_value)
@@ -147,13 +126,13 @@ public class TermEditorActivity extends AppCompatActivity {
         dateDialog.show(getSupportFragmentManager(), "endDatePicker");
     }
 
-    private void initViewModel() {
+    protected void initViewModel() {
 
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
 
         // update the view when the model is changed
-        mViewModel.mLiveTerm.observe(this, (term) -> {
+        mViewModel.mLiveData.observe(this, (term) -> {
             if (term != null) {
                 if (!mEditing) {
                     mTitle.setText(term.getTitle());
@@ -172,13 +151,13 @@ public class TermEditorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             setTitle(getString(R.string.new_term));
-            mNewTerm = true;
+            mNew = true;
             mFab.setVisibility(View.GONE);
         } else {
             setTitle(getString(R.string.edit_term));
-            mTermId = extras.getInt(TERM_ID_KEY);
-            mViewModel.loadTerm(mTermId);
-            mViewModel.loadTermCourses(mTermId);
+            mId = extras.getInt(TERM_ID_KEY);
+            mViewModel.loadTerm(mId);
+            mViewModel.loadTermCourses(mId);
             mViewModel.getTermCourses().observe(this, (courses) -> {
                 mAdapter.submitList(courses);
             });
@@ -187,7 +166,7 @@ public class TermEditorActivity extends AppCompatActivity {
 
     }
 
-    private void saveTerm() {
+    protected void save() {
         String title = mTitle.getText().toString();
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
@@ -200,8 +179,8 @@ public class TermEditorActivity extends AppCompatActivity {
         finish();
     }
 
-    private void deleteTerm() {
-        TermEntity term = mViewModel.mLiveTerm.getValue();
+    protected void delete() {
+        TermEntity term = mViewModel.mLiveData.getValue();
         String termTitle = term.getTitle();
         mViewModel.validateDeleteTerm(term,
             () -> { // success

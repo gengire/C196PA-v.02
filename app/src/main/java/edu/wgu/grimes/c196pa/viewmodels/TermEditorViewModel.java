@@ -1,7 +1,6 @@
 package edu.wgu.grimes.c196pa.viewmodels;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
 public class TermEditorViewModel extends AndroidViewModel {
 
-    public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
+    public MutableLiveData<TermEntity> mLiveData = new MutableLiveData<>();
 
     private LiveData<List<CourseEntity>> mCourses;
 
@@ -40,7 +39,7 @@ public class TermEditorViewModel extends AndroidViewModel {
     public void loadTerm(int termId) {
         executor.execute(() -> {
             TermEntity term = mRepository.getTermById(termId);
-            mLiveTerm.postValue(term);
+            mLiveData.postValue(term);
         });
     }
 
@@ -52,7 +51,7 @@ public class TermEditorViewModel extends AndroidViewModel {
         if (TextUtils.isEmpty(title.trim())) {
             return; // no saving blank titles
         }
-        TermEntity term = mLiveTerm.getValue();
+        TermEntity term = mLiveData.getValue();
         if (term == null) {
             term = new TermEntity(title, getDate(sDate), getDate(eDate));
         } else {
@@ -64,7 +63,7 @@ public class TermEditorViewModel extends AndroidViewModel {
     }
 
     public void deleteTerm() {
-        mRepository.deleteTerm(mLiveTerm.getValue());
+        mRepository.deleteTerm(mLiveData.getValue());
     }
 
     public LiveData<List<CourseEntity>> getTermCourses() {
