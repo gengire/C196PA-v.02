@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/save_note"
+        android:id="@+id/save_mentor"
         android:icon="@drawable/ic_save"
         android:title="Save"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/delete_note"
+        android:id="@+id/delete_mentor"
         android:icon="@drawable/ic_delete"
         android:title="Delete Course"
         app:showAsAction="ifRoom"/>

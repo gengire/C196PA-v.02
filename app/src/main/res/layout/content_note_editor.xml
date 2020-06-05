@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".NoteEditorActivity"
     android:layout_margin="16dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NoteEditorActivity">
 
     <EditText
         android:id="@+id/edit_text_note_editor_title"
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:hint="Title"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/edit_text_note_editor_description"
         android:layout_width="match_parent"

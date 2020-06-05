@@ -19,27 +19,27 @@ import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
+import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
-import edu.wgu.grimes.c196pa.viewmodels.NotesListViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.adapters.NoteAdapter;
+import edu.wgu.grimes.c196pa.viewmodels.MentorsListViewModel;
+import edu.wgu.grimes.c196pa.viewmodels.adapters.MentorAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
-import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
-public class NotesListActivity extends AppCompatActivity {
+public class MentorsListActivity extends AppCompatActivity {
 
-    private NotesListViewModel mViewModel;
+    private MentorsListViewModel mViewModel;
     private int mCourseId;
 
-    @BindView(R.id.recycler_view_notes_list)
+    @BindView(R.id.recycler_view_mentors_list)
     RecyclerView mRecyclerView;
-    private NoteAdapter mAdapter;
+    private MentorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes_list);
+        setContentView(R.layout.activity_mentors_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,11 +51,11 @@ public class NotesListActivity extends AppCompatActivity {
         initRecyclerView();
         initViewModel();
 
-        FloatingActionButton mFab = findViewById(R.id.fab_add_note);
-        mFab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
+                Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
                 intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
                 startActivity(intent);
             }
@@ -65,11 +65,11 @@ public class NotesListActivity extends AppCompatActivity {
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new NoteAdapter();
+        mAdapter = new MentorAdapter();
 
-        mAdapter.setOnItemClickListener(note -> {
-            Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
-            intent.putExtra(NOTE_ID_KEY, note.getId());
+        mAdapter.setOnItemClickListener(mentor -> {
+            Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
+            intent.putExtra(MENTOR_ID_KEY, mentor.getId());
             intent.putExtra(COURSE_ID_KEY, mCourseId);
             startActivity(intent);
 //            StyleableToast.makeText(NotesListActivity.this, "note: " + note.getTitle() + " clicked", R.style.toast_message).show();
@@ -80,13 +80,13 @@ public class NotesListActivity extends AppCompatActivity {
 
     private void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
-        mViewModel = new ViewModelProvider(this, factory).get(NotesListViewModel.class);
+        mViewModel = new ViewModelProvider(this, factory).get(MentorsListViewModel.class);
 
         Bundle extras = getIntent().getExtras();
         mCourseId = extras.getInt(COURSE_ID_KEY);
-        mViewModel.loadCoursesNotes(mCourseId);
-        mViewModel.getCourseNotes().observe(this, notes -> {
-           mAdapter.submitList(notes);
+        mViewModel.loadCourseMentors(mCourseId);
+        mViewModel.getCourseMentors().observe(this, mentors -> {
+            mAdapter.submitList(mentors);
 //           StyleableToast.makeText(NotesListActivity.this, "notes changed", R.style.toast_message).show();
         });
     }
@@ -98,16 +98,14 @@ public class NotesListActivity extends AppCompatActivity {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                NoteEntity note = mAdapter.getNoteAt(viewHolder.getAdapterPosition());
-                String noteTitle = note.getTitle();
+                MentorEntity mentor = mAdapter.getMentorAt(viewHolder.getAdapterPosition());
+                String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
 
-                mViewModel.deleteNote(note);
-                String text = noteTitle + " Deleted";
-                StyleableToast.makeText(NotesListActivity.this, text, R.style.toast_message).show();
-
+                mViewModel.deleteMentor(mentor);
+                String text = mentorName + " Deleted";
+                StyleableToast.makeText(MentorsListActivity.this, text, R.style.toast_message).show();
             }
         }).attachToRecyclerView(mRecyclerView);
     }

@@ -8,6 +8,8 @@ public class Constants {
     public static final String NOTE_ID_KEY =
             "edu.wgu.grimes.c196pa.utilities.note_editor.note_id_key";
     public static final String ASSESSMENT_ID_KEY =
-            "edu.wgu.grimes.c196pa.utilities.assessment_editor.note_id_key";
+            "edu.wgu.grimes.c196pa.utilities.assessment_editor.assessment_id_key";
+    public static final String MENTOR_ID_KEY =
+            "edu.wgu.grimes.c196pa.utilities.mentor_editor.mentor_id_key";
     public static final String DATE_PATTERN = "MMMM d, yyyy";
 }

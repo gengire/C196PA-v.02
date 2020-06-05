@@ -30,7 +30,7 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
 
         @Override
         public boolean areContentsTheSame(@NonNull NoteEntity oldItem, @NonNull NoteEntity newItem) {
-            boolean sameCourse = oldItem.getCourse_id() == newItem.getCourse_id();
+            boolean sameCourse = oldItem.getCourseId() == newItem.getCourseId();
             boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
             boolean sameDesc = TextUtils.equals(oldItem.getDescription(), newItem.getDescription());
             return sameCourse && sameTitle && sameDesc;

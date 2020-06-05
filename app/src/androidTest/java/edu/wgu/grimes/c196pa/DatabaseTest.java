@@ -3,8 +3,6 @@ package edu.wgu.grimes.c196pa;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -17,13 +15,11 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.AppDatabase;
-import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
 import edu.wgu.grimes.c196pa.database.daos.NoteDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
@@ -83,7 +79,7 @@ public class DatabaseTest {
         assertThat(note, notNullValue());
         assertThat(note.getTitle(), is("This is my course note title"));
         assertThat(note.getDescription(), is("This is my course note description"));
-        assertThat(note.getCourse_id(), is(1));
+        assertThat(note.getCourseId(), is(1));
     }
 
     @Test

@@ -10,10 +10,12 @@ import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.daos.AssessmentDao;
 import edu.wgu.grimes.c196pa.database.daos.CourseDao;
+import edu.wgu.grimes.c196pa.database.daos.MentorDao;
 import edu.wgu.grimes.c196pa.database.daos.NoteDao;
 import edu.wgu.grimes.c196pa.database.daos.TermDao;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
@@ -28,6 +30,7 @@ public class AppRepository {
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
     private NoteDao noteDao;
+    private MentorDao mentorDao;
 
     public LiveData<List<TermEntity>> mTerms;
 
@@ -47,6 +50,7 @@ public class AppRepository {
         courseDao = mDb.courseDao();
         assessmentDao = mDb.assessmentDao();
         noteDao = mDb.noteDao();
+        mentorDao = mDb.mentorDao();
         mTerms = termDao.getAllTerms();
     }
 
@@ -85,6 +89,10 @@ public class AppRepository {
     public void deleteAssessment(AssessmentEntity assessment) {
         executor.execute(() -> assessmentDao.delete(assessment));
     }
+
+    public void saveMentor(MentorEntity mentor) { executor.execute(() -> mentorDao.save(mentor)); }
+
+    public void deleteMentor(MentorEntity mentor) { executor.execute(() -> mentorDao.delete(mentor)); }
 
     public void deleteAllData() {
         executor.execute(() -> {
@@ -150,5 +158,13 @@ public class AppRepository {
 
     public AssessmentEntity getAssessmentById(int assessmentId) {
         return assessmentDao.getAssessmentById(assessmentId);
+    }
+
+    public LiveData<List<MentorEntity>> getMentorsForCourse(int courseId) {
+        return mentorDao.getAllMentorsForCourse(courseId);
+    }
+
+    public MentorEntity getMentorById(int mentorId) {
+        return mentorDao.getMentorById(mentorId);
     }
 }

@@ -1,34 +1,21 @@
 package edu.wgu.grimes.c196pa;
 
 import android.os.Bundle;
+import android.widget.EditText;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.muddzdev.styleabletoast.StyleableToast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.viewmodels.NoteEditorViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
-import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
-import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class NoteEditorActivity extends AppCompatActivity {
+public class NoteEditorActivity extends AbstractEditorActivity {
 
     private NoteEditorViewModel mViewModel;
 
@@ -38,62 +25,59 @@ public class NoteEditorActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_note_editor_description)
     EditText mDescription;
 
-    private boolean mNewNote;
-    private boolean mEditing;
-
-    private int mNoteId;
-    private int mCourseId;
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_note_editor;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_editor);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected void initButterKnife() {
         ButterKnife.bind(this);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        initViewModel();
-
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_note_editor, menu);
-        return true;
+    protected int getMenu() {
+        return R.menu.menu_note_editor;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_note:
-                saveNote();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    protected int getSaveMenuItem() {
+        return R.id.save_note;
     }
 
-    private void saveNote() {
+    @Override
+    protected int getDeleteMenuItem() {
+        return R.id.delete_note;
+    }
+
+    protected void save() {
         String title = mTitle.getText().toString();
         String description = mDescription.getText().toString();
-        int courseId = mCourseId;
+        int courseId = mParentId;
 
         if (title.trim().isEmpty()) {
             StyleableToast.makeText(NoteEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
             return;
         }
         mViewModel.saveNote(courseId, title, description);
-        StyleableToast.makeText(NoteEditorActivity.this, "course: " + courseId + ": " + title + " saved", R.style.toast_message).show();
+        StyleableToast.makeText(NoteEditorActivity.this, title + " saved", R.style.toast_message).show();
         finish();
     }
 
-    private void initViewModel() {
+    protected void delete() {
+        NoteEntity course = mViewModel.mLiveNote.getValue();
+        String title = course.getTitle();
+        mViewModel.deleteNote();
+        String text = title + " Deleted";
+        StyleableToast.makeText(NoteEditorActivity.this, text, R.style.toast_message).show();
+        finish();
+    }
+
+    protected void initRecyclerView() {
+        // noop
+    }
+
+    protected void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(NoteEditorViewModel.class);
 
@@ -107,15 +91,15 @@ public class NoteEditorActivity extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        mCourseId = extras.getInt(COURSE_ID_KEY);
+        mParentId = extras.getInt(COURSE_ID_KEY);
 
         if (extras.getInt(NOTE_ID_KEY) == 0) {
             setTitle("New Note");
-            mNewNote = true;
+            mNew = true;
         } else {
             setTitle("Edit Note");
-            mNoteId = extras.getInt(NOTE_ID_KEY);
-            mViewModel.loadNote(mNoteId);
+            mId = extras.getInt(NOTE_ID_KEY);
+            mViewModel.loadNote(mId);
         }
     }
 

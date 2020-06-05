@@ -2,7 +2,6 @@ package edu.wgu.grimes.c196pa.viewmodels;
 
 import android.app.Application;
 import android.text.TextUtils;
-import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -42,7 +41,7 @@ public class NoteEditorViewModel extends AndroidViewModel {
         if (note == null) {
             note = new NoteEntity(courseId, title, description);
         } else {
-            note.setCourse_id(courseId);
+            note.setCourseId(courseId);
             note.setTitle(title);
             note.setDescription(description);
         }

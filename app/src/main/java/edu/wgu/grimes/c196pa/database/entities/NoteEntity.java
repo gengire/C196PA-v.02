@@ -6,24 +6,26 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "notes")
-public class NoteEntity {
+public class NoteEntity implements BaseEntity {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
     private int id;
-    private int course_id;
+    @ColumnInfo(name = "course_id")
+    private int courseId;
     private String title;
     private String description;
 
     @Ignore
-    public NoteEntity(int course_id, String title, String description) {
-        this.course_id = course_id;
+    public NoteEntity(int courseId, String title, String description) {
+        this.courseId = courseId;
         this.title = title;
         this.description = description;
     }
 
-    public NoteEntity(int id, int course_id, String title, String description) {
+    public NoteEntity(int id, int courseId, String title, String description) {
         this.id = id;
-        this.course_id = course_id;
+        this.courseId = courseId;
         this.title = title;
         this.description = description;
     }
@@ -36,12 +38,12 @@ public class NoteEntity {
         this.id = id;
     }
 
-    public int getCourse_id() {
-        return course_id;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public String getTitle() {
@@ -64,7 +66,7 @@ public class NoteEntity {
     public String toString() {
         return "NoteEntity{" +
                 "id=" + id +
-                ", course_id=" + course_id +
+                ", course_id=" + courseId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';
