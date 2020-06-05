@@ -204,4 +204,9 @@ public class TermEditorActivity extends AbstractActivity {
                     StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
                 });
     }
+
+    @Override
+    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    }
 }

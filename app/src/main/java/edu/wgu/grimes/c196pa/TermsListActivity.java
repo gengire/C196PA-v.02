@@ -108,6 +108,11 @@ public class TermsListActivity extends AbstractListActivity {
     }
 
     @Override
+    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    }
+
+    @Override
     protected RecyclerView getRecyclerView() {
         return mRecyclerView;
     }

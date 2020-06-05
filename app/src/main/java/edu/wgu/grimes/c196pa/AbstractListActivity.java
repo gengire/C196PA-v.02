@@ -1,5 +1,7 @@
 package edu.wgu.grimes.c196pa;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public abstract class AbstractListActivity extends AbstractActivity {
 
     @Override

@@ -116,6 +116,11 @@ public class MentorEditorActivity extends AbstractActivity {
     }
 
     @Override
+    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+        // noop
+    }
+
+    @Override
     protected RecyclerView getRecyclerView() {
         return null; // noop
     }

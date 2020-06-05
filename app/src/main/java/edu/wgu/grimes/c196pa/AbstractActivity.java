@@ -1,5 +1,6 @@
 package edu.wgu.grimes.c196pa;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,11 +70,31 @@ public abstract class AbstractActivity extends AppCompatActivity {
             save();
             return true;
         } else if (itemId == getDeleteMenuItem()) {
-            delete();
+            alertDelete(() -> delete(), () -> onCancel()).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private AlertDialog alertDelete(Runnable deleteRunner, Runnable cancelRunner) {
+        AlertDialog ad = new AlertDialog.Builder(this)
+                .setTitle("Delete")
+                .setMessage("Are you sure you want to delete?")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    deleteRunner.run();
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    cancelRunner.run();
+                    dialog.dismiss();
+                }).create();
+        return ad;
+    }
+
+    private void onCancel() {
+        // noop
     }
 
     public void initSwipeDelete() {
@@ -85,7 +107,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                handleSwipeDelete(viewHolder);
+                Runnable onCancel = () -> onSwipeCancel(viewHolder);
+                alertDelete(() -> handleSwipeDelete(viewHolder), onCancel).show();
             }
         }).attachToRecyclerView(getRecyclerView());
     }
@@ -111,5 +134,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected abstract RecyclerView getRecyclerView();
 
     protected abstract void handleSwipeDelete(RecyclerView.ViewHolder viewHolder);
+
+    protected abstract void onSwipeCancel(RecyclerView.ViewHolder viewHolder);
+
 }
 
