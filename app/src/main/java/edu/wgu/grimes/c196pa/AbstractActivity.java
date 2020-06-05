@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected int mId;
     protected int mParentId;
+    protected ViewModelProvider.Factory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +30,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        initButterKnife();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        initButterKnife();
         initRecyclerView();
+
+        factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
+
         initViewModel();
     }
 

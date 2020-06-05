@@ -90,9 +90,7 @@ public class MentorEditorActivity extends AbstractActivity {
 
     @Override
     protected void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(MentorEditorViewModel.class);
-
         mViewModel.mLiveMentor.observe(this, (mentor) -> {
             if (mentor != null) {
                 if (!mEditing) {

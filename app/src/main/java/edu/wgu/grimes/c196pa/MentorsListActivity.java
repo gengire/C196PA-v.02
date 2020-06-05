@@ -27,7 +27,7 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.MentorAdapter;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
-public class MentorsListActivity extends AppCompatActivity {
+public class MentorsListActivity extends AbstractListActivity {
 
     private MentorsListViewModel mViewModel;
     private int mCourseId;
@@ -37,20 +37,20 @@ public class MentorsListActivity extends AppCompatActivity {
     private MentorAdapter mAdapter;
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_mentors_list;
+    }
+
+    @Override
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mentors_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTitle("Course Notes");
-
-        ButterKnife.bind(this);
-
-        initRecyclerView();
-        initViewModel();
-
+        setTitle("Course Mentors");
         FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,7 @@ public class MentorsListActivity extends AppCompatActivity {
         });
     }
 
-    private void initRecyclerView() {
+    protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new MentorAdapter();
@@ -78,10 +78,8 @@ public class MentorsListActivity extends AppCompatActivity {
         initSwipeDelete();
     }
 
-    private void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
+    protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(MentorsListViewModel.class);
-
         Bundle extras = getIntent().getExtras();
         mCourseId = extras.getInt(COURSE_ID_KEY);
         mViewModel.loadCourseMentors(mCourseId);
@@ -91,23 +89,18 @@ public class MentorsListActivity extends AppCompatActivity {
         });
     }
 
-    private void initSwipeDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                MentorEntity mentor = mAdapter.getMentorAt(viewHolder.getAdapterPosition());
-                String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        MentorEntity mentor = mAdapter.getMentorAt(viewHolder.getAdapterPosition());
+        String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
 
-                mViewModel.deleteMentor(mentor);
-                String text = mentorName + " Deleted";
-                StyleableToast.makeText(MentorsListActivity.this, text, R.style.toast_message).show();
-            }
-        }).attachToRecyclerView(mRecyclerView);
+        mViewModel.deleteMentor(mentor);
+        String text = mentorName + " Deleted";
+        StyleableToast.makeText(MentorsListActivity.this, text, R.style.toast_message).show();
     }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 }

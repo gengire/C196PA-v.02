@@ -124,8 +124,6 @@ public class TermEditorActivity extends AbstractActivity {
     }
 
     protected void initViewModel() {
-
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
 
         // update the view when the model is changed

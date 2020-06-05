@@ -146,9 +146,7 @@ public class CourseEditorActivity extends AbstractActivity {
     }
 
     protected void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
-
         mViewModel.mLiveCourse.observe(this, (course) -> {
             if (course != null) {
                 if (!mEditing) {

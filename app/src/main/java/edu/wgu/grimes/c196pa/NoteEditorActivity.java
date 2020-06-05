@@ -79,9 +79,7 @@ public class NoteEditorActivity extends AbstractActivity {
     }
 
     protected void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(NoteEditorViewModel.class);
-
         mViewModel.mLiveNote.observe(this, (note) -> {
             if (note != null) {
                 if (!mEditing) {

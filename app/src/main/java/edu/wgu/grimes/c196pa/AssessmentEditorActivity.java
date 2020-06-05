@@ -80,9 +80,7 @@ public class AssessmentEditorActivity extends AbstractActivity {
     }
 
     protected void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
-
         mViewModel.mLiveAssessment.observe(this, (assessment) -> {
             if (assessment != null) {
                 if (!mEditing) {

@@ -19,7 +19,7 @@ import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
 import edu.wgu.grimes.c196pa.viewmodels.adapters.TermAdapter;
 
-public class TermsListActivity extends AbstractActivity {
+public class TermsListActivity extends AbstractListActivity {
 
     private TermsListViewModel mViewModel;
     private TermAdapter mAdapter;
@@ -43,26 +43,6 @@ public class TermsListActivity extends AbstractActivity {
     @Override
     protected int getMenu() {
         return R.menu.menu_term_list;
-    }
-
-    @Override
-    protected int getDeleteMenuItem() {
-        return 0; // noop
-    }
-
-    @Override
-    protected int getSaveMenuItem() {
-        return 0; // noop
-    }
-
-    @Override
-    protected void save() {
-        // noop
-    }
-
-    @Override
-    protected void delete() {
-        // noop
     }
 
     @Override
@@ -102,8 +82,6 @@ public class TermsListActivity extends AbstractActivity {
     }
 
     protected void initViewModel() {
-        ViewModelProvider.Factory factory =
-                new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
         mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> {
             mAdapter.submitList(terms);

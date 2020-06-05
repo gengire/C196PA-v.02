@@ -27,7 +27,7 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.NoteAdapter;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
-public class NotesListActivity extends AppCompatActivity {
+public class NotesListActivity extends AbstractListActivity {
 
     private NotesListViewModel mViewModel;
     private int mCourseId;
@@ -37,20 +37,20 @@ public class NotesListActivity extends AppCompatActivity {
     private NoteAdapter mAdapter;
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_notes_list;
+    }
+
+    @Override
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("Course Notes");
-
-        ButterKnife.bind(this);
-
-        initRecyclerView();
-        initViewModel();
-
         FloatingActionButton mFab = findViewById(R.id.fab_add_note);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,7 @@ public class NotesListActivity extends AppCompatActivity {
         });
     }
 
-    private void initRecyclerView() {
+    protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new NoteAdapter();
@@ -78,10 +78,8 @@ public class NotesListActivity extends AppCompatActivity {
         initSwipeDelete();
     }
 
-    private void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
+    protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(NotesListViewModel.class);
-
         Bundle extras = getIntent().getExtras();
         mCourseId = extras.getInt(COURSE_ID_KEY);
         mViewModel.loadCoursesNotes(mCourseId);
@@ -91,25 +89,18 @@ public class NotesListActivity extends AppCompatActivity {
         });
     }
 
-    private void initSwipeDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        NoteEntity note = mAdapter.getNoteAt(viewHolder.getAdapterPosition());
+        String noteTitle = note.getTitle();
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                NoteEntity note = mAdapter.getNoteAt(viewHolder.getAdapterPosition());
-                String noteTitle = note.getTitle();
-
-                mViewModel.deleteNote(note);
-                String text = noteTitle + " Deleted";
-                StyleableToast.makeText(NotesListActivity.this, text, R.style.toast_message).show();
-
-            }
-        }).attachToRecyclerView(mRecyclerView);
+        mViewModel.deleteNote(note);
+        String text = noteTitle + " Deleted";
+        StyleableToast.makeText(NotesListActivity.this, text, R.style.toast_message).show();
     }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 }
