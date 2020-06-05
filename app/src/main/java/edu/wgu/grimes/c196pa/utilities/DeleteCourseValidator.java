@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 
 public class DeleteCourseValidator {
 

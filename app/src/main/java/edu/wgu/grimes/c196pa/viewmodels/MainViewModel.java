@@ -8,9 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 
-public class MainViewModel extends AndroidViewModel {
+public class MainViewModel extends BaseViewModel {
 
-    private AppRepository mRepository;
     public LiveData<Integer> mCoursesCompleted;
     public LiveData<Integer> mCoursesInProgress;
     public LiveData<Integer> mCoursesDropped;
@@ -21,8 +20,6 @@ public class MainViewModel extends AndroidViewModel {
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-
-        mRepository = AppRepository.getInstance(application.getApplicationContext());
         mCoursesCompleted = mRepository.getCoursesByStatus("Complete");
         mCoursesInProgress = mRepository.getCoursesByStatus("In Progress");
         mCoursesDropped = mRepository.getCoursesByStatus("Dropped");
@@ -30,19 +27,6 @@ public class MainViewModel extends AndroidViewModel {
         mAssessmentsPassed = mRepository.getAssessmentsByStatus("Pass");
         mAssessmentsPending = mRepository.getAssessmentsByStatus("Pending");
         mAssessmentsFailed = mRepository.getAssessmentsByStatus("Fail");
-
-    }
-
-    public String getAssessmentsPending() {
-        return String.valueOf(2);
-    }
-
-    public String getAssessmentsPassed() {
-        return String.valueOf(25);
-    }
-
-    public String getAssessmentsFailed() {
-        return String.valueOf(0);
     }
 
     public void addSampleData() {

@@ -10,7 +10,6 @@ import androidx.room.Query;
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
-import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 
 @Dao
 public interface AssessmentDao {
