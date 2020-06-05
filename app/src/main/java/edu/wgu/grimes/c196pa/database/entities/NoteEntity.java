@@ -6,7 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "notes")
-public class NoteEntity implements BaseEntity {
+public class NoteEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
