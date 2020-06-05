@@ -1,16 +1,10 @@
 package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +19,7 @@ import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
 import edu.wgu.grimes.c196pa.viewmodels.adapters.TermAdapter;
 
-public class TermsListActivity extends AppCompatActivity {
+public class TermsListActivity extends AbstractActivity {
 
     private TermsListViewModel mViewModel;
     private TermAdapter mAdapter;
@@ -37,25 +31,38 @@ public class TermsListActivity extends AppCompatActivity {
     FloatingActionButton fabAddTerm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terms_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ButterKnife.bind(this);
-
-        initRecyclerView();
-        initViewModel();
-
+    protected int getContentView() {
+        return R.layout.activity_terms_list;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_term_list, menu);
-        return true;
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected int getMenu() {
+        return R.menu.menu_term_list;
+    }
+
+    @Override
+    protected int getDeleteMenuItem() {
+        return 0; // noop
+    }
+
+    @Override
+    protected int getSaveMenuItem() {
+        return 0; // noop
+    }
+
+    @Override
+    protected void save() {
+        // noop
+    }
+
+    @Override
+    protected void delete() {
+        // noop
     }
 
     @Override
@@ -80,7 +87,7 @@ public class TermsListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void initRecyclerView() {
+    protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new TermAdapter();
@@ -94,7 +101,7 @@ public class TermsListActivity extends AppCompatActivity {
         initSwipeDelete();
     }
 
-    private void initViewModel() {
+    protected void initViewModel() {
         ViewModelProvider.Factory factory =
                 new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
@@ -102,36 +109,30 @@ public class TermsListActivity extends AppCompatActivity {
             mAdapter.submitList(terms);
         });
         mViewModel.getAllTermCus().observe(TermsListActivity.this, termCus -> {
-          mAdapter.setTotalCus(termCus);
+            mAdapter.setTotalCus(termCus);
         });
     }
 
 
-    private void initSwipeDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
+        String termTitle = term.getTitle();
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                TermEntity term = mAdapter.getTermAt(viewHolder.getAdapterPosition());
-                String termTitle = term.getTitle();
-
-                mViewModel.validateDeleteTerm(term,
-                    () -> { // success
-                        mViewModel.deleteTerm(term);
-                        String text = termTitle + " Deleted";
-                        StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_message).show();
-                    }, () -> { // failure
-                        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                            String text = termTitle + " can't be deleted because it has courses associated with it";
-                            StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_validation_failure).show();
-                    });
-            }
-        }).attachToRecyclerView(mRecyclerView);
+        mViewModel.validateDeleteTerm(term,
+                () -> { // success
+                    mViewModel.deleteTerm(term);
+                    String text = termTitle + " Deleted";
+                    StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_message).show();
+                }, () -> { // failure
+                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    String text = termTitle + " can't be deleted because it has courses associated with it";
+                    StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_validation_failure).show();
+                });
     }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 }

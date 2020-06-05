@@ -29,7 +29,7 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.CourseAdapter;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class TermEditorActivity extends AbstractEditorActivity {
+public class TermEditorActivity extends AbstractActivity {
 
     private TermEditorViewModel mViewModel;
 

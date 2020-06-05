@@ -12,9 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.muddzdev.styleabletoast.StyleableToast;
-
-public abstract class AbstractEditorActivity extends AppCompatActivity {
+public abstract class AbstractActivity extends AppCompatActivity {
 
     protected boolean mNew;
     protected boolean mEditing;
@@ -45,7 +43,9 @@ public abstract class AbstractEditorActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem delete = menu.findItem(getDeleteMenuItem());
-        delete.setVisible(!mNew);
+        if (delete != null) {
+            delete.setVisible(!mNew);
+        }
         return true;
     }
 
@@ -70,9 +70,10 @@ public abstract class AbstractEditorActivity extends AppCompatActivity {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-               handleSwipeDelete(viewHolder);
+                handleSwipeDelete(viewHolder);
             }
         }).attachToRecyclerView(getRecyclerView());
     }

@@ -16,7 +16,7 @@ import edu.wgu.grimes.c196pa.viewmodels.NoteEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
-public class NoteEditorActivity extends AbstractEditorActivity {
+public class NoteEditorActivity extends AbstractActivity {
 
     private NoteEditorViewModel mViewModel;
 

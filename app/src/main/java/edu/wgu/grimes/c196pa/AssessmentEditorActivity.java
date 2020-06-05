@@ -25,7 +25,7 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.ASSESSMENT_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class AssessmentEditorActivity extends AbstractEditorActivity {
+public class AssessmentEditorActivity extends AbstractActivity {
 
     AssessmentEditorViewModel mViewModel;
 

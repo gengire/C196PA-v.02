@@ -16,7 +16,7 @@ import edu.wgu.grimes.c196pa.viewmodels.MentorEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
-public class MentorEditorActivity extends AbstractEditorActivity {
+public class MentorEditorActivity extends AbstractActivity {
 
     private MentorEditorViewModel mViewModel;
 
