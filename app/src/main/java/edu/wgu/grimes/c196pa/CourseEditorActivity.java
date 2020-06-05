@@ -194,9 +194,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 mAdapter.submitList(assessments);
             });
         }
-
-
-
     }
 
     protected void save() {
@@ -232,24 +229,18 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 });
     }
 
-    private void initSwipeDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
+        String courseTitle = assessment.getTitle();
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
-                String courseTitle = assessment.getTitle();
-
-                mViewModel.deleteAssessment(assessment);
-                String text = courseTitle + " Deleted";
-                StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
-            }
-        }).attachToRecyclerView(mRecyclerView);
+        mViewModel.deleteAssessment(assessment);
+        String text = courseTitle + " Deleted";
+        StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
     }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 }

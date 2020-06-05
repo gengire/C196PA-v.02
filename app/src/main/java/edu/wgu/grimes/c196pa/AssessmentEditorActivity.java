@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -139,5 +140,13 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         finish();
     }
 
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        // noop
+    }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return null; // noop
+    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -114,5 +115,15 @@ public class MentorEditorActivity extends AbstractEditorActivity {
             mId = extras.getInt(MENTOR_ID_KEY);
             mViewModel.loadMentor(mId);
         }
+    }
+
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        // noop
+    }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return null; // noop
     }
 }

@@ -9,6 +9,10 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.muddzdev.styleabletoast.StyleableToast;
 
 public abstract class AbstractEditorActivity extends AppCompatActivity {
 
@@ -59,6 +63,20 @@ public abstract class AbstractEditorActivity extends AppCompatActivity {
         }
     }
 
+    public void initSwipeDelete() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+               handleSwipeDelete(viewHolder);
+            }
+        }).attachToRecyclerView(getRecyclerView());
+    }
+
     protected abstract int getContentView();
 
     protected abstract void initButterKnife();
@@ -76,5 +94,9 @@ public abstract class AbstractEditorActivity extends AppCompatActivity {
     protected abstract void save();
 
     protected abstract void delete();
+
+    protected abstract RecyclerView getRecyclerView();
+
+    protected abstract void handleSwipeDelete(RecyclerView.ViewHolder viewHolder);
 }
 

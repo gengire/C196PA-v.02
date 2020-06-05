@@ -2,15 +2,12 @@ package edu.wgu.grimes.c196pa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -183,42 +180,36 @@ public class TermEditorActivity extends AbstractEditorActivity {
         TermEntity term = mViewModel.mLiveData.getValue();
         String termTitle = term.getTitle();
         mViewModel.validateDeleteTerm(term,
-            () -> { // success
-                mViewModel.deleteTerm();
-                String text = termTitle + " Deleted";
-                StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
-                finish();
-            }, () -> { // failure
-                String text = termTitle + " can't be deleted because it has courses associated with it";
-                StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
-            });
+                () -> { // success
+                    mViewModel.deleteTerm();
+                    String text = termTitle + " Deleted";
+                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                    finish();
+                }, () -> { // failure
+                    String text = termTitle + " can't be deleted because it has courses associated with it";
+                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+                });
     }
 
-    private void initSwipeDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
-                String courseTitle = course.getTitle();
-
-                mViewModel.validateDeleteCourse(course,
-                        () -> { // success
-                            mViewModel.deleteCourse(course);
-                            String text = courseTitle + " Deleted";
-                            StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
-                        }, () -> { // failure
-                            mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                            String text = courseTitle + " can't be deleted because it has courses associated with it";
-                            StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
-                        });
-            }
-        }).attachToRecyclerView(mRecyclerView);
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
+        String courseTitle = course.getTitle();
+
+        mViewModel.validateDeleteCourse(course,
+                () -> { // success
+                    mViewModel.deleteCourse(course);
+                    String text = courseTitle + " Deleted";
+                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                }, () -> { // failure
+                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    String text = courseTitle + " can't be deleted because it has courses associated with it";
+                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+                });
+    }
 }
