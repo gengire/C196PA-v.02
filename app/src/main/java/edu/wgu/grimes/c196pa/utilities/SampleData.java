@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
@@ -14,13 +15,13 @@ public class SampleData {
 
     public static List<TermEntity> getSampleTerms() {
         List<TermEntity> list = new ArrayList<>();
-        list.add(new TermEntity(1, "Term 1",
+        list.add(new TermEntity(1, "Fall 2018",
                 getDate("October 1, 2018"), getDate("March 31, 2019")));
-        list.add(new TermEntity(2, "Term 2",
+        list.add(new TermEntity(2, "Spring 2019",
                 getDate("April 1, 2019"), getDate("September 30, 2019")));
         list.add(new TermEntity(3, "Term 3",
                 getDate("October 1, 2019"), getDate("March 31, 2020")));
-        list.add(new TermEntity(4, "Term 4",
+        list.add(new TermEntity(4, "Spring Term 2020",
                 getDate("April 1, 2020"), getDate("September 30, 2020")));
         list.add(new TermEntity("Term 5",
                 getDate("October 1, 2020"), getDate("March 31, 2021")));
@@ -140,9 +141,14 @@ public class SampleData {
 
     public static List<NoteEntity> getSampleCourseNotes() {
         List<NoteEntity> list = new ArrayList<>();
-        list.add(new NoteEntity(1, 1, "This is my first course note title", "This is my first course note description"));
-        list.add(new NoteEntity(2, 1, "This is my second course note title", "This is my second course note description"));
-        list.add(new NoteEntity(3, 1, "This is my third course note title", "This is my third course note description"));
+        list.add(new NoteEntity(1, 1, "This is my first course note title",
+                "This is my first course note description"));
+        list.add(new NoteEntity(2, 1, "This is my second course note title",
+                "This is my second course note description"));
+        list.add(new NoteEntity(3, 1, "This is my third course note title",
+                "This is my third course note description"));
+        list.add(new NoteEntity(5, 24, "Mobile apps is pretty awesome",
+                "I mean, I'm learning a ton and it's quite fun."));
         return list;
     }
 
@@ -229,6 +235,59 @@ public class SampleData {
         list.add(new AssessmentEntity(27, 25,
                 "Performance", "Software Development Capstone - EZP1",
                 "Pending", null));
+        return list;
+    }
+
+    public static List<MentorEntity> getSampleMentors() {
+        List<MentorEntity> list = new ArrayList<>();
+        list.add(new MentorEntity(1, "Course Instructor Group", "",
+                "", "cmitfund1@wgu.edu"));
+        list.add(new MentorEntity(2, "Course Instructor Group", "",
+                "", "cmweb@wgu.edu"));
+        list.add(new MentorEntity(3, "Course Instructor Group", "",
+                "", "orientation@wgu.edu"));
+        list.add(new MentorEntity(4, "Course Instructor Group", "",
+                "", "cmweb@wgu.edu"));
+        list.add(new MentorEntity(5, "Course Instructor Group", "",
+                "", "humanities@wgu.egu"));
+        list.add(new MentorEntity(6, "Student Services", "",
+                "(877) 435-7948", "studentservices@wgu.edu"));
+        list.add(new MentorEntity(7, "Course Instructor Group", "",
+                "", "cmsoftware@wgu.edu"));
+        list.add(new MentorEntity(8, "Course Instructor Group", "",
+                "", "cmsoftware@wgu.edu"));
+        list.add(new MentorEntity(9, "Course Instructor Group", "",
+                "", "cmdatabase@wgu.edu"));
+        list.add(new MentorEntity(10, "Course Instructor Group", "",
+                "", "cmdatabase@wgu.edu"));
+        list.add(new MentorEntity(11, "Course Instructor Group", "",
+                "", "cmweb@wgu.edu"));
+        list.add(new MentorEntity(12, "Course Instructor Group", "",
+                "", "ciitnetworking@wgu.edu"));
+        list.add(new MentorEntity(13, "Course Instructor Group", "",
+                "", "cmitbusiness@wgu.edu"));
+        list.add(new MentorEntity(14, "Course Instructor Group", "",
+                "", "cmitfund1@wgu.edu"));
+        list.add(new MentorEntity(15, "Course Instructor Group", "",
+                "", "cmcomputerscience@wgu.edu"));
+        list.add(new MentorEntity(16, "Course Instructor Group", "",
+                "", "cmsoftware@wgu.edu"));
+        list.add(new MentorEntity(17, "Course Instructor Group", "",
+                "", "cmprogramming@wgu.edu"));
+        list.add(new MentorEntity(18, "Course Instructor Group", "",
+                "", "cmitfund1@wgu.edu"));
+        list.add(new MentorEntity(19, "Course Instructor Group", "",
+                "", "cmitbusiness@wgu.edu"));
+        list.add(new MentorEntity(20, "Course Instructor Group", "",
+                "", "cmweb@wgu.edu"));
+        list.add(new MentorEntity(21, "Course Instructor Group", "",
+                "", "orgleadership@wgu.edu"));
+        list.add(new MentorEntity(22, "Course Instructor Group", "",
+                "", "cmweb@wgu.edu"));
+        list.add(new MentorEntity(23, "Course Instructor Group", "",
+                "", "cmcomputerscience@wgu.edu"));
+        list.add(new MentorEntity(24, "Alvaro", "Escobar",
+                "(385) 428-8835", "alvaro.escobar@wgu.edu"));
         return list;
     }
 }

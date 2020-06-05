@@ -9,14 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MentorEditorActivity"
-            android:label="@string/title_activity_mentor_editor"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".MentorsListActivity"
-            android:label="@string/title_activity_mentors_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -61,6 +54,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AssessmentEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".CourseEditorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MentorEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MentorsListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MentorsListActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".CourseEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />

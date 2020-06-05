@@ -143,6 +143,7 @@ public class AppRepository {
             courseDao.saveAll(SampleData.getSampleCourses());
             assessmentDao.saveAll(SampleData.getSampleAssessments());
             noteDao.saveAll(SampleData.getSampleCourseNotes());
+            mentorDao.saveAll(SampleData.getSampleMentors());
         });
     }
 

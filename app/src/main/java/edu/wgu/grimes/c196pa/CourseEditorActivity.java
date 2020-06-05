@@ -105,6 +105,13 @@ public class CourseEditorActivity extends AbstractActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_course_mentors)
+    void courseMentorsClickHandler() {
+        Intent intent = new Intent(CourseEditorActivity.this, MentorsListActivity.class);
+        intent.putExtra(Constants.COURSE_ID_KEY, mId);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.text_view_course_editor_start_date_value)
     void startDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);

@@ -101,10 +101,10 @@ public class MentorEditorActivity extends AbstractActivity {
         mParentId = extras.getInt(COURSE_ID_KEY);
 
         if (extras.getInt(MENTOR_ID_KEY) == 0) {
-            setTitle("New Note");
+            setTitle("New Course Mentor");
             mNew = true;
         } else {
-            setTitle("Edit Note");
+            setTitle("Edit Course Mentor");
             mId = extras.getInt(MENTOR_ID_KEY);
             mViewModel.loadMentor(mId);
         }

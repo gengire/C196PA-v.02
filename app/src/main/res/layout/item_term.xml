@@ -2,10 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    >
+    android:layout_marginEnd="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,45 +13,49 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            android:layout_width="wrap_content"
+            android:layout_width="100sp"
             android:layout_height="wrap_content"
-            android:text="Term 1"
-            android:maxWidth="100dp"
             android:layout_centerVertical="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_marginEnd="25dp"
+            android:maxWidth="100dp"
             android:singleLine="true"
-            />
+            android:text="Sprint Term"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/text_view_title"
             android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_date_range"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="99/99/9999 - 99/99/9999"
-            />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <TextView
-            android:id="@+id/text_view_competency_units"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_view_date_range"
-            android:text="Total CUs:"/>
-        <TextView
-            android:id="@+id/text_view_competency_units_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@id/text_view_date_range"
-            android:text="99"/>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/text_view_date_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="99/99/9999 - 99/99/9999" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_view_competency_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_date_range"
+                    android:text="Total CUs:" />
+
+                <TextView
+                    android:id="@+id/text_view_competency_units_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_date_range"
+                    android:layout_marginLeft="5dp"
+                    android:text="99" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

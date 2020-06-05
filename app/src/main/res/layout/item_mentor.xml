@@ -19,8 +19,12 @@
             android:id="@+id/text_view_mentor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/text_view_mentor_email"
+            android:layout_alignParentStart="true"
             android:text="Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/text_view_mentor_phone"

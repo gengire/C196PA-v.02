@@ -186,13 +186,34 @@
         android:layout_below="@id/layout_course_editor_end_date"
         tools:listitem="@layout/item_assessment" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recycler_view_course_editor_assessment_list"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        >
+
     <Button
         android:id="@+id/btn_course_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@id/recycler_view_course_editor_assessment_list"
-        android:text="Course Notes" />
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        android:text="Course Notes"
+        />
+
+    <Button
+        android:id="@+id/btn_course_mentors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="Course Mentors"
+        />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -91,10 +91,10 @@ public class NoteEditorActivity extends AbstractActivity {
         mParentId = extras.getInt(COURSE_ID_KEY);
 
         if (extras.getInt(NOTE_ID_KEY) == 0) {
-            setTitle("New Note");
+            setTitle("New Course Note");
             mNew = true;
         } else {
-            setTitle("Edit Note");
+            setTitle("Edit Course Note");
             mId = extras.getInt(NOTE_ID_KEY);
             mViewModel.loadNote(mId);
         }
