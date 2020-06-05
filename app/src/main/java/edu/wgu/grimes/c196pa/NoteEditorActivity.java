@@ -18,13 +18,11 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
 public class NoteEditorActivity extends AbstractActivity {
 
-    private NoteEditorViewModel mViewModel;
-
     @BindView(R.id.edit_text_note_editor_title)
     EditText mTitle;
-
     @BindView(R.id.edit_text_note_editor_description)
     EditText mDescription;
+    private NoteEditorViewModel mViewModel;
 
     @Override
     protected int getContentView() {

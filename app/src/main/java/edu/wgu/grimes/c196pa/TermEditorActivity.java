@@ -31,23 +31,17 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class TermEditorActivity extends AbstractActivity {
 
-    private TermEditorViewModel mViewModel;
-
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;
-
     @BindView(R.id.text_view_term_editor_start_date_value)
     TextView mStartDate;
-
     @BindView(R.id.text_view_term_editor_end_date_value)
     TextView mEndDate;
-
     @BindView(R.id.recycler_view_term_editor_course_list)
     RecyclerView mRecyclerView;
-
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
-
+    private TermEditorViewModel mViewModel;
     private boolean mNew;
     private boolean mEditing;
     private int mId;

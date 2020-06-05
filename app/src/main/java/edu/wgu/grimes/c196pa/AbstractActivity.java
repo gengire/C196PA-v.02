@@ -43,7 +43,9 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(getMenu(), menu);
+        if (getMenu() != 0) {
+            inflater.inflate(getMenu(), menu);
+        }
         return true;
     }
 

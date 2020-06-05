@@ -21,14 +21,12 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.TermAdapter;
 
 public class TermsListActivity extends AbstractListActivity {
 
-    private TermsListViewModel mViewModel;
-    private TermAdapter mAdapter;
-
     @BindView(R.id.recycler_view_terms_list)
     RecyclerView mRecyclerView;
-
     @BindView(R.id.fab_add_term)
     FloatingActionButton fabAddTerm;
+    private TermsListViewModel mViewModel;
+    private TermAdapter mAdapter;
 
     @Override
     protected int getContentView() {

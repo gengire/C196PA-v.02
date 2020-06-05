@@ -16,12 +16,6 @@ import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 
 public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewHolder> {
 
-    private OnItemClickListener listener;
-
-    public MentorAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<MentorEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<MentorEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull MentorEntity oldItem, @NonNull MentorEntity newItem) {
@@ -38,6 +32,11 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
             return sameCourse && sameFirstName && sameLastName && samePhone && sameEmail;
         }
     };
+    private OnItemClickListener listener;
+
+    public MentorAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -55,7 +54,17 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
         holder.textViewEmail.setText(currentMentor.getEmail());
     }
 
-    public MentorEntity getMentorAt(int position) { return getItem(position); }
+    public MentorEntity getMentorAt(int position) {
+        return getItem(position);
+    }
+
+    public void setOnItemClickListener(MentorAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(MentorEntity note);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewName;
@@ -69,18 +78,11 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
             textViewEmail = itemView.findViewById(R.id.text_view_mentor_email);
 
             itemView.setOnClickListener(view -> {
-               int position = getAdapterPosition();
-               if (listener != null && position != RecyclerView.NO_POSITION) {
-                   listener.onItemClick(getItem(position));
-               }
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(position));
+                }
             });
         }
-    }
-    public interface OnItemClickListener {
-        void onItemClick(MentorEntity note);
-    }
-
-    public void setOnItemClickListener(MentorAdapter.OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

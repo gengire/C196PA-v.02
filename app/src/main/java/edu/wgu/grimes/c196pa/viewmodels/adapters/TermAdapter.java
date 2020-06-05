@@ -24,14 +24,6 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder> {
 
-    private OnItemClickListener listener;
-
-    public TermAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
-    Map<Integer, Integer> termCus = new HashMap<>();
-
     private static final DiffUtil.ItemCallback<TermEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<TermEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
@@ -52,6 +44,12 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
             return sameTitle && sameStartDate && sameEndDate;
         }
     };
+    Map<Integer, Integer> termCus = new HashMap<>();
+    private OnItemClickListener listener;
+
+    public TermAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -89,6 +87,14 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         }
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(TermEntity term);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewDateRange;
@@ -107,13 +113,5 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(TermEntity term);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

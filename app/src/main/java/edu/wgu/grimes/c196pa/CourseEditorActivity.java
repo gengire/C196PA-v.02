@@ -35,39 +35,28 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class CourseEditorActivity extends AbstractActivity {
 
-    private CourseEditorViewModel mViewModel;
-
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
-
     @BindView(R.id.edit_text_course_editor_code)
     EditText mCode;
-
     @BindView(R.id.spinner_course_editor_cus)
     Spinner mCompetencyUnits;
-
     @BindView(R.id.spinner_course_editor_status)
     Spinner mStatus;
-
     @BindView(R.id.text_view_course_editor_start_date_value)
     TextView mStartDate;
-
     @BindView(R.id.text_view_course_editor_end_date_value)
     TextView mEndDate;
-
     @BindView(R.id.recycler_view_course_editor_assessment_list)
     RecyclerView mRecyclerView;
-
     @BindView(R.id.fab_add_assessment)
     FloatingActionButton mFab;
-
     @BindView(R.id.btn_course_notes)
     Button mCourseNotes;
-
+    AssessmentAdapter mAdapter;
+    private CourseEditorViewModel mViewModel;
     private Date startDate;
     private Date endDate;
-
-    AssessmentAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,9 +140,9 @@ public class CourseEditorActivity extends AbstractActivity {
                 if (!mEditing) {
                     mTitle.setText(course.getTitle());
                     mCode.setText(course.getCode());
-                    mCompetencyUnits.setSelection(((ArrayAdapter)mCompetencyUnits.getAdapter())
+                    mCompetencyUnits.setSelection(((ArrayAdapter) mCompetencyUnits.getAdapter())
                             .getPosition(String.valueOf(course.getCompetencyUnits())));
-                    mStatus.setSelection(((ArrayAdapter)mStatus.getAdapter())
+                    mStatus.setSelection(((ArrayAdapter) mStatus.getAdapter())
                             .getPosition(course.getStatus()));
                 }
                 startDate = course.getStartDate();

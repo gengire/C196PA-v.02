@@ -18,20 +18,15 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
 public class MentorEditorActivity extends AbstractActivity {
 
-    private MentorEditorViewModel mViewModel;
-
     @BindView(R.id.edit_text_mentor_editor_first_name)
     EditText mFirstName;
-
     @BindView(R.id.edit_text_mentor_editor_last_name)
     EditText mLastName;
-
     @BindView(R.id.edit_text_mentor_editor_phone)
     EditText mPhone;
-
     @BindView(R.id.edit_text_mentor_editor_email)
     EditText mEmail;
-
+    private MentorEditorViewModel mViewModel;
 
     @Override
     protected int getContentView() {
@@ -70,7 +65,7 @@ public class MentorEditorActivity extends AbstractActivity {
             return;
         }
         mViewModel.saveMentor(courseId, firstName, lastName, phone, email);
-        StyleableToast.makeText(MentorEditorActivity.this,firstName + " " + lastName +" saved", R.style.toast_message).show();
+        StyleableToast.makeText(MentorEditorActivity.this, firstName + " " + lastName + " saved", R.style.toast_message).show();
         finish();
     }
 

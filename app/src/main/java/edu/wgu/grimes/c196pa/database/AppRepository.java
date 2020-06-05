@@ -25,24 +25,14 @@ import edu.wgu.grimes.c196pa.utilities.SampleData;
 public class AppRepository {
 
     private static AppRepository instance;
-
+    public LiveData<List<TermEntity>> mTerms;
+    Executor executor = Executors.newSingleThreadExecutor();
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
     private NoteDao noteDao;
     private MentorDao mentorDao;
-
-    public LiveData<List<TermEntity>> mTerms;
-
     private AppDatabase mDb;
-    Executor executor = Executors.newSingleThreadExecutor();
-
-    public static AppRepository getInstance(Context context) {
-        if (instance == null) {
-            instance = new AppRepository(context);
-        }
-        return instance;
-    }
 
     public AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
@@ -52,6 +42,13 @@ public class AppRepository {
         noteDao = mDb.noteDao();
         mentorDao = mDb.mentorDao();
         mTerms = termDao.getAllTerms();
+    }
+
+    public static AppRepository getInstance(Context context) {
+        if (instance == null) {
+            instance = new AppRepository(context);
+        }
+        return instance;
     }
 
     public void saveTerm(TermEntity term) {
@@ -68,10 +65,10 @@ public class AppRepository {
 
     public void deleteCourse(CourseEntity course) {
         executor.execute(() -> {
-                courseDao.delete(course);
-                noteDao.deleteNotesForCourse(course.getId());
-                assessmentDao.deleteAssessmentsForCourse(course.getId());
-            });
+            courseDao.delete(course);
+            noteDao.deleteNotesForCourse(course.getId());
+            assessmentDao.deleteAssessmentsForCourse(course.getId());
+        });
     }
 
     public void saveNote(NoteEntity note) {
@@ -90,14 +87,19 @@ public class AppRepository {
         executor.execute(() -> assessmentDao.delete(assessment));
     }
 
-    public void saveMentor(MentorEntity mentor) { executor.execute(() -> mentorDao.save(mentor)); }
+    public void saveMentor(MentorEntity mentor) {
+        executor.execute(() -> mentorDao.save(mentor));
+    }
 
-    public void deleteMentor(MentorEntity mentor) { executor.execute(() -> mentorDao.delete(mentor)); }
+    public void deleteMentor(MentorEntity mentor) {
+        executor.execute(() -> mentorDao.delete(mentor));
+    }
 
     public void deleteAllData() {
         executor.execute(() -> {
-            assessmentDao.deleteAll();
+            mentorDao.deleteAll();
             noteDao.deleteAll();
+            assessmentDao.deleteAll();
             courseDao.deleteAll();
             termDao.deleteAll();
         });

@@ -17,14 +17,6 @@ import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 
 public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewHolder> {
 
-    private OnItemClickListener listener;
-    private static int TYPE_COMPLETE = 1;
-    private static int TYPE_NOT_COMPLETE = 2;
-
-    public CourseAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<CourseEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<CourseEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull CourseEntity oldItem, @NonNull CourseEntity newItem) {
@@ -40,9 +32,16 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
             boolean sameStatus = oldItem.getStatus().equals(newItem.getStatus());
             boolean sameStartDate = sameDate(oldItem.getStartDate(), newItem.getStartDate());
             boolean sameEndDate = sameDate(oldItem.getEndDate(), newItem.getEndDate());
-            return sameTitle && sameCode && sameCus && sameTermId  && sameStatus && sameStartDate && sameEndDate;
+            return sameTitle && sameCode && sameCus && sameTermId && sameStatus && sameStartDate && sameEndDate;
         }
     };
+    private static int TYPE_COMPLETE = 1;
+    private static int TYPE_NOT_COMPLETE = 2;
+    private OnItemClickListener listener;
+
+    public CourseAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -59,7 +58,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
         View view;
         if (viewType == TYPE_COMPLETE) {
             view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_course_completed, parent, false);
+                    .inflate(R.layout.item_course_completed, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_course_not_completed, parent, false);
@@ -82,6 +81,14 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
         return getItem(position);
     }
 
+    public void setOnItemClickListener(CourseAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(CourseEntity course);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewCuAmount;
         private TextView textViewTitle;
@@ -100,13 +107,5 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(CourseEntity course);
-    }
-
-    public void setOnItemClickListener(CourseAdapter.OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

@@ -27,11 +27,11 @@ public class SplashActivity extends AppCompatActivity {
                 )
                 .withAfterLogoText(
                         "\n" +
-                        "Chris Grimes\n" +
-                        "Student ID: 000981634\n" +
-                        "Software Development (Oct 1, 2018)\n" +
-                        "JoAnne McDermand\n" +
-                        "cgrim29@wgu.edu")
+                                "Chris Grimes\n" +
+                                "Student ID: 000981634\n" +
+                                "Software Development (Oct 1, 2018)\n" +
+                                "JoAnne McDermand\n" +
+                                "cgrim29@wgu.edu")
                 .withLogo(R.mipmap.ic_launcher_round);
 
         TextView beforeLogo = conf.getBeforeLogoTextView();

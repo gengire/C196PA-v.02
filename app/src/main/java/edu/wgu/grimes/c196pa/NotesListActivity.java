@@ -23,11 +23,10 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
 public class NotesListActivity extends AbstractListActivity {
 
-    private NotesListViewModel mViewModel;
-    private int mCourseId;
-
     @BindView(R.id.recycler_view_notes_list)
     RecyclerView mRecyclerView;
+    private NotesListViewModel mViewModel;
+    private int mCourseId;
     private NoteAdapter mAdapter;
 
     @Override
@@ -78,7 +77,7 @@ public class NotesListActivity extends AbstractListActivity {
         mCourseId = extras.getInt(COURSE_ID_KEY);
         mViewModel.loadCoursesNotes(mCourseId);
         mViewModel.getCourseNotes().observe(this, notes -> {
-           mAdapter.submitList(notes);
+            mAdapter.submitList(notes);
 //           StyleableToast.makeText(NotesListActivity.this, "notes changed", R.style.toast_message).show();
         });
     }

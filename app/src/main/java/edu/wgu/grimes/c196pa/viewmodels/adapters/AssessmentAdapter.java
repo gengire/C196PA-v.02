@@ -20,17 +20,12 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentAdapter.ViewHolder> {
 
-    private AssessmentAdapter.OnItemClickListener listener;
-
-    public AssessmentAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<AssessmentEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<AssessmentEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull AssessmentEntity oldItem, @NonNull AssessmentEntity newItem) {
             return oldItem.getId() == newItem.getId();
         }
+
         @Override
         public boolean areContentsTheSame(@NonNull AssessmentEntity oldItem, @NonNull AssessmentEntity newItem) {
             boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
@@ -39,6 +34,11 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
             return sameTitle && sameCourseId && sameCompletionDate;
         }
     };
+    private AssessmentAdapter.OnItemClickListener listener;
+
+    public AssessmentAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -57,7 +57,17 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         holder.textViewCompletionDate.setText(completionDate);
     }
 
-    public AssessmentEntity getAssessmentAt(int position) { return getItem(position); }
+    public AssessmentEntity getAssessmentAt(int position) {
+        return getItem(position);
+    }
+
+    public void setOnItemClickListener(AssessmentAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(AssessmentEntity assessment);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
@@ -75,13 +85,5 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(AssessmentEntity assessment);
-    }
-
-    public void setOnItemClickListener(AssessmentAdapter.OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

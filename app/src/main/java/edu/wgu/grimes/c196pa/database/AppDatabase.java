@@ -24,12 +24,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
 
-    public abstract TermDao termDao();
-    public abstract CourseDao courseDao();
-    public abstract AssessmentDao assessmentDao();
-    public abstract NoteDao noteDao();
-    public abstract MentorDao mentorDao();
-
     // not the most performant, but thread safe.
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
@@ -40,5 +34,15 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    public abstract TermDao termDao();
+
+    public abstract CourseDao courseDao();
+
+    public abstract AssessmentDao assessmentDao();
+
+    public abstract NoteDao noteDao();
+
+    public abstract MentorDao mentorDao();
 
 }

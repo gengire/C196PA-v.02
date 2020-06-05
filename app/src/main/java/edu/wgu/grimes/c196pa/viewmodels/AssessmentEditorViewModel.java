@@ -4,13 +4,8 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;

@@ -16,28 +16,21 @@ import edu.wgu.grimes.c196pa.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel mViewModel;
-
     @BindView(R.id.text_view_courses_completed_value)
     TextView mCoursesCompleted;
-
     @BindView(R.id.text_view_courses_in_progress_value)
     TextView mCoursesInProgress;
-
     @BindView(R.id.text_view_courses_dropped_value)
     TextView mCoursesDropped;
-
     @BindView(R.id.text_view_courses_failed_value)
     TextView mCoursesFailed;
-
     @BindView(R.id.text_view_assessments_passed_value)
     TextView mAssessmentsPassed;
-
     @BindView(R.id.text_view_assessments_pending_value)
     TextView mAssessmentsPending;
-
     @BindView(R.id.text_view_assessments_failed_value)
     TextView mAssessmentsFailed;
+    private MainViewModel mViewModel;
 
     @OnClick(R.id.btn_terms_list)
     void termsClickHandler() {
@@ -84,22 +77,22 @@ public class MainActivity extends AppCompatActivity {
             mCoursesCompleted.setText(String.valueOf(courses));
         });
         mViewModel.mCoursesInProgress.observe(MainActivity.this, courses -> {
-           mCoursesInProgress.setText(String.valueOf(courses));
+            mCoursesInProgress.setText(String.valueOf(courses));
         });
         mViewModel.mCoursesDropped.observe(MainActivity.this, courses -> {
-           mCoursesDropped.setText(String.valueOf(courses));
+            mCoursesDropped.setText(String.valueOf(courses));
         });
         mViewModel.mCoursesFailed.observe(MainActivity.this, courses -> {
-           mCoursesFailed.setText(String.valueOf(courses));
+            mCoursesFailed.setText(String.valueOf(courses));
         });
         mViewModel.mAssessmentsPassed.observe(MainActivity.this, assessments -> {
-           mAssessmentsPassed.setText(String.valueOf(assessments));
+            mAssessmentsPassed.setText(String.valueOf(assessments));
         });
         mViewModel.mAssessmentsPending.observe(MainActivity.this, assessments -> {
-           mAssessmentsPending.setText(String.valueOf(assessments));
+            mAssessmentsPending.setText(String.valueOf(assessments));
         });
         mViewModel.mAssessmentsFailed.observe(MainActivity.this, assessments -> {
-           mAssessmentsFailed.setText(String.valueOf(assessments));
+            mAssessmentsFailed.setText(String.valueOf(assessments));
         });
 
     }

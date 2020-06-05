@@ -23,11 +23,10 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
 public class MentorsListActivity extends AbstractListActivity {
 
-    private MentorsListViewModel mViewModel;
-    private int mCourseId;
-
     @BindView(R.id.recycler_view_mentors_list)
     RecyclerView mRecyclerView;
+    private MentorsListViewModel mViewModel;
+    private int mCourseId;
     private MentorAdapter mAdapter;
 
     @Override

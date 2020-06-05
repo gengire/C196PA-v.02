@@ -16,12 +16,6 @@ import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 
 public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder> {
 
-    private OnItemClickListener listener;
-
-    public NoteAdapter() {
-        super(DIFF_CALLBACK);
-    }
-
     private static final DiffUtil.ItemCallback<NoteEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<NoteEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull NoteEntity oldItem, @NonNull NoteEntity newItem) {
@@ -36,6 +30,11 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
             return sameCourse && sameTitle && sameDesc;
         }
     };
+    private OnItemClickListener listener;
+
+    public NoteAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -52,7 +51,17 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
         holder.textViewDescription.setText(currentNote.getDescription());
     }
 
-    public NoteEntity getNoteAt(int position) { return getItem(position); }
+    public NoteEntity getNoteAt(int position) {
+        return getItem(position);
+    }
+
+    public void setOnItemClickListener(NoteAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(NoteEntity note);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
@@ -70,12 +79,5 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
                 }
             });
         }
-    }
-    public interface OnItemClickListener {
-        void onItemClick(NoteEntity note);
-    }
-
-    public void setOnItemClickListener(NoteAdapter.OnItemClickListener listener) {
-        this.listener = listener;
     }
 }
