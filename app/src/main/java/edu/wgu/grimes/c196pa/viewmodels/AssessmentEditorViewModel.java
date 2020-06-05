@@ -15,17 +15,12 @@ import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
-public class AssessmentEditorViewModel extends AndroidViewModel {
+public class AssessmentEditorViewModel extends BaseViewModel {
 
     public MutableLiveData<AssessmentEntity> mLiveAssessment = new MutableLiveData<>();
 
-    private AppRepository mRepository;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
-
     public AssessmentEditorViewModel(@NonNull Application application) {
         super(application);
-        mRepository = AppRepository.getInstance(getApplication());
     }
 
     public void loadAssessment(int assessmentId) {

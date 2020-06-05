@@ -4,36 +4,27 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
-import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
-import edu.wgu.grimes.c196pa.utilities.DeleteTermValidator;
-import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
+import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
+import edu.wgu.grimes.c196pa.utilities.DeleteTermValidator;
 import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
-public class TermEditorViewModel extends AndroidViewModel {
+public class TermEditorViewModel extends BaseViewModel {
 
     public MutableLiveData<TermEntity> mLiveData = new MutableLiveData<>();
 
     private LiveData<List<CourseEntity>> mCourses;
 
-    private AppRepository mRepository;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
-
     public TermEditorViewModel(@NonNull Application application) {
         super(application);
-        mRepository = AppRepository.getInstance(getApplication());
     }
 
     public void loadTerm(int termId) {

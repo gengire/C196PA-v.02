@@ -20,19 +20,14 @@ import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
-public class CourseEditorViewModel extends AndroidViewModel {
+public class CourseEditorViewModel extends BaseViewModel {
 
     public MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
 
     private LiveData<List<AssessmentEntity>> mAssessments;
 
-    private AppRepository mRepository;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
-
     public CourseEditorViewModel(@NonNull Application application) {
         super(application);
-        mRepository = AppRepository.getInstance(getApplication());
     }
 
     public void loadCourse(int courseId) {

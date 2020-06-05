@@ -4,26 +4,16 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 
-public class NoteEditorViewModel extends AndroidViewModel {
+public class NoteEditorViewModel extends BaseViewModel {
 
     public MutableLiveData<NoteEntity> mLiveNote = new MutableLiveData<>();
 
-    private AppRepository mRepository;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
-
     public NoteEditorViewModel(@NonNull Application application) {
         super(application);
-        mRepository = AppRepository.getInstance(getApplication());
     }
 
     public void loadNote(int noteId) {
