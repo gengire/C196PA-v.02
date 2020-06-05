@@ -77,21 +77,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void initViewModel() {
 
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
@@ -119,21 +104,6 @@ public class MainActivity extends AppCompatActivity {
            mAssessmentsFailed.setText(String.valueOf(assessments));
         });
 
-    }
-
-
-    private void populateStatistics() {
-
-        TextView assessmentsPending = findViewById(R.id.text_view_assessments_pending_value);
-        assessmentsPending.setText(mViewModel.getAssessmentsPending());
-
-        TextView assessmentsPassed = findViewById(R.id.text_view_assessments_passed_value);
-        assessmentsPassed.setText(mViewModel.getAssessmentsPassed());
-
-        TextView assessmentsFailed = findViewById(R.id.text_view_assessments_failed_value);
-        assessmentsFailed.setText(mViewModel.getAssessmentsFailed());
-
-        Toast.makeText(this, "Stats loaded", Toast.LENGTH_SHORT).show();
     }
 
 }

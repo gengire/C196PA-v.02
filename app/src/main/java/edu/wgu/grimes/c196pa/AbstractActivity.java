@@ -35,6 +35,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(getMenu(), menu);
         return true;
@@ -51,6 +52,9 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int itemId = item.getItemId();
         if (itemId == getSaveMenuItem()) {
             save();
