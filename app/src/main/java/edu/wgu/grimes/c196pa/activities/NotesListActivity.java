@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.NotesListViewModel;

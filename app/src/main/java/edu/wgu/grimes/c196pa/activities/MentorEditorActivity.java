@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -10,13 +10,14 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.viewmodels.MentorEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
-public class MentorEditorActivity extends AbstractActivity {
+public class MentorEditorActivity extends AbstractEditorActivity {
 
     @BindView(R.id.edit_text_mentor_editor_first_name)
     EditText mFirstName;
@@ -66,7 +67,7 @@ public class MentorEditorActivity extends AbstractActivity {
         }
         mViewModel.saveMentor(courseId, firstName, lastName, phone, email);
         StyleableToast.makeText(MentorEditorActivity.this, firstName + " " + lastName + " saved", R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     protected void delete() {
@@ -75,7 +76,7 @@ public class MentorEditorActivity extends AbstractActivity {
         mViewModel.deleteMentor();
         String text = mentorName + " Deleted";
         StyleableToast.makeText(MentorEditorActivity.this, text, R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     @Override

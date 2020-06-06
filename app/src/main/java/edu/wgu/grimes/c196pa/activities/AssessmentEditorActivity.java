@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -17,6 +17,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.AssessmentEditorViewModel;
@@ -25,7 +26,7 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.ASSESSMENT_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class AssessmentEditorActivity extends AbstractActivity {
+public class AssessmentEditorActivity extends AbstractEditorActivity {
 
     AssessmentEditorViewModel mViewModel;
 
@@ -126,7 +127,7 @@ public class AssessmentEditorActivity extends AbstractActivity {
         }
         mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate);
         StyleableToast.makeText(AssessmentEditorActivity.this, title + " saved", R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     protected void delete() {
@@ -135,7 +136,7 @@ public class AssessmentEditorActivity extends AbstractActivity {
         mViewModel.deleteAssessment();
         String text = title + " Deleted";
         StyleableToast.makeText(AssessmentEditorActivity.this, text, R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     @Override

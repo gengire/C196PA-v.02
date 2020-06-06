@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {

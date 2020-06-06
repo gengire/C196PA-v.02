@@ -1,6 +1,13 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
+
+import edu.wgu.grimes.c196pa.R;
 
 public abstract class AbstractListActivity extends AbstractActivity {
+
+    @Override
+    protected int getCloseMenuItem() {
+        return R.drawable.ic_arrow_back;
+    }
 
     @Override
     protected int getMenu() {

@@ -19,28 +19,34 @@ public class CourseEntity {
     private String code;
     private String title;
     private Date startDate;
+    private boolean startDateAlarm;
     private Date endDate; // anticipated
+    private boolean endDateAlarm;
     private String status;
 
     @Ignore
-    public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, Date endDate, String status) {
+    public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, boolean startDateAlarm, Date endDate, boolean endDateAlarm, String status) {
         this.termId = termId;
         this.competencyUnits = competencyUnits;
         this.code = code;
         this.title = title;
         this.startDate = startDate;
+        this.startDateAlarm = startDateAlarm;
         this.endDate = endDate;
+        this.endDateAlarm = endDateAlarm;
         this.status = status;
     }
 
-    public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, Date endDate, String status) {
+    public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, boolean startDateAlarm, Date endDate, boolean endDateAlarm, String status) {
         this.id = id;
         this.termId = termId;
         this.competencyUnits = competencyUnits;
         this.code = code;
         this.title = title;
         this.startDate = startDate;
+        this.startDateAlarm = startDateAlarm;
         this.endDate = endDate;
+        this.endDateAlarm = endDateAlarm;
         this.status = status;
     }
 
@@ -92,12 +98,28 @@ public class CourseEntity {
         this.startDate = startDate;
     }
 
+    public boolean isStartDateAlarm() {
+        return startDateAlarm;
+    }
+
+    public void setStartDateAlarm(boolean startDateAlarm) {
+        this.startDateAlarm = startDateAlarm;
+    }
+
     public Date getEndDate() {
         return endDate;
     }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isEndDateAlarm() {
+        return endDateAlarm;
+    }
+
+    public void setEndDateAlarm(boolean endDateAlarm) {
+        this.endDateAlarm = endDateAlarm;
     }
 
     public String getStatus() {
@@ -117,7 +139,9 @@ public class CourseEntity {
                 ", code='" + code + '\'' +
                 ", title='" + title + '\'' +
                 ", startDate=" + startDate +
+                ", startDateAlarm=" + startDateAlarm +
                 ", endDate=" + endDate +
+                ", endDateAlarm=" + endDateAlarm +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.wgu.grimes.c196pa.R;
 import gr.net.maroulis.library.EasySplashScreen;
 
 public class SplashActivity extends AppCompatActivity {

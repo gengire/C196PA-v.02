@@ -7,7 +7,7 @@
     android:layout_margin="16dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MentorEditorActivity">
+    tools:context=".activities.MentorEditorActivity">
 
     <EditText
         android:id="@+id/edit_text_mentor_editor_first_name"

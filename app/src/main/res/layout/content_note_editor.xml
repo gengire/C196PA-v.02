@@ -7,7 +7,7 @@
     android:layout_margin="16dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".NoteEditorActivity">
+    tools:context=".activities.NoteEditorActivity">
 
     <EditText
         android:id="@+id/edit_text_note_editor_title"

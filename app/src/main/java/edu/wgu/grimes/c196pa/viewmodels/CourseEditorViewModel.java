@@ -37,13 +37,13 @@ public class CourseEditorViewModel extends BaseViewModel {
         mAssessments = mRepository.getAssessmentsForCourse(courseId);
     }
 
-    public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, String endDate) {
+    public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, boolean startDateAlarm, String endDate, boolean endDateAlarm) {
         if (TextUtils.isEmpty(title)) {
             return; // no saving empty titles
         }
         CourseEntity course = mLiveCourse.getValue();
         if (course == null) {
-            course = new CourseEntity(Integer.valueOf(termId), Integer.valueOf(competencyUnits), code, title, getDate(startDate), getDate(endDate), status);
+            course = new CourseEntity(Integer.valueOf(termId), Integer.valueOf(competencyUnits), code, title, getDate(startDate), startDateAlarm, getDate(endDate), endDateAlarm, status);
         } else {
             course.setTermId(Integer.valueOf(termId));
             course.setCompetencyUnits(Integer.valueOf(competencyUnits));

@@ -1,5 +1,6 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import edu.wgu.grimes.c196pa.R;
 
 public abstract class AbstractActivity extends AppCompatActivity {
 
@@ -29,7 +32,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         setContentView(getContentView());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+        getSupportActionBar().setHomeAsUpIndicator(getCloseMenuItem());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -70,6 +73,9 @@ public abstract class AbstractActivity extends AppCompatActivity {
             return true;
         } else if (itemId == getDeleteMenuItem()) {
             alertDelete(() -> delete(), () -> onCancel()).show();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            closeActivity();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -112,6 +118,21 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }).attachToRecyclerView(getRecyclerView());
     }
 
+    protected void openActivity(Class clazz) {
+        Intent intent = new Intent(this, clazz);
+        openActivity(intent);
+    }
+
+    protected void openActivity(Intent intent) {
+        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    protected void closeActivity() {
+        finish();
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     protected abstract int getContentView();
 
     protected abstract void initButterKnife();
@@ -125,6 +146,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected abstract int getDeleteMenuItem();
 
     protected abstract int getSaveMenuItem();
+
+    protected abstract int getCloseMenuItem();
 
     protected abstract void save();
 

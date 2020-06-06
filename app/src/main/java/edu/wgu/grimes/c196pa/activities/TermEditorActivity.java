@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
@@ -29,7 +30,7 @@ import edu.wgu.grimes.c196pa.viewmodels.adapters.CourseAdapter;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class TermEditorActivity extends AbstractActivity {
+public class TermEditorActivity extends AbstractEditorActivity {
 
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;
@@ -165,7 +166,7 @@ public class TermEditorActivity extends AbstractActivity {
         }
         mViewModel.saveTerm(title, startDate, endDate);
         StyleableToast.makeText(TermEditorActivity.this, title + " saved", R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     protected void delete() {
@@ -176,7 +177,7 @@ public class TermEditorActivity extends AbstractActivity {
                     mViewModel.deleteTerm();
                     String text = termTitle + " Deleted";
                     StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
-                    finish();
+                    closeActivity();
                 }, () -> { // failure
                     String text = termTitle + " can't be deleted because it has courses associated with it";
                     StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();

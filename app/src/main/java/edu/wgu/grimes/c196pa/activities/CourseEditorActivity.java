@@ -1,5 +1,9 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,11 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.muddzdev.styleabletoast.StyleableToast;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.AlertReceiver;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
@@ -29,11 +38,14 @@ import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 import edu.wgu.grimes.c196pa.viewmodels.adapters.AssessmentAdapter;
 
+import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_1_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class CourseEditorActivity extends AbstractActivity {
+public class CourseEditorActivity extends AbstractEditorActivity {
+
+    private NotificationManagerCompat notificationManager;
 
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
@@ -53,21 +65,27 @@ public class CourseEditorActivity extends AbstractActivity {
     FloatingActionButton mFab;
     @BindView(R.id.btn_course_notes)
     Button mCourseNotes;
+
     AssessmentAdapter mAdapter;
     private CourseEditorViewModel mViewModel;
     private Date startDate;
+    private boolean startDateAlarm;
     private Date endDate;
+    private boolean endDateAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        notificationManager = NotificationManagerCompat.from(this);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
                 intent.putExtra(Constants.COURSE_ID_KEY, mId);
-                startActivity(intent);
+//                startActivity(intent);
+                openActivity(intent);
             }
         });
     }
@@ -102,14 +120,16 @@ public class CourseEditorActivity extends AbstractActivity {
     void courseNotesClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
-        startActivity(intent);
+//        startActivity(intent);
+        openActivity(intent);
     }
 
     @OnClick(R.id.btn_course_mentors)
     void courseMentorsClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, MentorsListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
-        startActivity(intent);
+//        startActivity(intent);
+        openActivity(intent);
     }
 
     @OnClick(R.id.text_view_course_editor_start_date_value)
@@ -124,6 +144,28 @@ public class CourseEditorActivity extends AbstractActivity {
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
+    @OnClick(R.id.image_view_course_start_date_alert)
+    void startDateAlertClickHandler() {
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        intent.putExtra(Constants.COURSE_ALARM_TITLE_ID_KEY, "alarm title");
+        intent.putExtra(Constants.COURSE_ALARM_MESSAGE_ID_KEY, "alarm message");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        if (startDateAlarm) {
+            alarmManager.cancel(pendingIntent);
+            startDateAlarm = false;
+            save(false);
+            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm cancelled", R.style.toast_message).show();
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.SECOND, 5);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+            startDateAlarm = true;
+            save(false);
+            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm set", R.style.toast_message).show();
+        }
+    }
+
     protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -133,7 +175,8 @@ public class CourseEditorActivity extends AbstractActivity {
             Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
             intent.putExtra(Constants.COURSE_ID_KEY, mId);
             intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
-            startActivity(intent);
+//            startActivity(intent);
+            openActivity(intent);
 //            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -153,7 +196,9 @@ public class CourseEditorActivity extends AbstractActivity {
                             .getPosition(course.getStatus()));
                 }
                 startDate = course.getStartDate();
+                startDateAlarm = course.isStartDateAlarm();
                 endDate = course.getEndDate();
+                endDateAlarm = course.isEndDateAlarm();
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
@@ -182,6 +227,10 @@ public class CourseEditorActivity extends AbstractActivity {
     }
 
     protected void save() {
+        save(true);
+    }
+
+    private void save(boolean finishActivity) {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
         String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
@@ -194,9 +243,11 @@ public class CourseEditorActivity extends AbstractActivity {
             StyleableToast.makeText(CourseEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
             return;
         }
-        mViewModel.saveCourse(title, code, termId, cus, status, startDate, endDate);
-        StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
-        finish();
+        mViewModel.saveCourse(title, code, termId, cus, status, startDate, startDateAlarm, endDate, endDateAlarm);
+        if (finishActivity) {
+            StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
+            closeActivity();
+        }
     }
 
     protected void delete() {
@@ -207,9 +258,9 @@ public class CourseEditorActivity extends AbstractActivity {
                     mViewModel.deleteCourse();
                     String text = title + " Deleted";
                     StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
-                    finish();
+                    closeActivity();
                 }, () -> { // failure
-                    String text = title + " can't be deleted because it has courses associated with it";
+                    String text = title + " can't be deleted because it has at least one course associated with it";
                     StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
                 });
     }

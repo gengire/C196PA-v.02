@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.view.MenuItem;
@@ -14,6 +14,7 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
@@ -61,8 +62,9 @@ public class TermsListActivity extends AbstractListActivity {
 
     @OnClick(R.id.fab_add_term)
     void addTermClickHandler() {
-        Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
+//        startActivity(intent);
+        openActivity(TermEditorActivity.class);
     }
 
     protected void initRecyclerView() {
@@ -73,7 +75,8 @@ public class TermsListActivity extends AbstractListActivity {
         mAdapter.setOnItemClickListener(term -> {
             Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
             intent.putExtra(Constants.TERM_ID_KEY, term.getId());
-            startActivity(intent);
+            openActivity(intent);
+//            startActivity(intent);
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();

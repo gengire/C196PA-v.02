@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -10,13 +10,14 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.viewmodels.NoteEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
-public class NoteEditorActivity extends AbstractActivity {
+public class NoteEditorActivity extends AbstractEditorActivity {
 
     @BindView(R.id.edit_text_note_editor_title)
     EditText mTitle;
@@ -60,7 +61,7 @@ public class NoteEditorActivity extends AbstractActivity {
         }
         mViewModel.saveNote(courseId, title, description);
         StyleableToast.makeText(NoteEditorActivity.this, title + " saved", R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     protected void delete() {
@@ -69,7 +70,7 @@ public class NoteEditorActivity extends AbstractActivity {
         mViewModel.deleteNote();
         String text = title + " Deleted";
         StyleableToast.makeText(NoteEditorActivity.this, text, R.style.toast_message).show();
-        finish();
+        closeActivity();
     }
 
     protected void initRecyclerView() {
