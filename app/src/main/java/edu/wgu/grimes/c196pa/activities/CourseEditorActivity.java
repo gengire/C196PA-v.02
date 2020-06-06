@@ -5,10 +5,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.sax.StartElementListener;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,6 +45,9 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class CourseEditorActivity extends AbstractEditorActivity {
 
+    public static final String TAG = "ceactivity";
+
+
     private NotificationManagerCompat notificationManager;
 
     @BindView(R.id.edit_text_course_editor_title)
@@ -62,6 +68,11 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     FloatingActionButton mFab;
     @BindView(R.id.btn_course_notes)
     Button mCourseNotes;
+
+    @BindView(R.id.image_view_course_start_date_alert)
+    ImageView imageViewStartDateAlert;
+    @BindView(R.id.image_view_course_end_date_alert)
+    ImageView imageViewEndDateAlert;
 
     AssessmentAdapter mAdapter;
     private CourseEditorViewModel mViewModel;
@@ -140,30 +151,43 @@ public class CourseEditorActivity extends AbstractEditorActivity {
 
     @OnClick(R.id.image_view_course_start_date_alert)
     void startDateAlertClickHandler() {
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra(Constants.COURSE_ALARM_TITLE_ID_KEY, "alarm title");
-        intent.putExtra(Constants.COURSE_ALARM_MESSAGE_ID_KEY, "alarm message");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-
-        Calendar now = Calendar.getInstance();
-        Date dNow = now.getTime();
-        boolean startDateIsBlankOrAlreadyPassed = startDateAlarm == null || dNow.after(startDateAlarm);
-
-        if (startDateIsBlankOrAlreadyPassed) {
-            now.add(Calendar.SECOND, 5);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), pendingIntent);
-            startDateAlarm = now.getTime();
-            save(false);
+        if (startDateAlarm == null) {
+            startDateAlarm = Calendar.getInstance().getTime();
             StyleableToast.makeText(CourseEditorActivity.this, "start date alarm set", R.style.toast_message).show();
         } else {
-            // cancel the alarm
-            alarmManager.cancel(pendingIntent);
             startDateAlarm = null;
-            save(false);
             StyleableToast.makeText(CourseEditorActivity.this, "start date alarm cancelled", R.style.toast_message).show();
         }
+        renderAlarm(startDateAlarm, START);
+    }
 
+    @OnClick(R.id.image_view_course_end_date_alert)
+    void endDateAlertClickHandler() {
+        if (endDateAlarm == null) {
+            endDateAlarm = Calendar.getInstance().getTime();
+            StyleableToast.makeText(CourseEditorActivity.this, "end date alarm set", R.style.toast_message).show();
+        } else {
+            endDateAlarm = null;
+            StyleableToast.makeText(CourseEditorActivity.this, "end date alarm cancelled", R.style.toast_message).show();
+        }
+        renderAlarm(endDateAlarm, END);
+    }
+
+    private static final int START = 1;
+    private static final int END = 2;
+
+    private void renderAlarm(Date date, int which) {
+        ImageView iv = which == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
+        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float x = which == 1 ? 1F : 1.2F;
+        float y = which == 1 ? 1F : 1.1F;
+        setAlarmActive(iv, dr, x, y);
+    }
+
+    private void setAlarmActive(ImageView imageView, int p, float scaleX, float scaleY) {
+        imageView.setImageResource(p);
+        imageView.setScaleX(scaleX);
+        imageView.setScaleY(scaleY);
     }
 
     protected void initRecyclerView() {
@@ -196,8 +220,11 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 }
                 startDate = course.getStartDate();
                 startDateAlarm = course.getStartDateAlarm();
+                Log.i(TAG, "initViewModel: start date alarm: " + startDateAlarm);
+                renderAlarm(startDateAlarm, START);
                 endDate = course.getEndDate();
                 endDateAlarm = course.getEndDateAlarm();
+                renderAlarm(endDateAlarm, END);
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
@@ -226,26 +253,44 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     }
 
     protected void save() {
-        save(true);
-    }
-
-    private void save(boolean finishActivity) {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
         String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
         String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mParentId);
         String startDate = mStartDate.getText().toString();
+        Date sdAlarm = startDateAlarm;
         String endDate = mEndDate.getText().toString();
+        Date edAlarm = endDateAlarm;
 
         if (title.trim().isEmpty()) {
             StyleableToast.makeText(CourseEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
             return;
         }
-        mViewModel.saveCourse(title, code, termId, cus, status, startDate, startDateAlarm, endDate, endDateAlarm);
-        if (finishActivity) {
-            StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
-            closeActivity();
+        Log.i(TAG, "save: start date alarm: " + sdAlarm);
+        mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
+        handleAlarms();
+
+        StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
+        closeActivity();
+    }
+
+    private void handleAlarms() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        intent.putExtra(Constants.COURSE_ALARM_TITLE_ID_KEY, "alarm title");
+        intent.putExtra(Constants.COURSE_ALARM_MESSAGE_ID_KEY, "alarm message");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        Calendar now = Calendar.getInstance();
+
+        Log.i(TAG, "handleAlarms: start date alarm: " + startDateAlarm);
+
+        if (startDateAlarm == null) {
+            alarmManager.cancel(pendingIntent);
+        } else {
+            now.add(Calendar.SECOND, 6);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), pendingIntent);
         }
     }
 

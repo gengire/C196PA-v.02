@@ -52,7 +52,9 @@ public class CourseEditorViewModel extends BaseViewModel {
             course.setCode(code);
             course.setStatus(status);
             course.setStartDate(getDate(startDate));
+            course.setStartDateAlarm(startDateAlarm);
             course.setEndDate(getDate(endDate));
+            course.setEndDateAlarm(endDateAlarm);
         }
         mRepository.saveCourse(course);
     }
