@@ -17,7 +17,7 @@ import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.NotesListViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.adapters.NoteAdapter;
+import edu.wgu.grimes.c196pa.adapters.NoteAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;

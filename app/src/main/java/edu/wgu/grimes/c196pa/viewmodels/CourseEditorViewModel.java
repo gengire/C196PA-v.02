@@ -12,8 +12,8 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
-import edu.wgu.grimes.c196pa.utilities.DeleteCourseValidator;
-import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
+import edu.wgu.grimes.c196pa.utilities.validation.DeleteCourseValidator;
+import edu.wgu.grimes.c196pa.utilities.validation.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 

@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa.viewmodels.adapters;
+package edu.wgu.grimes.c196pa.adapters;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;

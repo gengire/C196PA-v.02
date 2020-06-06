@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,14 +29,14 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196pa.AlertReceiver;
+import edu.wgu.grimes.c196pa.utilities.AlertReceiver;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.adapters.AssessmentAdapter;
+import edu.wgu.grimes.c196pa.adapters.AssessmentAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -179,8 +178,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     private void renderAlarm(Date date, int which) {
         ImageView iv = which == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
         int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
-        float x = which == 1 ? 1F : 1.2F;
-        float y = which == 1 ? 1F : 1.1F;
+        float x = date == null ? 1F : 1.2F;
+        float y = date == null ? 1F : 1.1F;
         setAlarmActive(iv, dr, x, y);
     }
 

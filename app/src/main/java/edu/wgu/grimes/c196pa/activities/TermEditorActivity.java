@@ -25,7 +25,7 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.adapters.CourseAdapter;
+import edu.wgu.grimes.c196pa.adapters.CourseAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;

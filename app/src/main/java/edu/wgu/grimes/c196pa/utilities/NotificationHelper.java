@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa;
+package edu.wgu.grimes.c196pa.utilities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +7,8 @@ import android.content.ContextWrapper;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
+
+import edu.wgu.grimes.c196pa.R;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_1_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_2_ID;

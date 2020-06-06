@@ -9,8 +9,8 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
-import edu.wgu.grimes.c196pa.utilities.DeleteTermValidator;
-import edu.wgu.grimes.c196pa.utilities.ValidationCallback;
+import edu.wgu.grimes.c196pa.utilities.validation.DeleteTermValidator;
+import edu.wgu.grimes.c196pa.utilities.validation.ValidationCallback;
 
 public class TermsListViewModel extends BaseViewModel {
 

@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196pa.utilities;
+package edu.wgu.grimes.c196pa.utilities.validation;
 
 import android.content.Context;
 import android.os.AsyncTask;
