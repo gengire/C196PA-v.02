@@ -70,7 +70,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
                 intent.putExtra(Constants.TERM_ID_KEY, mId);
-                startActivity(intent);
+                openActivity(intent);
             }
         });
     }
@@ -99,7 +99,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
             Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
             intent.putExtra(Constants.TERM_ID_KEY, mId);
             intent.putExtra(Constants.COURSE_ID_KEY, course.getId());
-            startActivity(intent);
+            openActivity(intent);
 //            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);

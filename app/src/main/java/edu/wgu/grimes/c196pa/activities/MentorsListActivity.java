@@ -51,7 +51,7 @@ public class MentorsListActivity extends AbstractListActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
                 intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-                startActivity(intent);
+                openActivity(intent);
             }
         });
     }
@@ -65,7 +65,7 @@ public class MentorsListActivity extends AbstractListActivity {
             Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
             intent.putExtra(MENTOR_ID_KEY, mentor.getId());
             intent.putExtra(COURSE_ID_KEY, mCourseId);
-            startActivity(intent);
+            openActivity(intent);
 //            StyleableToast.makeText(NotesListActivity.this, "note: " + note.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);

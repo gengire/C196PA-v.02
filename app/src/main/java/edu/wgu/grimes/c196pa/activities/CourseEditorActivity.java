@@ -84,7 +84,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
                 intent.putExtra(Constants.COURSE_ID_KEY, mId);
-//                startActivity(intent);
                 openActivity(intent);
             }
         });
@@ -120,7 +119,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     void courseNotesClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
-//        startActivity(intent);
         openActivity(intent);
     }
 
@@ -128,7 +126,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     void courseMentorsClickHandler() {
         Intent intent = new Intent(CourseEditorActivity.this, MentorsListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
-//        startActivity(intent);
         openActivity(intent);
     }
 
@@ -175,7 +172,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
             Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
             intent.putExtra(Constants.COURSE_ID_KEY, mId);
             intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
-//            startActivity(intent);
             openActivity(intent);
 //            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
         });

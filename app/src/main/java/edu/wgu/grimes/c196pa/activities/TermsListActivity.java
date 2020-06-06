@@ -62,8 +62,6 @@ public class TermsListActivity extends AbstractListActivity {
 
     @OnClick(R.id.fab_add_term)
     void addTermClickHandler() {
-//        Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
-//        startActivity(intent);
         openActivity(TermEditorActivity.class);
     }
 
@@ -76,7 +74,6 @@ public class TermsListActivity extends AbstractListActivity {
             Intent intent = new Intent(TermsListActivity.this, TermEditorActivity.class);
             intent.putExtra(Constants.TERM_ID_KEY, term.getId());
             openActivity(intent);
-//            startActivity(intent);
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
