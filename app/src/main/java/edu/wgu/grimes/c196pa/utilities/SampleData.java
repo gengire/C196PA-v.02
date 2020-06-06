@@ -38,104 +38,104 @@ public class SampleData {
         List<CourseEntity> list = new ArrayList<>();
         list.add(new CourseEntity(1, 1, 4, "C182",
                 "Introduction to IT",
-                getDate("October 10, 2018"), false,
-                getDate("October 8, 2018"), false,"Complete"));
+                getDate("October 10, 2018"), null,
+                getDate("October 8, 2018"), null,"Complete"));
         list.add(new CourseEntity(2, 1, 3, "C173",
                 "Scripting and Programming - Foundations",
-                getDate("October 8, 2018"), false,
-                getDate("October 10, 2018"), false, "Complete"));
+                getDate("October 8, 2018"), null,
+                getDate("October 10, 2018"), null, "Complete"));
         list.add(new CourseEntity(3, 1, 0, "ORA1",
                 "Orientation",
-                getDate("March 30, 2019"), false,
-                getDate("April 1, 2019"), false,"Complete"));
+                getDate("March 30, 2019"), null,
+                getDate("April 1, 2019"), null,"Complete"));
         list.add(new CourseEntity(4, 1, 3, "C779",
                 "Web Development Foundations",
-                getDate("November 11, 2018"), false,
-                getDate("November 13, 2018"), false,"Complete"));
+                getDate("November 11, 2018"), null,
+                getDate("November 13, 2018"), null,"Complete"));
         list.add(new CourseEntity(5, 1, 3, "C100",
                 "Introduction to Humanities",
-                getDate("October 30, 2018"), false,
-                getDate("December 30, 2018"), false,"Complete"));
+                getDate("October 30, 2018"), null,
+                getDate("December 30, 2018"), null,"Complete"));
         list.add(new CourseEntity(6, 1, 4, "C993",
                 "Structured Query Language",
-                getDate("January 14, 2019"),false,
-                getDate("January 30, 2019"), false,"Complete"));
+                getDate("January 14, 2019"),null,
+                getDate("January 30, 2019"), null,"Complete"));
         list.add(new CourseEntity(7, 1, 6, "C482",
                 "Software I",
-                getDate("February 11, 2019"), false,
-                getDate("February 13, 2019"), false,"Complete"));
+                getDate("February 11, 2019"), null,
+                getDate("February 13, 2019"), null,"Complete"));
         list.add(new CourseEntity(8, 1, 6, "C195",
                 "Software II - Advanced Java Concepts",
-                getDate("February 25, 2019"), false,
-                getDate("February 27, 2019"), false,"Complete"));
+                getDate("February 25, 2019"), null,
+                getDate("February 27, 2019"), null,"Complete"));
         list.add(new CourseEntity(9, 1, 3, "C175",
                 "Data Management - Foundations",
-                getDate("March 11, 2019"), false,
-                getDate("March 12, 2019"), false,"Complete"));
+                getDate("March 11, 2019"), null,
+                getDate("March 12, 2019"), null,"Complete"));
         list.add(new CourseEntity(10, 1, 4, "C170",
                 "Data Management - Applications",
-                getDate("March 16, 2019"), false,
-                getDate("March 18, 2019"), false,"Complete"));
+                getDate("March 16, 2019"), null,
+                getDate("March 18, 2019"), null,"Complete"));
         list.add(new CourseEntity(11, 2, 6, "C777",
                 "Web Development Applications",
-                getDate("April 1, 2019"), false,
-                getDate("April 4, 2019"), false,"Complete"));
+                getDate("April 1, 2019"), null,
+                getDate("April 4, 2019"), null,"Complete"));
         list.add(new CourseEntity(12, 2, 3, "C172",
                 "Network and Security - Foundations",
-                getDate("May 20, 2019"), false,
-                getDate("May 28, 2019"), false,"Complete"));
+                getDate("May 20, 2019"), null,
+                getDate("May 28, 2019"), null,"Complete"));
         list.add(new CourseEntity(13, 2, 4, "C176",
                 "Business of IT - Project Management",
-                getDate("June 19, 2019"), false,
-                getDate("June 25, 2019"), false,"Complete"));
+                getDate("June 19, 2019"), null,
+                getDate("June 25, 2019"), null,"Complete"));
         list.add(new CourseEntity(14, 2, 4, "C393",
                 "IT Foundations",
-                getDate("July 7, 2019"), false,
-                getDate("July 14, 2019"), false,"Complete"));
+                getDate("July 7, 2019"), null,
+                getDate("July 14, 2019"), null,"Complete"));
         list.add(new CourseEntity(15, 2, 3, "C857",
                 "Software Quality Assurance",
-                getDate("August 20, 2019"), false,
-                getDate("August 27, 2019"), false,"Complete"));
+                getDate("August 20, 2019"), null,
+                getDate("August 27, 2019"), null,"Complete"));
         list.add(new CourseEntity(16, 2, 4, "C188",
                 "Software Engineering",
-                getDate("September 19, 2019"), false,
-                getDate("September 26, 2019"), false,"Complete"));
+                getDate("September 19, 2019"), null,
+                getDate("September 26, 2019"), null,"Complete"));
         list.add(new CourseEntity(17, 3, 4, "C867",
                 "Scripting and Programming - Applications",
-                getDate("October 1, 2019"), false,
-                getDate("October 8, 2019"), false,"Complete"));
+                getDate("October 1, 2019"), null,
+                getDate("October 8, 2019"), null,"Complete"));
         list.add(new CourseEntity(18, 3, 4, "C394",
                 "IT Applications",
-                getDate("October 15, 2019"), false,
-                getDate("October 22, 2019"), false,"Complete"));
+                getDate("October 15, 2019"), null,
+                getDate("October 22, 2019"), null,"Complete"));
         list.add(new CourseEntity(19, 3, 4, "C846",
                 "Business of IT - Applications",
-                getDate("December 20, 2019"), false,
-                getDate("January 5, 2020"), false,"Complete"));
+                getDate("December 20, 2019"), null,
+                getDate("January 5, 2020"), null,"Complete"));
         list.add(new CourseEntity(20, 3, 4, "C773",
                 "User Interface Design",
-                getDate("January 7, 2020"), false,
-                getDate("January 12, 2020"), false,"Complete"));
+                getDate("January 7, 2020"), null,
+                getDate("January 12, 2020"), null,"Complete"));
         list.add(new CourseEntity(21, 3, 3, "C484",
                 "Organizational Behavior and Leadership",
-                getDate("January 26, 2020"), false,
-                getDate("February 4, 2020"), false,"Complete"));
+                getDate("January 26, 2020"), null,
+                getDate("February 4, 2020"), null,"Complete"));
         list.add(new CourseEntity(22, 3, 3, "C856",
                 "User Experience Design",
-                getDate("February 1, 2020"), false,
-                getDate("February 6, 2020"), false,"Complete"));
+                getDate("February 1, 2020"), null,
+                getDate("February 6, 2020"), null,"Complete"));
         list.add(new CourseEntity(23, 4, 3, "C191",
                 "Operating Systems for Programmers",
-                getDate("February 7, 2020"), false,
-                getDate("May 18, 2020"), false,"Complete"));
+                getDate("February 7, 2020"), null,
+                getDate("May 18, 2020"), null,"Complete"));
         list.add(new CourseEntity(24, 4, 3, "C196",
                 "Mobile Application Development",
-                getDate("May 19, 2020"), false,
-                getDate("June 15, 2020"), true,"In Progress"));
+                getDate("May 19, 2020"), null,
+                getDate("June 15, 2020"), getDate("Jun 15, 2020"),"In Progress"));
         list.add(new CourseEntity(25, 4, 4, "C868",
                 "Software Development Capstone",
-                null, false,
-                null, false,"Not Started"));
+                null, null,
+                null, null,"Not Started"));
         return list;
     }
 

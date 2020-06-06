@@ -19,13 +19,13 @@ public class CourseEntity {
     private String code;
     private String title;
     private Date startDate;
-    private boolean startDateAlarm;
+    private Date startDateAlarm;
     private Date endDate; // anticipated
-    private boolean endDateAlarm;
+    private Date endDateAlarm;
     private String status;
 
     @Ignore
-    public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, boolean startDateAlarm, Date endDate, boolean endDateAlarm, String status) {
+    public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, Date startDateAlarm, Date endDate, Date endDateAlarm, String status) {
         this.termId = termId;
         this.competencyUnits = competencyUnits;
         this.code = code;
@@ -37,7 +37,7 @@ public class CourseEntity {
         this.status = status;
     }
 
-    public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, boolean startDateAlarm, Date endDate, boolean endDateAlarm, String status) {
+    public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, Date startDateAlarm, Date endDate, Date endDateAlarm, String status) {
         this.id = id;
         this.termId = termId;
         this.competencyUnits = competencyUnits;
@@ -98,11 +98,11 @@ public class CourseEntity {
         this.startDate = startDate;
     }
 
-    public boolean isStartDateAlarm() {
+    public Date getStartDateAlarm() {
         return startDateAlarm;
     }
 
-    public void setStartDateAlarm(boolean startDateAlarm) {
+    public void setStartDateAlarm(Date startDateAlarm) {
         this.startDateAlarm = startDateAlarm;
     }
 
@@ -114,11 +114,11 @@ public class CourseEntity {
         this.endDate = endDate;
     }
 
-    public boolean isEndDateAlarm() {
+    public Date getEndDateAlarm() {
         return endDateAlarm;
     }
 
-    public void setEndDateAlarm(boolean endDateAlarm) {
+    public void setEndDateAlarm(Date endDateAlarm) {
         this.endDateAlarm = endDateAlarm;
     }
 

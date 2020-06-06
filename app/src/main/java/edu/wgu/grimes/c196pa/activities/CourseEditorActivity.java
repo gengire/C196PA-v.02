@@ -1,7 +1,6 @@
 package edu.wgu.grimes.c196pa.activities;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,7 +36,6 @@ import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 import edu.wgu.grimes.c196pa.viewmodels.adapters.AssessmentAdapter;
 
-import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_1_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
@@ -69,9 +66,9 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     AssessmentAdapter mAdapter;
     private CourseEditorViewModel mViewModel;
     private Date startDate;
-    private boolean startDateAlarm;
+    private Date startDateAlarm;
     private Date endDate;
-    private boolean endDateAlarm;
+    private Date endDateAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,19 +145,25 @@ public class CourseEditorActivity extends AbstractEditorActivity {
         intent.putExtra(Constants.COURSE_ALARM_TITLE_ID_KEY, "alarm title");
         intent.putExtra(Constants.COURSE_ALARM_MESSAGE_ID_KEY, "alarm message");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        if (startDateAlarm) {
-            alarmManager.cancel(pendingIntent);
-            startDateAlarm = false;
-            save(false);
-            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm cancelled", R.style.toast_message).show();
-        } else {
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.SECOND, 5);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-            startDateAlarm = true;
+
+        Calendar now = Calendar.getInstance();
+        Date dNow = now.getTime();
+        boolean startDateIsBlankOrAlreadyPassed = startDateAlarm == null || dNow.after(startDateAlarm);
+
+        if (startDateIsBlankOrAlreadyPassed) {
+            now.add(Calendar.SECOND, 5);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), pendingIntent);
+            startDateAlarm = now.getTime();
             save(false);
             StyleableToast.makeText(CourseEditorActivity.this, "start date alarm set", R.style.toast_message).show();
+        } else {
+            // cancel the alarm
+            alarmManager.cancel(pendingIntent);
+            startDateAlarm = null;
+            save(false);
+            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm cancelled", R.style.toast_message).show();
         }
+
     }
 
     protected void initRecyclerView() {
@@ -192,9 +195,9 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                             .getPosition(course.getStatus()));
                 }
                 startDate = course.getStartDate();
-                startDateAlarm = course.isStartDateAlarm();
+                startDateAlarm = course.getStartDateAlarm();
                 endDate = course.getEndDate();
-                endDateAlarm = course.isEndDateAlarm();
+                endDateAlarm = course.getEndDateAlarm();
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }

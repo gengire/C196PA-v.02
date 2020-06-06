@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Date;
 import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
@@ -37,7 +38,7 @@ public class CourseEditorViewModel extends BaseViewModel {
         mAssessments = mRepository.getAssessmentsForCourse(courseId);
     }
 
-    public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, boolean startDateAlarm, String endDate, boolean endDateAlarm) {
+    public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, Date startDateAlarm, String endDate, Date endDateAlarm) {
         if (TextUtils.isEmpty(title)) {
             return; // no saving empty titles
         }
