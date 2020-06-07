@@ -29,14 +29,16 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196pa.utilities.AlertReceiver;
 import edu.wgu.grimes.c196pa.R;
+import edu.wgu.grimes.c196pa.adapters.AssessmentAdapter;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
+import edu.wgu.grimes.c196pa.utilities.AlarmNotificationManager;
+import edu.wgu.grimes.c196pa.utilities.AlertReceiver;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
+import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
-import edu.wgu.grimes.c196pa.adapters.AssessmentAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
@@ -86,6 +88,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
 
         notificationManager = NotificationManagerCompat.from(this);
 
+        initSpinners();
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +98,22 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 openActivity(intent);
             }
         });
+    }
+
+    private void initSpinners() {
+        String[] competencyUnits = getResources().getStringArray(R.array.competency_unit_values);
+        String[] courseStatuses = getResources().getStringArray(R.array.status_values);
+
+        ArrayAdapter<String> competencyUnitsItemAdapter = new ArrayAdapter<String>(
+                this, R.layout.item_spinner_right, competencyUnits);
+        competencyUnitsItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
+        mCompetencyUnits.setAdapter(competencyUnitsItemAdapter);
+
+        ArrayAdapter<String> courseStatusItemAdapter = new ArrayAdapter<String>(
+                this, R.layout.item_spinner_right, courseStatuses);
+        courseStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
+        mStatus.setAdapter(courseStatusItemAdapter);
+
     }
 
     @Override
@@ -150,26 +170,47 @@ public class CourseEditorActivity extends AbstractEditorActivity {
 
     @OnClick(R.id.image_view_course_start_date_alert)
     void startDateAlertClickHandler() {
+
         if (startDateAlarm == null) {
-            startDateAlarm = Calendar.getInstance().getTime();
-            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm set", R.style.toast_message).show();
+            DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
+                @Override
+                public Date getDate() {
+                    return startDateAlarm;
+                }
+
+                @Override
+                public void setDate(Date date) {
+                    startDateAlarm = date;
+                    renderAlarm(startDateAlarm, START);
+                }
+            }, startDateAlarm);
+            dateDialog.show(getSupportFragmentManager(), "courseStartAlarmDatePicker");
         } else {
             startDateAlarm = null;
-            StyleableToast.makeText(CourseEditorActivity.this, "start date alarm cancelled", R.style.toast_message).show();
+            renderAlarm(null, START);
         }
-        renderAlarm(startDateAlarm, START);
     }
 
     @OnClick(R.id.image_view_course_end_date_alert)
     void endDateAlertClickHandler() {
         if (endDateAlarm == null) {
-            endDateAlarm = Calendar.getInstance().getTime();
-            StyleableToast.makeText(CourseEditorActivity.this, "end date alarm set", R.style.toast_message).show();
+            DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
+                @Override
+                public Date getDate() {
+                    return endDateAlarm;
+                }
+
+                @Override
+                public void setDate(Date date) {
+                    endDateAlarm = date;
+                    renderAlarm(endDateAlarm, END);
+                }
+            }, endDateAlarm);
+            dateDialog.show(getSupportFragmentManager(), "courseEndAlarmDatePicker");
         } else {
             endDateAlarm = null;
-            StyleableToast.makeText(CourseEditorActivity.this, "end date alarm cancelled", R.style.toast_message).show();
+            renderAlarm(null, END);
         }
-        renderAlarm(endDateAlarm, END);
     }
 
     private static final int START = 1;
@@ -275,22 +316,9 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     }
 
     private void handleAlarms() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra(Constants.COURSE_ALARM_TITLE_ID_KEY, "alarm title");
-        intent.putExtra(Constants.COURSE_ALARM_MESSAGE_ID_KEY, "alarm message");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-
-        Calendar now = Calendar.getInstance();
-
-        Log.i(TAG, "handleAlarms: start date alarm: " + startDateAlarm);
-
-        if (startDateAlarm == null) {
-            alarmManager.cancel(pendingIntent);
-        } else {
-            now.add(Calendar.SECOND, 6);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), pendingIntent);
-        }
+        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
+        alm.registerAlarmNotification(this, startDateAlarm, mId, "start", "start title", "start message");
+        alm.registerAlarmNotification(this, endDateAlarm, mId, "end", "end title", "end message");
     }
 
     protected void delete() {

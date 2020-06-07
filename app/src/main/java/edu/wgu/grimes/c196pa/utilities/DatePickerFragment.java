@@ -14,20 +14,26 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private final Date date;
-    private final TextView textView;
+    private final Date inputDate;
+    private TextView outputTextView;
+    private HasDate outputDate;
 
-    public DatePickerFragment(TextView textView, Date date) {
-        this.date = date;
-        this.textView = textView;
+    public DatePickerFragment(TextView outputTextView, Date inputDate) {
+        this.inputDate = inputDate;
+        this.outputTextView = outputTextView;
+    }
+
+    public DatePickerFragment(HasDate outputDate, Date inputDate) {
+        this.outputDate = outputDate;
+        this.inputDate = inputDate;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Calendar cDate = Calendar.getInstance();
-        if (date != null) {
-            cDate.setTime(date);
+        if (inputDate != null) {
+            cDate.setTime(inputDate);
         }
         int year = cDate.get(Calendar.YEAR);
         int month = cDate.get(Calendar.MONTH);
@@ -37,8 +43,18 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String strDate = StringUtils.getFormattedDate(month, dayOfMonth, year);
-        textView.setText(strDate);
+        if( outputTextView != null) {
+            String strDate = StringUtils.getFormattedDate(month, dayOfMonth, year);
+            outputTextView.setText(strDate);
+        } else if (outputDate != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, dayOfMonth);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            outputDate.setDate(cal.getTime());
+        }
     }
 
 }

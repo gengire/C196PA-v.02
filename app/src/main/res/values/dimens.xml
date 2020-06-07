@@ -2,4 +2,6 @@
     <dimen name="fab_term_list_margin">32dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="NORMAL_BORDER_MARGIN">16dp</dimen>
+    <dimen name="NORMAL_MARGIN_TOP">8dp</dimen>
 </resources>

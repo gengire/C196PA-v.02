@@ -45,6 +45,31 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     private Date completionDate;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initSpinners();
+
+    }
+
+    private void initSpinners() {
+//        TypedArray assessmentTypes = getResources().obtainTypedArray(R.array.assessment_types);
+        String[] assessmentTypes = getResources().getStringArray(R.array.assessment_types);
+        String[] assessmentStatuses = getResources().getStringArray(R.array.assessment_values);
+
+        ArrayAdapter<String> assessmentTypeItemAdapter = new ArrayAdapter<String>(
+                this, R.layout.item_spinner_right, assessmentTypes);
+        assessmentTypeItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
+        mAssessmentType.setAdapter(assessmentTypeItemAdapter);
+
+        ArrayAdapter<String> assessmentStatusItemAdapter = new ArrayAdapter<String>(
+                this, R.layout.item_spinner_right, assessmentStatuses);
+        assessmentStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
+        mStatus.setAdapter(assessmentStatusItemAdapter);
+
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.activity_assessment_editor;
     }
