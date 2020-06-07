@@ -20,4 +20,5 @@ public class Constants {
     public static final String DATE_PATTERN = "MMMM d, yyyy";
     public static final String CHANNEL_1_ID = "channel1";
     public static final String CHANNEL_2_ID = "channel2";
+    public static final String SHORT_DATE_PATTERN = "M/d/yyyy";
 }

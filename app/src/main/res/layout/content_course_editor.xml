@@ -1,193 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?android:attr/actionBarSize"
+    android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <EditText
+        android:id="@+id/edit_text_course_editor_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Title"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edit_text_course_editor_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text_course_editor_title"
+        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
+        android:hint="Course Code (ex: C999)"
+        android:inputType="text" />
+
+
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
-        >
-
-        <EditText
-            android:id="@+id/edit_text_course_editor_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Course Title"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/edit_text_course_editor_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edit_text_course_editor_title"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
-            android:hint="Course Code (ex: C999)"
-            android:inputType="text" />
+        android:background="#00FFFFFF"
+        android:layout_below="@id/edit_text_course_editor_code">
 
         <RelativeLayout
-            android:id="@+id/layout_course_editor_cus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edit_text_course_editor_code"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/edit_text_course_editor_cus"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/layout_course_editor_cus"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Competency Units"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
-            <Spinner
-                android:id="@+id/spinner_course_editor_cus"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/edit_text_course_editor_cus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Competency Units"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <Spinner
+                    android:id="@+id/spinner_course_editor_cus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/competency_unit_values" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_course_editor_status"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:entries="@array/competency_unit_values" />
-        </RelativeLayout>
+                android:layout_below="@id/layout_course_editor_cus"
+                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
-        <RelativeLayout
-            android:id="@+id/layout_course_editor_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_cus"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+                <TextView
+                    android:id="@+id/text_view_course_editor_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Status"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <TextView
-                android:id="@+id/text_view_course_editor_status"
-                android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinner_course_editor_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/status_values" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_course_editor_start_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Status"
-                android:inputType="number"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:layout_below="@id/layout_course_editor_status"
+                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
-            <Spinner
-                android:id="@+id/spinner_course_editor_status"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/text_view_course_editor_start_date"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Start Date" />
+
+                <TextView
+                    android:id="@+id/text_view_course_editor_start_date_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/text_view_course_editor_start_date"
+                    android:hint="Select Start Date" />
+
+                <TextView
+                    android:id="@+id/text_view_course_editor_alarm_start_date_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/image_view_course_start_date_alert"
+                    android:hint="" />
+
+                <ImageView
+                    android:id="@+id/image_view_course_start_date_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp"
+                    android:paddingLeft="20dp"
+                    app:srcCompat="@drawable/ic_add_alert" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_course_editor_end_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:entries="@array/status_values" />
-        </RelativeLayout>
+                android:layout_below="@id/layout_course_editor_start_date"
+                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
+                <TextView
+                    android:id="@+id/text_view_course_editor_end_date"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="End Date" />
 
-        <RelativeLayout
-            android:id="@+id/layout_course_editor_start_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_status"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+                <TextView
+                    android:id="@+id/text_view_course_editor_end_date_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/text_view_course_editor_end_date"
+                    android:hint="Select End Date" />
 
-            <TextView
-                android:id="@+id/text_view_course_editor_start_date"
-                android:layout_width="80dp"
+                <TextView
+                    android:id="@+id/text_view_course_editor_alarm_end_date_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/image_view_course_end_date_alert"
+                     />
+
+                <ImageView
+                    android:id="@+id/image_view_course_end_date_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp"
+                    android:paddingLeft="20dp"
+                    app:srcCompat="@drawable/ic_add_alert" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_course_editor_buttons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start Date" />
+                android:layout_below="@id/layout_course_editor_end_date"
+                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
-            <TextView
-                android:id="@+id/text_view_course_editor_start_date_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/text_view_course_editor_start_date"
-                android:hint="Select Start Date" />
+                <Button
+                    android:id="@+id/btn_course_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="Course Notes" />
 
-            <TextView
-                android:id="@+id/text_view_course_editor_alarm_start_date_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/image_view_course_start_date_alert"
-                android:hint="08/15/2021" />
+                <Button
+                    android:id="@+id/btn_course_mentors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="Course Mentors" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/image_view_course_start_date_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="12dp"
-                android:paddingLeft="20dp"
-                app:srcCompat="@drawable/ic_add_alert" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_course_editor_end_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_start_date"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
-
-            <TextView
-                android:id="@+id/text_view_course_editor_end_date"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="End Date" />
-
-            <TextView
-                android:id="@+id/text_view_course_editor_end_date_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/text_view_course_editor_end_date"
-                android:hint="Select End Date" />
-
-            <TextView
-                android:id="@+id/text_view_course_editor_alarm_end_date_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/image_view_course_end_date_alert"
-                android:hint="08/15/2021" />
-
-            <ImageView
-                android:id="@+id/image_view_course_end_date_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="12dp"
-                android:paddingLeft="20dp"
-                app:srcCompat="@drawable/ic_add_alert" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_course_editor_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_end_date"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
-
-            <Button
-                android:id="@+id/btn_course_notes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="Course Notes" />
-
-            <Button
-                android:id="@+id/btn_course_mentors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="Course Mentors" />
-        </LinearLayout>
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_course_editor_assessment_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="40dp"
-            android:layout_below="@id/layout_course_editor_buttons">
+            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
+            android:paddingBottom="20dp"
+            android:layout_below="@id/layout_course_editor_buttons"
+            tools:listitem="@layout/item_assessment" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_course_editor_assessment_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
-                tools:listitem="@layout/item_assessment" />
-        </LinearLayout>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-</ScrollView>
+
+    </ScrollView>
+
+</RelativeLayout>
+

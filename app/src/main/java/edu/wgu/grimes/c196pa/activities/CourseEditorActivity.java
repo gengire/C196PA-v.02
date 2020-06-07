@@ -41,6 +41,7 @@ import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
@@ -63,6 +64,10 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     TextView mStartDate;
     @BindView(R.id.text_view_course_editor_end_date_value)
     TextView mEndDate;
+    @BindView(R.id.text_view_course_editor_alarm_start_date_value)
+    TextView mStartDateAlarm;
+    @BindView(R.id.text_view_course_editor_alarm_end_date_value)
+    TextView mEndDateAlarm;
     @BindView(R.id.recycler_view_course_editor_assessment_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.fab_add_assessment)
@@ -181,12 +186,14 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 @Override
                 public void setDate(Date date) {
                     startDateAlarm = date;
+                    mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
                     renderAlarm(startDateAlarm, START);
                 }
             }, startDateAlarm);
             dateDialog.show(getSupportFragmentManager(), "courseStartAlarmDatePicker");
         } else {
             startDateAlarm = null;
+            mStartDateAlarm.setText(null);
             renderAlarm(null, START);
         }
     }
@@ -203,12 +210,14 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 @Override
                 public void setDate(Date date) {
                     endDateAlarm = date;
+                    mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
                     renderAlarm(endDateAlarm, END);
                 }
             }, endDateAlarm);
             dateDialog.show(getSupportFragmentManager(), "courseEndAlarmDatePicker");
         } else {
             endDateAlarm = null;
+            mEndDateAlarm.setText(null);
             renderAlarm(null, END);
         }
     }
@@ -271,6 +280,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 if (endDate != null) {
                     mEndDate.setText(getFormattedDate(endDate));
                 }
+                mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, startDateAlarm));
+                mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, endDateAlarm));
             }
         });
 
