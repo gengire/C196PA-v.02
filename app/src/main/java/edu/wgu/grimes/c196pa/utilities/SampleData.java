@@ -130,7 +130,7 @@ public class SampleData {
                 getDate("May 18, 2020"), null,"Complete"));
         list.add(new CourseEntity(24, 4, 3, "C196",
                 "Mobile Application Development",
-                getDate("May 19, 2020"), null,
+                getDate("May 19, 2020"), getDate("Jun 15, 2020"),
                 getDate("June 15, 2020"), getDate("Jun 15, 2020"),"In Progress"));
         list.add(new CourseEntity(25, 4, 4, "C868",
                 "Software Development Capstone",
