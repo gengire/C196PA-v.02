@@ -7,7 +7,7 @@ import edu.wgu.grimes.c196pa.utilities.NotificationHelper;
 public class App extends Application {
 
     @Override
-    public void onCreate() {
+    public void onCreate() { // app on create hook
         super.onCreate();
         new NotificationHelper(getBaseContext());
     }

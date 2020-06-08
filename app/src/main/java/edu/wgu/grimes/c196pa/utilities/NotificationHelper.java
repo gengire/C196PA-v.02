@@ -10,8 +10,8 @@ import androidx.core.app.NotificationCompat;
 
 import edu.wgu.grimes.c196pa.R;
 
-import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_1_ID;
-import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_2_ID;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
 
 public class NotificationHelper extends ContextWrapper {
 
@@ -25,17 +25,17 @@ public class NotificationHelper extends ContextWrapper {
     public void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel1 = new NotificationChannel(
-                    CHANNEL_1_ID,
-                    "Channel 1",
+                    COURSE_START_ALERT_CHANNEL,
+                    "Course Start Date Alert Channel",
                     NotificationManager.IMPORTANCE_HIGH
             );
-            channel1.setDescription("This is Channel 1");
+            channel1.setDescription("Channel used to notify about an upcoming course start date");
             NotificationChannel channel2 = new NotificationChannel(
-                    CHANNEL_2_ID,
-                    "Channel 2",
-                    NotificationManager.IMPORTANCE_LOW
+                    COURSE_END_ALERT_CHANNEL,
+                    "Course End Date Alert Channel",
+                    NotificationManager.IMPORTANCE_HIGH
             );
-            channel2.setDescription("This is Channel 2");
+            channel2.setDescription("Channel used to notify about an upcoming course end date");
 
             getManager().createNotificationChannel(channel1);
             getManager().createNotificationChannel(channel2);
@@ -51,13 +51,14 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
 
-    public NotificationCompat.Builder getChannel1Notification(String title, String message, String channelId) {
+    public NotificationCompat.Builder getChannelNotification(String title, String message, String channelId) {
         return new NotificationCompat.Builder(getApplicationContext(), channelId)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_announcement)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setStyle(new NotificationCompat.BigTextStyle())
                 ;
     }
 }

@@ -39,7 +39,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.spinner_assessment_editor_status)
     Spinner mStatus;
 
-    @BindView(R.id.text_view_assessment_editor_completion_date_value)
+    @BindView(R.id.text_view_assessment_editor_end_date_value)
     TextView mCompletionDate;
 
     private Date completionDate;
@@ -94,7 +94,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         return R.id.delete_assessment;
     }
 
-    @OnClick(R.id.text_view_assessment_editor_completion_date_value)
+    @OnClick(R.id.text_view_assessment_editor_end_date_value)
     void startDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
         dateDialog.show(getSupportFragmentManager(), "assessmentCompletionDatePicker");

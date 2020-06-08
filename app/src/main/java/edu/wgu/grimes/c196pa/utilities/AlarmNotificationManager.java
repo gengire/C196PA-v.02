@@ -6,19 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
+import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_KEY_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_MESSAGE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_TITLE_ID_KEY;
 
 public class AlarmNotificationManager {
 
-    public static final String TAG = "anm:";
+    private static final String TAG = "alarm";
     private static Map<Integer, RequestCode> requestCodesByCourseId = new HashMap<>();
 
     private static AlarmNotificationManager instance;
@@ -48,15 +50,17 @@ public class AlarmNotificationManager {
         }
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        int key = "start".equals(type) ?
-                request.startDateAlarmRequestCode : request.endDateAlarmRequestCode;
+        boolean start = "start".equals(type);
+        int key =  start ? request.startDateAlarmRequestCode : request.endDateAlarmRequestCode;
         Intent intent = new Intent(context, AlertReceiver.class);
         intent.putExtra(COURSE_ALARM_TITLE_ID_KEY, title);
         intent.putExtra(COURSE_ALARM_MESSAGE_ID_KEY, message);
         intent.putExtra(COURSE_ALARM_KEY_ID, key);
+        intent.putExtra(CHANNEL_ID_KEY, start ? COURSE_START_ALERT_CHANNEL : COURSE_END_ALERT_CHANNEL);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, key, intent, 0);
 
-        Log.i(TAG, "handleAlarms: start date alarm: " + alarmDate);
+        Log.i(TAG, "handleAlarms: start date alarm: " + alarmDate + " on channel "
+                + intent.getExtras().getString(CHANNEL_ID_KEY));
 
         if (alarmDate == null) {
             alarmManager.cancel(pendingIntent);
@@ -83,9 +87,18 @@ public class AlarmNotificationManager {
         return key;
     }
 
-    private class RequestCode {
+    private static class RequestCode {
         int courseId;
         int startDateAlarmRequestCode;
         int endDateAlarmRequestCode;
+
+        @Override
+        public String toString() {
+            return "RequestCode{" +
+                    "courseId=" + courseId +
+                    ", startDateAlarmRequestCode=" + startDateAlarmRequestCode +
+                    ", endDateAlarmRequestCode=" + endDateAlarmRequestCode +
+                    '}';
+        }
     }
 }

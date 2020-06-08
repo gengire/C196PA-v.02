@@ -11,7 +11,7 @@
         android:id="@+id/edit_text_assessment_editor_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
+        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
         android:hint="Title"
         android:inputType="text" />
 
@@ -19,7 +19,7 @@
         android:id="@+id/layout_assessment_editor_assessment_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
+        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
         android:layout_below="@id/edit_text_assessment_editor_title"
         >
 
@@ -44,7 +44,7 @@
         android:id="@+id/layout_assessment_editor_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
+        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
         android:layout_below="@id/layout_assessment_editor_assessment_type"
         >
 
@@ -67,29 +67,65 @@
             android:entries="@array/assessment_values" />
     </RelativeLayout>
 
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/layout_assessment_editor_completion_date"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_view_assessment_editor_completion_date"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Completion Date"-->
+<!--             />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_view_assessment_editor_completion_date_value"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:gravity="end"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:hint="Select Completion Date"-->
+<!--             />-->
+<!--    </RelativeLayout>-->
+
     <RelativeLayout
-        android:id="@+id/layout_assessment_editor_completion_date"
+        android:id="@+id/layout_assessment_editor_end_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
 
         <TextView
-            android:id="@+id/text_view_assessment_editor_completion_date"
-            android:layout_width="wrap_content"
+            android:id="@+id/text_view_assessment_editor_end_date"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Completion Date"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:text="End Date" />
 
         <TextView
-            android:id="@+id/text_view_assessment_editor_completion_date_value"
+            android:id="@+id/text_view_assessment_editor_end_date_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:layout_alignParentRight="true"
-            android:hint="Select Completion Date"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:layout_toRightOf="@id/text_view_assessment_editor_end_date"
+            android:hint="Select End Date" />
+
+        <TextView
+            android:id="@+id/text_view_assessment_editor_alarm_end_date_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/image_view_assessment_end_date_alert"
+            />
+
+        <ImageView
+            android:id="@+id/image_view_assessment_end_date_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:paddingLeft="20dp"
+            app:srcCompat="@drawable/ic_add_alert" />
     </RelativeLayout>
 
 </LinearLayout>

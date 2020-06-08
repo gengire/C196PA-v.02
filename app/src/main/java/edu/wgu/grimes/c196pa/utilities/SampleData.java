@@ -130,7 +130,7 @@ public class SampleData {
                 getDate("May 18, 2020"), null,"Complete"));
         list.add(new CourseEntity(24, 4, 3, "C196",
                 "Mobile Application Development",
-                getDate("May 19, 2020"), getDate("Jun 15, 2020"),
+                getDate("May 19, 2020"), null,
                 getDate("June 15, 2020"), getDate("Jun 15, 2020"),"In Progress"));
         list.add(new CourseEntity(25, 4, 4, "C868",
                 "Software Development Capstone",
@@ -231,10 +231,10 @@ public class SampleData {
                 "Pass", getDate("May 18, 2020")));
         list.add(new AssessmentEntity(26, 24,
                 "Performance", "Mobile Application Development - ABM1",
-                "Pending", null));
+                "Pending", getDate("June 15, 2020")));
         list.add(new AssessmentEntity(27, 25,
                 "Performance", "Software Development Capstone - EZP1",
-                "Pending", null));
+                "Pending", getDate("September 30, 2020")));
         return list;
     }
 
