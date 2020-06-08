@@ -1,5 +1,6 @@
 package edu.wgu.grimes.c196pa.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -10,8 +11,10 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
+import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.NoteEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
@@ -24,6 +27,14 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.edit_text_note_editor_description)
     EditText mDescription;
     private NoteEditorViewModel mViewModel;
+
+    @OnClick(R.id.btn_open_send_email)
+    void handleOpenSendEmailClick() {
+        Intent intent = new Intent(this, SendEmailActivity.class);
+        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + mTitle.getText().toString());
+        intent.putExtra(Constants.EMAIL_MESSAGE_KEY, mDescription.getText().toString());
+        openActivity(intent);
+    }
 
     @Override
     protected int getContentView() {

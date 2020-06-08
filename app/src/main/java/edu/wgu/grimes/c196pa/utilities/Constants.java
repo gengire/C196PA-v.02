@@ -19,6 +19,10 @@ public class Constants {
             "edu.wgu.grimes.c196pa.utilities.course_editor.alarm_id_key";
     public static final String CHANNEL_ID_KEY =
             "edu.wgu.grimes.c196pa.utilities.notification.channel_id_key";
+    public static final String EMAIL_SUBJECT_KEY =
+            "edu.wgu.grimes.c196pa.utilities.note_editor.subject_id_key";
+    public static final String EMAIL_MESSAGE_KEY =
+            "edu.wgu.grimes.c196pa.utilities.note_editor.message_id_key";
 
     public static final String DATE_PATTERN = "MMMM d, yyyy";
     public static final String COURSE_START_ALERT_CHANNEL = "channel1";
