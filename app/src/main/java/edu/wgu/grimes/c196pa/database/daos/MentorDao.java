@@ -38,4 +38,6 @@ public interface MentorDao {
     @Query("select count(*) from mentors")
     Integer getCount();
 
+    @Query("delete from mentors where course_id = :courseId")
+    void deleteMentorsForCourse(int courseId);
 }

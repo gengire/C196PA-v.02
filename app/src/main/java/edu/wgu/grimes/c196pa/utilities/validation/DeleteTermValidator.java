@@ -14,6 +14,9 @@ public class DeleteTermValidator {
         AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... voids) {
+                if (term == null) {
+                    return true;
+                }
                 TermWithCourses termWithCourses = mRepository.getTermWithCourses(term.getId());
                 return !(termWithCourses != null && // we have a term with courses
                         termWithCourses.courses != null && // there are courses

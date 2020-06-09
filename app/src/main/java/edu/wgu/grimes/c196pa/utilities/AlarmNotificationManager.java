@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
-import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
 import static edu.wgu.grimes.c196pa.utilities.Constants.CHANNEL_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_KEY_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_MESSAGE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_TITLE_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
 
 public class AlarmNotificationManager {
 

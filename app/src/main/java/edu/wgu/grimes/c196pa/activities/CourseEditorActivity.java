@@ -42,7 +42,7 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class CourseEditorActivity extends AbstractEditorActivity {
 
-    public static final String TAG = "ceactivity";
+    public static final String TAG = "coursedit";
 
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
@@ -66,6 +66,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     FloatingActionButton mFab;
     @BindView(R.id.btn_course_notes)
     Button mCourseNotes;
+    @BindView(R.id.btn_course_mentors)
+    Button mCourseMentors;
 
     @BindView(R.id.image_view_course_start_date_alert)
     ImageView imageViewStartDateAlert;
@@ -162,50 +164,59 @@ public class CourseEditorActivity extends AbstractEditorActivity {
 
     @OnClick(R.id.image_view_course_start_date_alert)
     void startDateAlertClickHandler() {
-
-        if (startDateAlarm == null) {
-            DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
-                @Override
-                public Date getDate() {
-                    return startDateAlarm;
-                }
-
-                @Override
-                public void setDate(Date date) {
-                    startDateAlarm = date;
-                    mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
-                    renderAlarm(startDateAlarm, START);
-                }
-            }, startDate);
-            dateDialog.show(getSupportFragmentManager(), "courseStartAlarmDatePicker");
+        if ("".equals(mStartDate.getText())) {
+            String text = "Please select a start date before adding a start date alarm";
+            StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
         } else {
-            startDateAlarm = null;
-            mStartDateAlarm.setText(null);
-            renderAlarm(null, START);
+            if (startDateAlarm == null) {
+                DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
+                    @Override
+                    public Date getDate() {
+                        return startDateAlarm;
+                    }
+
+                    @Override
+                    public void setDate(Date date) {
+                        startDateAlarm = date;
+                        mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        renderAlarm(startDateAlarm, START);
+                    }
+                }, startDate);
+                dateDialog.show(getSupportFragmentManager(), "courseStartAlarmDatePicker");
+            } else {
+                startDateAlarm = null;
+                mStartDateAlarm.setText(null);
+                renderAlarm(null, START);
+            }
         }
     }
 
     @OnClick(R.id.image_view_course_end_date_alert)
     void endDateAlertClickHandler() {
-        if (endDateAlarm == null) {
-            DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
-                @Override
-                public Date getDate() {
-                    return endDateAlarm;
-                }
-
-                @Override
-                public void setDate(Date date) {
-                    endDateAlarm = date;
-                    mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
-                    renderAlarm(endDateAlarm, END);
-                }
-            }, endDate);
-            dateDialog.show(getSupportFragmentManager(), "courseEndAlarmDatePicker");
+        if ("".equals(mEndDate.getText())) {
+            String text = "Please select an end date before adding an end date alarm";
+            StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
         } else {
-            endDateAlarm = null;
-            mEndDateAlarm.setText(null);
-            renderAlarm(null, END);
+            if (endDateAlarm == null) {
+                DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
+                    @Override
+                    public Date getDate() {
+                        return endDateAlarm;
+                    }
+
+                    @Override
+                    public void setDate(Date date) {
+                        endDateAlarm = date;
+                        mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        renderAlarm(endDateAlarm, END);
+                    }
+                }, endDate);
+                dateDialog.show(getSupportFragmentManager(), "courseEndAlarmDatePicker");
+            } else {
+                endDateAlarm = null;
+                mEndDateAlarm.setText(null);
+                renderAlarm(null, END);
+            }
         }
     }
 
@@ -289,6 +300,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 setTitle(getString(R.string.new_course));
                 mNew = true;
                 mCourseNotes.setVisibility(View.GONE);
+                mCourseMentors.setVisibility(View.GONE);
+                mFab.setVisibility(View.GONE);
             } else {
                 setTitle(getString(R.string.edit_course));
                 mId = extras.getInt(COURSE_ID_KEY);
@@ -315,27 +328,30 @@ public class CourseEditorActivity extends AbstractEditorActivity {
             StyleableToast.makeText(CourseEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
             return;
         }
-        Log.i(TAG, "save: start date alarm: " + sdAlarm);
         mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
-        handleAlarms();
+        handleAlarmNotifications();
 
         StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
         closeActivity();
     }
 
-    private void handleAlarms() {
+    private void handleAlarmNotifications() {
         AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
         String title = "WGU Scheduler Course Alert";
         String message = mTitle.getText() + " is ";
 
-        String sdEnding = startDateAlarm == null ? "" :
-                "starting on " + getFormattedDate(startDate);
-        String edEnding = endDateAlarm == null ? "" :
-                "ending on " + getFormattedDate(endDate);
-        alm.registerAlarmNotification(this, startDateAlarm, mId, "start",
-                title, message + sdEnding);
-        alm.registerAlarmNotification(this, endDateAlarm, mId, "end",
-                title, message + edEnding);
+        if (!"".equals(mStartDate.getText()) && startDateAlarm != null) {
+            String sdEnding = startDateAlarm == null ? "" :
+                    "starting on " + mStartDate.getText();
+            alm.registerAlarmNotification(this, startDateAlarm, mId, "start",
+                    title, message + sdEnding);
+        }
+        if (!"".equals(mEndDate.getText()) && endDateAlarm != null) {
+            String edEnding = endDateAlarm == null ? "" :
+                    "ending on " + mEndDate.getText();
+            alm.registerAlarmNotification(this, endDateAlarm, mId, "end",
+                    title, message + edEnding);
+        }
     }
 
     protected void delete() {

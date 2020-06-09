@@ -1,8 +1,5 @@
 package edu.wgu.grimes.c196pa.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,11 +8,13 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
-import edu.wgu.grimes.c196pa.utilities.Constants;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.EMAIL_MESSAGE_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.EMAIL_SUBJECT_KEY;

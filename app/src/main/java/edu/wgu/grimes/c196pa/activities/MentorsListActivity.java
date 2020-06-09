@@ -14,10 +14,10 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.wgu.grimes.c196pa.R;
+import edu.wgu.grimes.c196pa.adapters.MentorAdapter;
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.MentorsListViewModel;
-import edu.wgu.grimes.c196pa.adapters.MentorAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;

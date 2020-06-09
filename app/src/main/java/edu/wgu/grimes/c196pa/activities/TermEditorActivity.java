@@ -20,12 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
+import edu.wgu.grimes.c196pa.adapters.CourseAdapter;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
-import edu.wgu.grimes.c196pa.adapters.CourseAdapter;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
@@ -43,8 +43,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
     private TermEditorViewModel mViewModel;
-    private boolean mNew;
-    private boolean mEditing;
     private int mId;
 
     private Date startDate;
@@ -151,7 +149,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
             mViewModel.getTermCourses().observe(this, (courses) -> {
                 mAdapter.submitList(courses);
             });
-            mFab.setVisibility(View.VISIBLE);
         }
 
     }
@@ -171,7 +168,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
 
     protected void delete() {
         TermEntity term = mViewModel.mLiveData.getValue();
-        String termTitle = term.getTitle();
+        String termTitle = term == null ? "<NA>" : term.getTitle();
         mViewModel.validateDeleteTerm(term,
                 () -> { // success
                     mViewModel.deleteTerm();

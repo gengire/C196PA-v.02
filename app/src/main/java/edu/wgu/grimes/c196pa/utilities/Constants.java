@@ -24,7 +24,7 @@ public class Constants {
     public static final String EMAIL_MESSAGE_KEY =
             "edu.wgu.grimes.c196pa.utilities.note_editor.message_id_key";
 
-    public static final String DATE_PATTERN = "MMMM d, yyyy";
+    public static final String DATE_PATTERN = "MMM d, yyyy";
     public static final String COURSE_START_ALERT_CHANNEL = "channel1";
     public static final String COURSE_END_ALERT_CHANNEL = "channel2";
     public static final String SHORT_DATE_PATTERN = "M/d/yyyy";

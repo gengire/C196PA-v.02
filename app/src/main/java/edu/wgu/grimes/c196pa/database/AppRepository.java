@@ -25,8 +25,8 @@ import edu.wgu.grimes.c196pa.utilities.SampleData;
 public class AppRepository {
 
     private static AppRepository instance;
-    public LiveData<List<TermEntity>> mTerms;
-    Executor executor = Executors.newSingleThreadExecutor();
+    private LiveData<List<TermEntity>> mTerms;
+    private Executor executor = Executors.newSingleThreadExecutor();
     private TermDao termDao;
     private CourseDao courseDao;
     private AssessmentDao assessmentDao;
@@ -68,6 +68,7 @@ public class AppRepository {
             courseDao.delete(course);
             noteDao.deleteNotesForCourse(course.getId());
             assessmentDao.deleteAssessmentsForCourse(course.getId());
+            mentorDao.deleteMentorsForCourse(course.getId());
         });
     }
 

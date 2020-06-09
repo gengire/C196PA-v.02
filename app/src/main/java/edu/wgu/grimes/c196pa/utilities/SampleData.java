@@ -23,14 +23,8 @@ public class SampleData {
                 getDate("October 1, 2019"), getDate("March 31, 2020")));
         list.add(new TermEntity(4, "Spring Term 2020",
                 getDate("April 1, 2020"), getDate("September 30, 2020")));
-        list.add(new TermEntity("Term 5",
+        list.add(new TermEntity("Term w/ 0 Courses",
                 getDate("October 1, 2020"), getDate("March 31, 2021")));
-        list.add(new TermEntity("Term 6",
-                getDate("April 1, 2021"), getDate("September 30, 2021")));
-        list.add(new TermEntity("Term 7",
-                getDate("October 1, 2021"), getDate("March 31, 2022")));
-        list.add(new TermEntity("Term 8",
-                getDate("April 1, 2022"), getDate("September 30, 2022")));
         return list;
     }
 

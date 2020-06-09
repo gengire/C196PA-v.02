@@ -15,10 +15,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
+import edu.wgu.grimes.c196pa.adapters.TermAdapter;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
-import edu.wgu.grimes.c196pa.adapters.TermAdapter;
 
 public class TermsListActivity extends AbstractListActivity {
 

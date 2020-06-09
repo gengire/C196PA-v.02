@@ -10,8 +10,8 @@ import androidx.core.app.NotificationCompat;
 
 import edu.wgu.grimes.c196pa.R;
 
-import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
+import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
 
 public class NotificationHelper extends ContextWrapper {
 
