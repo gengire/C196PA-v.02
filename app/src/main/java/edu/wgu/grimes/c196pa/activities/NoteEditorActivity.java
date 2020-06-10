@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,11 +71,11 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         int courseId = mParentId;
 
         if (title.trim().isEmpty()) {
-            StyleableToast.makeText(NoteEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
+            Toast.makeText(NoteEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
             return;
         }
         mViewModel.saveNote(courseId, title, description);
-        StyleableToast.makeText(NoteEditorActivity.this, title + " saved", R.style.toast_message).show();
+        Toast.makeText(NoteEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
@@ -85,7 +84,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         String title = course.getTitle();
         mViewModel.deleteNote();
         String text = title + " Deleted";
-        StyleableToast.makeText(NoteEditorActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(NoteEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 

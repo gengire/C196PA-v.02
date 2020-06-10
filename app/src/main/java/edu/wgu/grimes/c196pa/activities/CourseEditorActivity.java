@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Date;
 
@@ -166,7 +166,7 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     void startDateAlertClickHandler() {
         if ("".equals(mStartDate.getText())) {
             String text = "Please select a start date before adding a start date alarm";
-            StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
+            Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_LONG).show();
         } else {
             if (startDateAlarm == null) {
                 DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
@@ -195,7 +195,7 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     void endDateAlertClickHandler() {
         if ("".equals(mEndDate.getText())) {
             String text = "Please select an end date before adding an end date alarm";
-            StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
+            Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_LONG).show();
         } else {
             if (endDateAlarm == null) {
                 DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
@@ -247,7 +247,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
             intent.putExtra(Constants.COURSE_ID_KEY, mId);
             intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
             openActivity(intent);
-//            StyleableToast.makeText(CourseEditorActivity.this, assessment.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
@@ -325,13 +324,13 @@ public class CourseEditorActivity extends AbstractEditorActivity {
         Date edAlarm = endDateAlarm;
 
         if (title.trim().isEmpty()) {
-            StyleableToast.makeText(CourseEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
+            Toast.makeText(CourseEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
             return;
         }
         mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
         handleAlarmNotifications();
 
-        StyleableToast.makeText(CourseEditorActivity.this, title + " saved", R.style.toast_message).show();
+        Toast.makeText(CourseEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
@@ -362,11 +361,11 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                     () -> { // success
                         mViewModel.deleteCourse();
                         String text = title + " Deleted";
-                        StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
+                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                         closeActivity();
                     }, () -> { // failure
                         String text = title + " can't be deleted because it has at least one course associated with it";
-                        StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_validation_failure).show();
+                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                     });
         }
     }
@@ -378,7 +377,7 @@ public class CourseEditorActivity extends AbstractEditorActivity {
 
         mViewModel.deleteAssessment(assessment);
         String text = courseTitle + " Deleted";
-        StyleableToast.makeText(CourseEditorActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

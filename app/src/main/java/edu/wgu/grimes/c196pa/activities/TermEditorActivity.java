@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Date;
 
@@ -98,7 +98,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
             intent.putExtra(Constants.TERM_ID_KEY, mId);
             intent.putExtra(Constants.COURSE_ID_KEY, course.getId());
             openActivity(intent);
-//            StyleableToast.makeText(TermEditorActivity.this, course.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
@@ -158,11 +157,11 @@ public class TermEditorActivity extends AbstractEditorActivity {
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
         if (title.trim().isEmpty()) {
-            StyleableToast.makeText(TermEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
+            Toast.makeText(TermEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
             return;
         }
         mViewModel.saveTerm(title, startDate, endDate);
-        StyleableToast.makeText(TermEditorActivity.this, title + " saved", R.style.toast_message).show();
+        Toast.makeText(TermEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
@@ -173,11 +172,11 @@ public class TermEditorActivity extends AbstractEditorActivity {
                 () -> { // success
                     mViewModel.deleteTerm();
                     String text = termTitle + " Deleted";
-                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                     closeActivity();
                 }, () -> { // failure
                     String text = termTitle + " can't be deleted because it has courses associated with it";
-                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -195,11 +194,11 @@ public class TermEditorActivity extends AbstractEditorActivity {
                 () -> { // success
                     mViewModel.deleteCourse(course);
                     String text = courseTitle + " Deleted";
-                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_message).show();
+                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     String text = courseTitle + " can't be deleted because it has courses associated with it";
-                    StyleableToast.makeText(TermEditorActivity.this, text, R.style.toast_validation_failure).show();
+                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_LONG).show();
                 });
     }
 

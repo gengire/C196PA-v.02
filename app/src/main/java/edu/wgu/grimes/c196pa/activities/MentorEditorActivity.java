@@ -2,11 +2,10 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,11 +61,11 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         int courseId = mParentId;
 
         if (firstName.trim().isEmpty()) {
-            StyleableToast.makeText(MentorEditorActivity.this, "Please enter a first name", R.style.toast_validation_failure).show();
+            Toast.makeText(MentorEditorActivity.this, "Please enter a first name", Toast.LENGTH_LONG).show();
             return;
         }
         mViewModel.saveMentor(courseId, firstName, lastName, phone, email);
-        StyleableToast.makeText(MentorEditorActivity.this, firstName + " " + lastName + " saved", R.style.toast_message).show();
+        Toast.makeText(MentorEditorActivity.this, firstName + " " + lastName + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
@@ -75,7 +74,7 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
         mViewModel.deleteMentor();
         String text = mentorName + " Deleted";
-        StyleableToast.makeText(MentorEditorActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(MentorEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 

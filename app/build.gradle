@@ -59,9 +59,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    // Easy Splash Screen
-    implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
+//    // Easy Splash Screen
+//    implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
 
     // Styleable Toast
-    implementation 'com.muddzdev:styleabletoast:2.2.3'
+//    implementation 'com.muddzdev:styleabletoast:2.2.3'
 }

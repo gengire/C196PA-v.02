@@ -9,6 +9,11 @@
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
+    <!-- Splash Screen theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
@@ -25,38 +30,38 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="toast_message">
-        <item name="stTextBold">true</item>
-        <item name="stTextColor">#555</item>
-        <!--        <item name="stFont">@font/retrofont</item>-->
-        <item name="stTextSize">14sp</item>
-        <item name="stColorBackground">#fff</item>
-        <item name="stSolidBackground">false</item>
-        <item name="stStrokeWidth">3dp</item>
-        <item name="stStrokeColor">#555</item>
-        <!--        <item name="stIconStart">@drawable/ic_error_red</item>-->
-        <!--        <item name="stIconEnd">@drawable/ic</item>-->
-        <item name="stLength">SHORT</item> LONG or SHORT
-<!--        <item name="stGravity">center</item> top or center-->
-        <item name="stRadius">5dp</item>
-    </style>
+<!--    <style name="toast_message">-->
+<!--        <item name="stTextBold">true</item>-->
+<!--        <item name="stTextColor">#555</item>-->
+<!--        &lt;!&ndash;        <item name="stFont">@font/retrofont</item>&ndash;&gt;-->
+<!--        <item name="stTextSize">14sp</item>-->
+<!--        <item name="stColorBackground">#fff</item>-->
+<!--        <item name="stSolidBackground">false</item>-->
+<!--        <item name="stStrokeWidth">3dp</item>-->
+<!--        <item name="stStrokeColor">#555</item>-->
+<!--        &lt;!&ndash;        <item name="stIconStart">@drawable/ic_error_red</item>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <item name="stIconEnd">@drawable/ic</item>&ndash;&gt;-->
+<!--        <item name="stLength">SHORT</item> LONG or SHORT-->
+<!--&lt;!&ndash;        <item name="stGravity">center</item> top or center&ndash;&gt;-->
+<!--        <item name="stRadius">5dp</item>-->
+<!--    </style>-->
 
-    <style name="toast_validation_failure">
-        <item name="stTextBold">true</item>
-        <item name="stTextColor">#555</item>
-        <!--        <item name="stFont">@font/retrofont</item>-->
-        <item name="stTextSize">14sp</item>
-        <item name="stColorBackground">#fff</item>
-        <item name="stSolidBackground">true</item>
-        <item name="stStrokeWidth">3dp</item>
-        <item name="stStrokeColor">#555</item>
-        <item name="stIconStart">@drawable/ic_error_red</item>
-        <!--        <item name="stIconEnd">@drawable/ic</item>-->
-        <item name="stLength">LONG</item>
-        LONG or SHORT
-        <item name="stGravity">center</item>
-        top or center
-        <item name="stRadius">5dp</item>
-    </style>
+<!--    <style name="toast_validation_failure">-->
+<!--        <item name="stTextBold">true</item>-->
+<!--        <item name="stTextColor">#555</item>-->
+<!--        &lt;!&ndash;        <item name="stFont">@font/retrofont</item>&ndash;&gt;-->
+<!--        <item name="stTextSize">14sp</item>-->
+<!--        <item name="stColorBackground">#fff</item>-->
+<!--        <item name="stSolidBackground">true</item>-->
+<!--        <item name="stStrokeWidth">3dp</item>-->
+<!--        <item name="stStrokeColor">#555</item>-->
+<!--        <item name="stIconStart">@drawable/ic_error_red</item>-->
+<!--        &lt;!&ndash;        <item name="stIconEnd">@drawable/ic</item>&ndash;&gt;-->
+<!--        <item name="stLength">LONG</item>-->
+<!--        LONG or SHORT-->
+<!--        <item name="stGravity">center</item>-->
+<!--        top or center-->
+<!--        <item name="stRadius">5dp</item>-->
+<!--    </style>-->
 
 </resources>

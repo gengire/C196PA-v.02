@@ -3,13 +3,13 @@ package edu.wgu.grimes.c196pa.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +66,6 @@ public class MentorsListActivity extends AbstractListActivity {
             intent.putExtra(MENTOR_ID_KEY, mentor.getId());
             intent.putExtra(COURSE_ID_KEY, mCourseId);
             openActivity(intent);
-//            StyleableToast.makeText(NotesListActivity.this, "note: " + note.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
@@ -79,7 +78,6 @@ public class MentorsListActivity extends AbstractListActivity {
         mViewModel.loadCourseMentors(mCourseId);
         mViewModel.getCourseMentors().observe(this, mentors -> {
             mAdapter.submitList(mentors);
-//           StyleableToast.makeText(NotesListActivity.this, "notes changed", R.style.toast_message).show();
         });
     }
 
@@ -90,7 +88,7 @@ public class MentorsListActivity extends AbstractListActivity {
 
         mViewModel.deleteMentor(mentor);
         String text = mentorName + " Deleted";
-        StyleableToast.makeText(MentorsListActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(MentorsListActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

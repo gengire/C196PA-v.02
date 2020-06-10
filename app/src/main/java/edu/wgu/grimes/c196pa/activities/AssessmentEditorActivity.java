@@ -5,12 +5,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Date;
 
@@ -147,11 +146,14 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String completionDate = mCompletionDate.getText().toString();
 
         if (title.trim().isEmpty()) {
-            StyleableToast.makeText(AssessmentEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
+//            StyleableToast.makeText(AssessmentEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
+//            Toast.makeText(AssessmentEditorActivity.this, "Please enter a title", R.style.
+            Toast.makeText(AssessmentEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
             return;
         }
         mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate);
-        StyleableToast.makeText(AssessmentEditorActivity.this, title + " saved", R.style.toast_message).show();
+//        StyleableToast.makeText(AssessmentEditorActivity.this, title + " saved", R.style.toast_message).show();
+        Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
@@ -160,7 +162,8 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String title = course.getTitle();
         mViewModel.deleteAssessment();
         String text = title + " Deleted";
-        StyleableToast.makeText(AssessmentEditorActivity.this, text, R.style.toast_message).show();
+//        StyleableToast.makeText(AssessmentEditorActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 

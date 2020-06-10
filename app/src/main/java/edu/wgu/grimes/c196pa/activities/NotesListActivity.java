@@ -3,13 +3,13 @@ package edu.wgu.grimes.c196pa.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,7 +79,6 @@ public class NotesListActivity extends AbstractListActivity {
         mViewModel.loadCoursesNotes(mCourseId);
         mViewModel.getCourseNotes().observe(this, notes -> {
             mAdapter.submitList(notes);
-//           StyleableToast.makeText(NotesListActivity.this, "notes changed", R.style.toast_message).show();
         });
     }
 
@@ -90,7 +89,7 @@ public class NotesListActivity extends AbstractListActivity {
 
         mViewModel.deleteNote(note);
         String text = noteTitle + " Deleted";
-        StyleableToast.makeText(NotesListActivity.this, text, R.style.toast_message).show();
+        Toast.makeText(NotesListActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

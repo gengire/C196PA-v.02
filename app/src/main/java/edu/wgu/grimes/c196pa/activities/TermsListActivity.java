@@ -2,6 +2,7 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,11 +49,11 @@ public class TermsListActivity extends AbstractListActivity {
         switch (item.getItemId()) {
             case R.id.delete_all_terms:
                 mViewModel.deleteAll();
-                StyleableToast.makeText(TermsListActivity.this, "All terms deleted", R.style.toast_message).show();
+                Toast.makeText(TermsListActivity.this, "All terms deleted", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.add_sample_terms:
                 mViewModel.addSampleData();
-                StyleableToast.makeText(TermsListActivity.this, "Sample terms added", R.style.toast_message).show();
+                Toast.makeText(TermsListActivity.this, "Sample terms added", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -99,11 +99,11 @@ public class TermsListActivity extends AbstractListActivity {
                 () -> { // success
                     mViewModel.deleteTerm(term);
                     String text = termTitle + " Deleted";
-                    StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_message).show();
+                    Toast.makeText(TermsListActivity.this, text, Toast.LENGTH_SHORT).show();
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     String text = termTitle + " can't be deleted because it has courses associated with it";
-                    StyleableToast.makeText(TermsListActivity.this, text, R.style.toast_validation_failure).show();
+                    Toast.makeText(TermsListActivity.this, text, Toast.LENGTH_LONG).show();
                 });
     }
 
