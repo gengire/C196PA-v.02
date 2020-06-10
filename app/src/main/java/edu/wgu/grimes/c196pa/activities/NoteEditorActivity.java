@@ -2,6 +2,8 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +28,9 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     EditText mTitle;
     @BindView(R.id.edit_text_note_editor_description)
     EditText mDescription;
+    @BindView(R.id.btn_open_send_email)
+    Button mSendEmail;
+
     private NoteEditorViewModel mViewModel;
 
     @OnClick(R.id.btn_open_send_email)
@@ -105,6 +110,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         if (extras.getInt(NOTE_ID_KEY) == 0) {
             setTitle("New Course Note");
             mNew = true;
+            mSendEmail.setVisibility(View.GONE);
         } else {
             setTitle("Edit Course Note");
             mId = extras.getInt(NOTE_ID_KEY);
