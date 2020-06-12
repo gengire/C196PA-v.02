@@ -18,23 +18,26 @@ public class AssessmentEntity {
     private String title;
     private String status;
     private Date completionDate;
+    private Date completionDateAlarm;
 
     @Ignore
-    public AssessmentEntity(int courseId, String type, String title, String status, Date completionDate) {
+    public AssessmentEntity(int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
         this.courseId = courseId;
         this.type = type;
         this.title = title;
         this.status = status;
         this.completionDate = completionDate;
+        this.completionDateAlarm = completionDateAlarm;
     }
 
-    public AssessmentEntity(int id, int courseId, String type, String title, String status, Date completionDate) {
+    public AssessmentEntity(int id, int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
         this.id = id;
         this.courseId = courseId;
         this.type = type;
         this.title = title;
         this.status = status;
         this.completionDate = completionDate;
+        this.completionDateAlarm = completionDateAlarm;
     }
 
     public int getId() {
@@ -85,6 +88,14 @@ public class AssessmentEntity {
         this.completionDate = completionDate;
     }
 
+    public Date getCompletionDateAlarm() {
+        return completionDateAlarm;
+    }
+
+    public void setCompletionDateAlarm(Date completionDateAlarm) {
+        this.completionDateAlarm = completionDateAlarm;
+    }
+
     @Override
     public String toString() {
         return "AssessmentEntity{" +
@@ -94,6 +105,7 @@ public class AssessmentEntity {
                 ", title='" + title + '\'' +
                 ", status='" + status + '\'' +
                 ", completionDate=" + completionDate +
+                ", completionDateAlarm=" + completionDateAlarm +
                 '}';
     }
 }

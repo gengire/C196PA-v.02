@@ -150,85 +150,85 @@ public class SampleData {
         List<AssessmentEntity> list = new ArrayList<>();
         list.add(new AssessmentEntity(1, 1,
                 "Objective", "Introduction to IT",
-                "Pass", getDate("October 8, 2018")));
+                "Pass", getDate("October 8, 2018"), null));
         list.add(new AssessmentEntity(2, 2,
                 "Objective", "Scripting and Programming - Foundations",
-                "Pass", getDate("October 10, 2018")));
+                "Pass", getDate("October 10, 2018"), null));
         list.add(new AssessmentEntity(3, 3,
                 "Performance", "Education Without Boundaries Orientation",
-                "Pass", getDate("September 23, 2018")));
+                "Pass", getDate("September 23, 2018"), null));
         list.add(new AssessmentEntity(4, 4,
                 "Objective", "CIW - Site Development Associate",
-                "Pass", getDate("November 13, 2018")));
+                "Pass", getDate("November 13, 2018"), null));
         list.add(new AssessmentEntity(5, 5,
                 "Objective", "Introduction to Humanities",
-                "Pass", getDate("December 30, 2018")));
+                "Pass", getDate("December 30, 2018"), null));
         list.add(new AssessmentEntity(6, 5,
                 "Performance", "Exploration of Humanities",
-                "Pass", getDate("December 18, 2018")));
+                "Pass", getDate("December 18, 2018"), null));
         list.add(new AssessmentEntity(7, 6,
                 "Objective", "Oracle – Database SQL (1Z0-071)",
-                "Pass", getDate("January 30, 2019")));
+                "Pass", getDate("January 30, 2019"), null));
         list.add(new AssessmentEntity(8, 7,
                 "Performance", "Software I - GYP1",
-                "Pass", getDate("February 13, 2019")));
+                "Pass", getDate("February 13, 2019"), null));
         list.add(new AssessmentEntity(9, 8,
                 "Performance", "Software II - Advanced Java Concepts - GZP1",
-                "Pass", getDate("February 28, 2019")));
+                "Pass", getDate("February 28, 2019"), null));
         list.add(new AssessmentEntity(10, 9,
                 "Objective", "Data Management - Foundations",
-                "Pass", getDate("March 12, 2019")));
+                "Pass", getDate("March 12, 2019"), null));
         list.add(new AssessmentEntity(11, 10,
                 "Objective", "Data Management - Applications GSA1",
-                "Pass", getDate("March 13, 2019")));
+                "Pass", getDate("March 13, 2019"), null));
         list.add(new AssessmentEntity(12, 10,
                 "Objective", "Data Management - Applications FJ01",
-                "Pass", getDate("March 18, 2019")));
+                "Pass", getDate("March 18, 2019"), null));
         list.add(new AssessmentEntity(13, 11,
                 "Objective", "CIW - Advanced HTML5 and CSS3",
-                "Pass", getDate("April 26, 2019")));
+                "Pass", getDate("April 26, 2019"), null));
         list.add(new AssessmentEntity(14, 12,
                 "Objective", "Network and Security Foundations",
-                "Pass", getDate("May 28, 2019")));
+                "Pass", getDate("May 28, 2019"), null));
         list.add(new AssessmentEntity(15, 13,
                 "Objective", "CompTIA - Project+",
-                "Pass", getDate("June 25, 2019")));
+                "Pass", getDate("June 25, 2019"), null));
         list.add(new AssessmentEntity(16, 14,
                 "Objective", "Third Party Assessment - CompTIA A+ Part 1/2",
-                "Pass", getDate("August 14, 2019")));
+                "Pass", getDate("August 14, 2019"), null));
         list.add(new AssessmentEntity(17, 15,
                 "Objective", "Software Quality Assurance",
-                "Pass", getDate("August 27, 2019")));
+                "Pass", getDate("August 27, 2019"), null));
         list.add(new AssessmentEntity(18, 16,
                 "Performance", "Software Engineering - NUP1",
-                "Pass", getDate("September 26, 2019")));
+                "Pass", getDate("September 26, 2019"), null));
         list.add(new AssessmentEntity(19, 17,
                 "Performance", "Scripting and Programming - Applications - FPP1",
-                "Pass", getDate("October 9, 2019")));
+                "Pass", getDate("October 9, 2019"), null));
         list.add(new AssessmentEntity(20, 18,
                 "Objective", "CompTIA - A+",
-                "Pass", getDate("October 22, 2019")));
+                "Pass", getDate("October 22, 2019"), null));
         list.add(new AssessmentEntity(21, 19,
                 "Objective", "Axelos - ITIL Foundation Certification",
-                "Pass", getDate("January 5, 2020")));
+                "Pass", getDate("January 5, 2020"), null));
         list.add(new AssessmentEntity(22, 20,
                 "Objective", "CIW - User Interface Designer",
-                "Pass", getDate("January 12, 2020")));
+                "Pass", getDate("January 12, 2020"), null));
         list.add(new AssessmentEntity(23, 21,
                 "Objective", "Organizational Behavior and Leadership",
-                "Pass", getDate("February 4, 2020")));
+                "Pass", getDate("February 4, 2020"), null));
         list.add(new AssessmentEntity(24, 22,
                 "Performance", "User Experience Design - HJP1",
-                "Pass", getDate("February 6, 2019")));
+                "Pass", getDate("February 6, 2019"), null));
         list.add(new AssessmentEntity(25, 23,
                 "Objective", "Operating Systems for Programmers",
-                "Pass", getDate("May 18, 2020")));
+                "Pass", getDate("May 18, 2020"), null));
         list.add(new AssessmentEntity(26, 24,
                 "Performance", "Mobile Application Development - ABM1",
-                "Pending", getDate("June 15, 2020")));
+                "Pending", getDate("June 15, 2020"), getDate("June 15, 2020")));
         list.add(new AssessmentEntity(27, 25,
                 "Performance", "Software Development Capstone - EZP1",
-                "Pending", getDate("September 30, 2020")));
+                "Pending", getDate("September 30, 2020"), getDate("September 30, 2020")));
         return list;
     }
 

@@ -42,8 +42,6 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class CourseEditorActivity extends AbstractEditorActivity {
 
-    public static final String TAG = "coursedit";
-
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
     @BindView(R.id.edit_text_course_editor_code)
@@ -271,7 +269,6 @@ public class CourseEditorActivity extends AbstractEditorActivity {
                 }
                 startDate = course.getStartDate();
                 startDateAlarm = course.getStartDateAlarm();
-                Log.i(TAG, "initViewModel: start date alarm: " + startDateAlarm);
                 renderAlarm(startDateAlarm, START);
                 endDate = course.getEndDate();
                 endDateAlarm = course.getEndDateAlarm();

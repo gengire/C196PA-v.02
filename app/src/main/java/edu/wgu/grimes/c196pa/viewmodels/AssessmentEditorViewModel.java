@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Date;
+
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
@@ -25,19 +27,20 @@ public class AssessmentEditorViewModel extends BaseViewModel {
         });
     }
 
-    public void saveAssessment(Integer courseId, String assessmentType, String title, String status, String completionDate) {
+    public void saveAssessment(Integer courseId, String assessmentType, String title, String status, String completionDate, Date completionDateAlarm) {
         if (TextUtils.isEmpty(title)) {
             return; // no saving empty titles
         }
         AssessmentEntity assessment = mLiveAssessment.getValue();
         if (assessment == null) {
-            assessment = new AssessmentEntity(courseId, assessmentType, title, status, getDate(completionDate));
+            assessment = new AssessmentEntity(courseId, assessmentType, title, status, getDate(completionDate), completionDateAlarm);
         } else {
             assessment.setCourseId(Integer.valueOf(courseId));
             assessment.setType(assessmentType);
             assessment.setTitle(title);
             assessment.setStatus(status);
             assessment.setCompletionDate(getDate(completionDate));
+            assessment.setCompletionDateAlarm(completionDateAlarm);
         }
         mRepository.saveAssessment(assessment);
     }

@@ -3,13 +3,13 @@ package edu.wgu.grimes.c196pa.activities;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Date;
 
@@ -18,11 +18,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
+import edu.wgu.grimes.c196pa.utilities.AlarmNotificationManager;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
+import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.AssessmentEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.ASSESSMENT_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class AssessmentEditorActivity extends AbstractEditorActivity {
@@ -41,7 +44,15 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.text_view_assessment_editor_end_date_value)
     TextView mCompletionDate;
 
+    @BindView(R.id.text_view_assessment_editor_alarm_end_date_value)
+    TextView mCompletionDateAlarm;
+
+    @BindView(R.id.image_view_assessment_end_date_alert)
+    ImageView imageViewCompletionDateAlert;
+
+
     private Date completionDate;
+    private Date completionDateAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +63,6 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     }
 
     private void initSpinners() {
-//        TypedArray assessmentTypes = getResources().obtainTypedArray(R.array.assessment_types);
         String[] assessmentTypes = getResources().getStringArray(R.array.assessment_types);
         String[] assessmentStatuses = getResources().getStringArray(R.array.assessment_values);
 
@@ -94,14 +104,49 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     }
 
     @OnClick(R.id.text_view_assessment_editor_end_date_value)
-    void startDateClickHandler() {
+    void completionDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
         dateDialog.show(getSupportFragmentManager(), "assessmentCompletionDatePicker");
     }
 
-    @Override
-    protected void initRecyclerView() {
-        // noop
+    @OnClick(R.id.image_view_assessment_end_date_alert)
+    void completionDateAlertClickHandler() {
+        if ("".equals(mCompletionDate.getText())) {
+            String text = "Please select a completion date before adding a completion date alarm";
+            Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_LONG).show();
+        } else {
+            if (completionDateAlarm == null) {
+                DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
+                    @Override
+                    public Date getDate() {
+                        return completionDateAlarm;
+                    }
+
+                    @Override
+                    public void setDate(Date date) {
+                        completionDateAlarm = date;
+                        mCompletionDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        renderAlarm(completionDateAlarm);
+                    }
+                }, completionDate);
+                dateDialog.show(getSupportFragmentManager(), "assessmentCompletionAlarmDatePicker");
+            } else {
+                completionDateAlarm = null;
+                mCompletionDateAlarm.setText(null);
+                renderAlarm(null);
+            }
+        }
+    }
+
+    private void renderAlarm(Date date) {
+        ImageView imageView = imageViewCompletionDateAlert;
+        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float scaleX = date == null ? 1F : 1.2F;
+        float scaleY = date == null ? 1F : 1.1F;
+
+        imageView.setImageResource(dr);
+        imageView.setScaleX(scaleX);
+        imageView.setScaleY(scaleY);
     }
 
     protected void initViewModel() {
@@ -116,8 +161,13 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
                             .getPosition(String.valueOf(assessment.getStatus())));
                 }
                 completionDate = assessment.getCompletionDate();
+                completionDateAlarm = assessment.getCompletionDateAlarm();
+                renderAlarm(completionDateAlarm);
                 if (completionDate != null) {
                     mCompletionDate.setText(getFormattedDate(completionDate));
+                }
+                if (completionDateAlarm != null) {
+                    mCompletionDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, completionDateAlarm));
                 }
             }
         });
@@ -132,10 +182,6 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
             setTitle("Edit Assessment");
             mId = extras.getInt(ASSESSMENT_ID_KEY);
             mViewModel.loadAssessment(mId);
-//            mViewModel.loadCourseAssessments(mCourseId);
-//            mViewModel.getCourseAssessments().observe(this, (assessments) -> {
-//                mAdapter.submitList(assessments);
-//            });
         }
     }
 
@@ -144,17 +190,29 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String assessmentType = String.valueOf(mAssessmentType.getSelectedItem());
         String status = String.valueOf(mStatus.getSelectedItem());
         String completionDate = mCompletionDate.getText().toString();
+        Date cdAlarm = completionDateAlarm;
 
         if (title.trim().isEmpty()) {
-//            StyleableToast.makeText(AssessmentEditorActivity.this, "Please enter a title", R.style.toast_validation_failure).show();
-//            Toast.makeText(AssessmentEditorActivity.this, "Please enter a title", R.style.
             Toast.makeText(AssessmentEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
             return;
         }
-        mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate);
-//        StyleableToast.makeText(AssessmentEditorActivity.this, title + " saved", R.style.toast_message).show();
+        mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);
+        handleAlarmNotification();
         Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
+    }
+
+    private void handleAlarmNotification() {
+        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
+        String title = "WGU Scheduler Assessment Alert";
+        String message = mTitle.getText() + " is ";
+
+        if (!"".equals(mCompletionDate.getText()) && completionDateAlarm != null) {
+            String cEnding = completionDateAlarm == null ? "" :
+                    "scheduled to be completed on " + mCompletionDate.getText();
+            alm.registerAlarmNotification(this, completionDateAlarm, mId, "end",
+                    title, message + cEnding);
+        }
     }
 
     protected void delete() {
@@ -162,23 +220,9 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String title = course.getTitle();
         mViewModel.deleteAssessment();
         String text = title + " Deleted";
-//        StyleableToast.makeText(AssessmentEditorActivity.this, text, R.style.toast_message).show();
         Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
     }
 
-    @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
-        // noop
-    }
 
-    @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
-        // noop
-    }
-
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return null; // noop
-    }
 }
