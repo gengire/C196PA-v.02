@@ -2,6 +2,7 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -121,9 +122,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
         // update the view when the model is changed
         mViewModel.mLiveData.observe(this, (term) -> {
             if (term != null) {
-                if (!mEditing) {
-                    mTitle.setText(term.getTitle());
-                }
+                mTitle.setText(term.getTitle());
                 startDate = term.getStartDate();
                 endDate = term.getEndDate();
                 if (startDate != null) {

@@ -153,13 +153,11 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
         mViewModel.mLiveAssessment.observe(this, (assessment) -> {
             if (assessment != null) {
-                if (!mEditing) {
-                    mTitle.setText(assessment.getTitle());
-                    mAssessmentType.setSelection(((ArrayAdapter) mAssessmentType.getAdapter())
-                            .getPosition(String.valueOf(assessment.getType())));
-                    mStatus.setSelection(((ArrayAdapter) mStatus.getAdapter())
-                            .getPosition(String.valueOf(assessment.getStatus())));
-                }
+                mTitle.setText(assessment.getTitle());
+                mAssessmentType.setSelection(((ArrayAdapter) mAssessmentType.getAdapter())
+                        .getPosition(String.valueOf(assessment.getType())));
+                mStatus.setSelection(((ArrayAdapter) mStatus.getAdapter())
+                        .getPosition(String.valueOf(assessment.getStatus())));
                 completionDate = assessment.getCompletionDate();
                 completionDateAlarm = assessment.getCompletionDateAlarm();
                 renderAlarm(completionDateAlarm);

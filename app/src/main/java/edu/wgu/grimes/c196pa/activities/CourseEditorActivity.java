@@ -1,13 +1,17 @@
 package edu.wgu.grimes.c196pa.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -40,14 +44,16 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
-public class CourseEditorActivity extends AbstractEditorActivity {
+public class CourseEditorActivity extends AbstractEditorActivity implements NumberPicker.OnValueChangeListener {
 
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
     @BindView(R.id.edit_text_course_editor_code)
     EditText mCode;
-    @BindView(R.id.spinner_course_editor_cus)
-    Spinner mCompetencyUnits;
+    //    @BindView(R.id.spinner_course_editor_cus)
+//    Spinner mCompetencyUnits;
+    @BindView(R.id.text_view_course_editor_cus_value)
+    TextView mCus;
     @BindView(R.id.spinner_course_editor_status)
     Spinner mStatus;
     @BindView(R.id.text_view_course_editor_start_date_value)
@@ -93,13 +99,7 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     }
 
     private void initSpinners() {
-        String[] competencyUnits = getResources().getStringArray(R.array.competency_unit_values);
         String[] courseStatuses = getResources().getStringArray(R.array.status_values);
-
-        ArrayAdapter<String> competencyUnitsItemAdapter = new ArrayAdapter<>(
-                this, R.layout.item_spinner_right, competencyUnits);
-        competencyUnitsItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
-        mCompetencyUnits.setAdapter(competencyUnitsItemAdapter);
 
         ArrayAdapter<String> courseStatusItemAdapter = new ArrayAdapter<>(
                 this, R.layout.item_spinner_right, courseStatuses);
@@ -158,6 +158,39 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     void endDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
+    }
+
+    @OnClick(R.id.text_view_course_editor_cus_value)
+    void cusClickHandler() {
+        final Dialog dialog = new Dialog(CourseEditorActivity.this);
+        dialog.setTitle("Competency Units");
+        dialog.setContentView(R.layout.number_picker);
+
+        String strCus = String.valueOf(mCus.getText());
+        int cusValue = "".equals(strCus) ? 0 : Integer.parseInt(strCus);
+
+        NumberPicker mCuPicker=  dialog.findViewById(R.id.number_picker);
+        mCuPicker.setWrapSelectorWheel(false);
+        mCuPicker.setMaxValue(10);
+        mCuPicker.setMinValue(0);
+        mCuPicker.setValue(cusValue); // set value needs to be set after set min and max :/
+        mCuPicker.setOnValueChangedListener(this);
+
+        Button btnSetCus = dialog.findViewById(R.id.btn_set_cus);
+        btnSetCus.setOnClickListener(v -> {
+            mCus.setText(String.valueOf(mCuPicker.getValue()));
+            dialog.dismiss();
+        });
+        Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
+        btnCancelCus.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        mCus.setText(String.valueOf(newVal));
     }
 
     @OnClick(R.id.image_view_course_start_date_alert)
@@ -254,19 +287,14 @@ public class CourseEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
         mViewModel.mLiveCourse.observe(this, (course) -> {
             if (course != null) {
-                if (!mEditing) {
-                    mTitle.setText(course.getTitle());
-                    mCode.setText(course.getCode());
+                mTitle.setText(course.getTitle());
+                mCode.setText(course.getCode());
+                mCus.setText(String.valueOf(course.getCompetencyUnits()));
 
-                    SpinnerAdapter sa = mCompetencyUnits.getAdapter();
-                    ArrayAdapter<String> cuAdapter = (ArrayAdapter<String>) sa;
-                    String strCus = String.valueOf(course.getCompetencyUnits());
-                    mCompetencyUnits.setSelection(cuAdapter.getPosition(strCus));
+                SpinnerAdapter ssa = mStatus.getAdapter();
+                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
+                mStatus.setSelection(statusAdapter.getPosition(course.getStatus()));
 
-                    SpinnerAdapter ssa = mStatus.getAdapter();
-                    ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
-                    mStatus.setSelection(statusAdapter.getPosition(course.getStatus()));
-                }
                 startDate = course.getStartDate();
                 startDateAlarm = course.getStartDateAlarm();
                 renderAlarm(startDateAlarm, START);
@@ -312,7 +340,8 @@ public class CourseEditorActivity extends AbstractEditorActivity {
     protected void save() {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
-        String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
+//        String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
+        String cus = mCus.getText().toString();
         String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mParentId);
         String startDate = mStartDate.getText().toString();

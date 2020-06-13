@@ -96,10 +96,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(NoteEditorViewModel.class);
         mViewModel.mLiveNote.observe(this, (note) -> {
             if (note != null) {
-                if (!mEditing) {
-                    mTitle.setText(note.getTitle());
-                    mDescription.setText(note.getDescription());
-                }
+                mTitle.setText(note.getTitle());
+                mDescription.setText(note.getDescription());
             }
         });
 

@@ -88,12 +88,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(MentorEditorViewModel.class);
         mViewModel.mLiveMentor.observe(this, (mentor) -> {
             if (mentor != null) {
-                if (!mEditing) {
-                    mFirstName.setText(mentor.getFirstName());
-                    mLastName.setText(mentor.getLastName());
-                    mPhone.setText(mentor.getPhoneNumber());
-                    mEmail.setText(mentor.getEmail());
-                }
+                mFirstName.setText(mentor.getFirstName());
+                mLastName.setText(mentor.getLastName());
+                mPhone.setText(mentor.getPhoneNumber());
+                mEmail.setText(mentor.getEmail());
             }
         });
 

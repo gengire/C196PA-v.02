@@ -20,7 +20,6 @@ import edu.wgu.grimes.c196pa.R;
 public abstract class AbstractActivity extends AppCompatActivity {
 
     protected boolean mNew;
-    protected boolean mEditing;
 
     protected int mId;
     protected int mParentId;
