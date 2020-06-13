@@ -25,6 +25,10 @@ public class SampleData {
                 getDate("April 1, 2020"), getDate("September 30, 2020")));
         list.add(new TermEntity("Term w/ 0 Courses",
                 getDate("October 1, 2020"), getDate("March 31, 2021")));
+        list.add(new TermEntity("Sort of long term name",
+                getDate("April 1, 2021"), getDate("September 30, 2021")));
+        list.add(new TermEntity("A much longer term name just to see how the editor handles it",
+                getDate("October 1, 2021"), getDate("March 31, 2022")));
         return list;
     }
 
