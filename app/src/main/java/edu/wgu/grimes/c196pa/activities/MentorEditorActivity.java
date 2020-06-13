@@ -61,7 +61,7 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         int courseId = mParentId;
 
         if (firstName.trim().isEmpty()) {
-            Toast.makeText(MentorEditorActivity.this, "Please enter a first name", Toast.LENGTH_LONG).show();
+            showValidationError("Missing first name", "Please enter a first name");
             return;
         }
         mViewModel.saveMentor(courseId, firstName, lastName, phone, email);
@@ -106,16 +106,6 @@ public class MentorEditorActivity extends AbstractEditorActivity {
             mId = extras.getInt(MENTOR_ID_KEY);
             mViewModel.loadMentor(mId);
         }
-    }
-
-    @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
-        // noop
-    }
-
-    @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
-        // noop
     }
 
     @Override

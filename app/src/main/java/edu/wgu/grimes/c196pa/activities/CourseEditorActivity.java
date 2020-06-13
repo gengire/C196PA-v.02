@@ -197,7 +197,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     void startDateAlertClickHandler() {
         if ("".equals(mStartDate.getText())) {
             String text = "Please select a start date before adding a start date alarm";
-            Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_LONG).show();
+            showValidationError("Missing start date", text);
         } else {
             if (startDateAlarm == null) {
                 DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
@@ -226,7 +226,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     void endDateAlertClickHandler() {
         if ("".equals(mEndDate.getText())) {
             String text = "Please select an end date before adding an end date alarm";
-            Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_LONG).show();
+            showValidationError("Missing end date", text);
         } else {
             if (endDateAlarm == null) {
                 DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
@@ -350,7 +350,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         Date edAlarm = endDateAlarm;
 
         if (title.trim().isEmpty()) {
-            Toast.makeText(CourseEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
+            showValidationError("Missing title", "Please enter a title");
             return;
         }
         mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
@@ -390,8 +390,8 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
                         Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                         closeActivity();
                     }, () -> { // failure
-                        String text = title + " can't be deleted because it has at least one course associated with it";
-                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                        String text = title + " can't be deleted because it has at least one assessment associated with it";
+                        showValidationError("Can't delete", text);
                     });
         }
     }

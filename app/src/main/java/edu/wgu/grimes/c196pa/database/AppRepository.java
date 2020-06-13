@@ -179,4 +179,8 @@ public class AppRepository {
     public LiveData<Integer> getTotalAssessmentCount() {
         return assessmentDao.getLiveCount();
     }
+
+    public int getAssessmentCountForCourse(CourseEntity course) {
+        return assessmentDao.getAssessmentCountForCourse(course.getId());
+    }
 }

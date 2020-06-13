@@ -102,8 +102,8 @@ public class TermsListActivity extends AbstractListActivity {
                     Toast.makeText(TermsListActivity.this, text, Toast.LENGTH_SHORT).show();
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                    String text = termTitle + " can't be deleted because it has courses associated with it";
-                    Toast.makeText(TermsListActivity.this, text, Toast.LENGTH_LONG).show();
+                    String text = termTitle + " can't be deleted because it has at least one course associated with it";
+                    showValidationError("Can't delete", text);
                 });
     }
 

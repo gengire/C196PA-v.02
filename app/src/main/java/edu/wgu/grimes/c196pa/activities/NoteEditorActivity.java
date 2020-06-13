@@ -71,7 +71,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         int courseId = mParentId;
 
         if (title.trim().isEmpty()) {
-            Toast.makeText(NoteEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
+            showValidationError("Missing title", "Please enter a title");
             return;
         }
         mViewModel.saveNote(courseId, title, description);
@@ -113,16 +113,6 @@ public class NoteEditorActivity extends AbstractEditorActivity {
             mId = extras.getInt(NOTE_ID_KEY);
             mViewModel.loadNote(mId);
         }
-    }
-
-    @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
-        // noop
-    }
-
-    @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
-        // noop
     }
 
     @Override

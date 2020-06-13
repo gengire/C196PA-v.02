@@ -88,15 +88,30 @@ public class SendEmailActivity extends AppCompatActivity {
         String recipientList = mTo.getText().toString();
         String[] recipients = recipientList.split(",");
 
-        String subject = mSubject.getText().toString();
-        String message = mMessage.getText().toString();
+        if (recipientList.length() > 0) {
+            String subject = mSubject.getText().toString();
+            String message = mMessage.getText().toString();
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, message);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            intent.putExtra(Intent.EXTRA_TEXT, message);
 
-        intent.setType("message/rfc822");
-        startActivity(Intent.createChooser(intent, "Choose an email client"));
+            intent.setType("message/rfc822");
+            startActivity(Intent.createChooser(intent, "Choose an email client"));
+        } else {
+            showValidationError("Missing recipients", "Please enter at least one email recipient");
+        }
+    }
+
+    protected void showValidationError(String title, String message) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage(message).setTitle(title)
+                .setCancelable(true)
+                .setPositiveButton("Okay", (dialog, id) -> {
+                    dialog.cancel();
+                });
+        android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 }

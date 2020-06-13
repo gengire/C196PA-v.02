@@ -156,7 +156,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
         String startDate = mStartDate.getText().toString();
         String endDate = mEndDate.getText().toString();
         if (title.trim().isEmpty()) {
-            Toast.makeText(TermEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
+            showValidationError("Missing title", "Please enter a title");
             return;
         }
         mViewModel.saveTerm(title, startDate, endDate);
@@ -174,8 +174,8 @@ public class TermEditorActivity extends AbstractEditorActivity {
                     Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                     closeActivity();
                 }, () -> { // failure
-                    String text = termTitle + " can't be deleted because it has courses associated with it";
-                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                    String text = termTitle + " can't be deleted because it has at least one course associated with it";
+                    showValidationError("Can't delete", text);
                 });
     }
 
@@ -196,8 +196,8 @@ public class TermEditorActivity extends AbstractEditorActivity {
                     Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                    String text = courseTitle + " can't be deleted because it has courses associated with it";
-                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_LONG).show();
+                    String text = courseTitle + " can't be deleted because it has at least one assessment associated with it";
+                    showValidationError("Can't delete", text);
                 });
     }
 

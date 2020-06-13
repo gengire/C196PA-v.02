@@ -112,8 +112,8 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @OnClick(R.id.image_view_assessment_end_date_alert)
     void completionDateAlertClickHandler() {
         if ("".equals(mCompletionDate.getText())) {
-            String text = "Please select a completion date before adding a completion date alarm";
-            Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_LONG).show();
+            String text = "Please select a end date before adding an end date alarm";
+            showValidationError("Missing end date", text);
         } else {
             if (completionDateAlarm == null) {
                 DialogFragment dateDialog = new DatePickerFragment(new HasDate() {
@@ -191,7 +191,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         Date cdAlarm = completionDateAlarm;
 
         if (title.trim().isEmpty()) {
-            Toast.makeText(AssessmentEditorActivity.this, "Please enter a title", Toast.LENGTH_LONG).show();
+            showValidationError("Missing title", "Please enter a title");
             return;
         }
         mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);

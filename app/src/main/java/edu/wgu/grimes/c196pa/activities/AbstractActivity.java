@@ -132,6 +132,17 @@ public abstract class AbstractActivity extends AppCompatActivity {
 //        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    protected void showValidationError(String title, String message) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage(message).setTitle(title)
+                .setCancelable(true)
+                .setPositiveButton("Okay", (dialog, id) -> {
+                    dialog.cancel();
+                });
+        android.app.AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     protected abstract int getContentView();
 
     protected abstract void initButterKnife();
