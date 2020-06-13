@@ -40,4 +40,7 @@ public interface AssessmentDao {
 
     @Query("delete from assessments where course_id = :courseId")
     void deleteAssessmentsForCourse(int courseId);
+
+    @Query("select count(*) from assessments")
+    LiveData<Integer> getLiveCount();
 }

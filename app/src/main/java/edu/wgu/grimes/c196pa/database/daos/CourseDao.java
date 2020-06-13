@@ -41,6 +41,9 @@ public interface CourseDao {
     @Query("select count(*) from courses")
     Integer getCount();
 
+    @Query("select count(*) from courses")
+    LiveData<Integer> getLiveCount();
+
 //    @Transaction
 //    @Query("select * from courses")
 //    LiveData<List<CourseWithMentors>> getAllCoursesWithMentors();

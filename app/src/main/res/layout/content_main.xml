@@ -51,6 +51,7 @@
                 android:layout_gravity="end"
                 android:textStyle="bold"
                 android:textColor="@color/color_completed"/>
+
         </LinearLayout>
 
         <LinearLayout

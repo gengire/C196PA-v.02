@@ -14,6 +14,8 @@ public class MainViewModel extends BaseViewModel {
     public LiveData<Integer> mAssessmentsPending;
     public LiveData<Integer> mAssessmentsPassed;
     public LiveData<Integer> mAssessmentsFailed;
+    public LiveData<Integer> mTotalCourses;
+    public LiveData<Integer> mTotalAssessments;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -24,6 +26,8 @@ public class MainViewModel extends BaseViewModel {
         mAssessmentsPassed = mRepository.getAssessmentsByStatus("Pass");
         mAssessmentsPending = mRepository.getAssessmentsByStatus("Pending");
         mAssessmentsFailed = mRepository.getAssessmentsByStatus("Fail");
+        mTotalCourses = mRepository.getTotalCourseCount();
+        mTotalAssessments = mRepository.getTotalAssessmentCount();
     }
 
     public void addSampleData() {

@@ -171,4 +171,12 @@ public class AppRepository {
     public MentorEntity getMentorById(int mentorId) {
         return mentorDao.getMentorById(mentorId);
     }
+
+    public LiveData<Integer> getTotalCourseCount() {
+        return courseDao.getLiveCount();
+    }
+
+    public LiveData<Integer> getTotalAssessmentCount() {
+        return assessmentDao.getLiveCount();
+    }
 }

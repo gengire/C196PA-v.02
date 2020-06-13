@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.text_view_assessments_failed_value)
     TextView mAssessmentsFailed;
     private MainViewModel mViewModel;
+
+    private int iCourseCount = 0;
+    private int iAssessmentCount = 0;
+    private int iCourseCompleted = 0;
+    private int iCourseInProgress = 0;
+    private int iCourseDropped = 0;
+    private int iCourseFailed = 0;
+    private int iAssessmentPassed = 0;
+    private int iAssessmentPending = 0;
+    private int iAssessmentFailed = 0;
 
     @OnClick(R.id.btn_terms_list)
     void termsClickHandler() {
@@ -74,28 +86,72 @@ public class MainActivity extends AppCompatActivity {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
+        mViewModel.mTotalCourses.observe(MainActivity.this, courseCount -> {
+            iCourseCount = courseCount;
+            updateStats(iCourseCompleted, iCourseCount, mCoursesCompleted);
+            updateStats(iCourseInProgress, iCourseCount, mCoursesInProgress);
+            updateStats(iCourseDropped, iCourseCount, mCoursesDropped);
+            updateStats(iCourseFailed, iCourseCount, mCoursesFailed);
+        });
+        mViewModel.mTotalAssessments.observe(MainActivity.this, assessmentCount -> {
+            iAssessmentCount = assessmentCount;
+            updateStats(iAssessmentPassed, iAssessmentCount, mAssessmentsPassed);
+            updateStats(iAssessmentPending, iAssessmentCount, mAssessmentsPending);
+            updateStats(iAssessmentFailed, iAssessmentCount, mAssessmentsFailed);
+        });
         mViewModel.mCoursesCompleted.observe(MainActivity.this, courses -> {
-            mCoursesCompleted.setText(String.valueOf(courses));
+            iCourseCompleted = courses;
+            updateStats(iCourseCompleted, iCourseCount, mCoursesCompleted);
         });
         mViewModel.mCoursesInProgress.observe(MainActivity.this, courses -> {
-            mCoursesInProgress.setText(String.valueOf(courses));
+            iCourseInProgress = courses;
+            updateStats(iCourseInProgress, iCourseCount, mCoursesInProgress);
         });
         mViewModel.mCoursesDropped.observe(MainActivity.this, courses -> {
-            mCoursesDropped.setText(String.valueOf(courses));
+            iCourseDropped = courses;
+            updateStats(iCourseDropped, iCourseCount, mCoursesDropped);
         });
         mViewModel.mCoursesFailed.observe(MainActivity.this, courses -> {
-            mCoursesFailed.setText(String.valueOf(courses));
+            iCourseFailed = courses;
+            updateStats(iCourseFailed, iCourseCount, mCoursesFailed);
         });
         mViewModel.mAssessmentsPassed.observe(MainActivity.this, assessments -> {
-            mAssessmentsPassed.setText(String.valueOf(assessments));
+            iAssessmentPassed = assessments;
+            updateStats(iAssessmentPassed, iAssessmentCount, mAssessmentsPassed);
         });
         mViewModel.mAssessmentsPending.observe(MainActivity.this, assessments -> {
-            mAssessmentsPending.setText(String.valueOf(assessments));
+            iAssessmentPending = assessments;
+            updateStats(iAssessmentPending, iAssessmentCount, mAssessmentsPending);
         });
         mViewModel.mAssessmentsFailed.observe(MainActivity.this, assessments -> {
-            mAssessmentsFailed.setText(String.valueOf(assessments));
+            iAssessmentFailed = assessments;
+            updateStats(iAssessmentFailed, iAssessmentCount, mAssessmentsFailed);
         });
 
+    }
+
+    private void updateStats(int numerator, int denominator, TextView textView) {
+        StringBuilder sb = new StringBuilder();
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+        if (numerator < 10) {
+            sb.append("  ");
+        }
+        sb.append(numerator)
+                .append(" / ");
+        if (denominator < 10) {
+            sb.append("  ");
+        }
+        sb.append(denominator)
+                .append("   ")
+                .append("(");
+        if (numerator > 0) {
+            sb.append(decimalFormat.format((double) (numerator * 100) / denominator));
+        } else {
+            sb.append(0);
+        }
+        sb.append("%)");
+        textView.setText(sb.toString());
     }
 
 }
