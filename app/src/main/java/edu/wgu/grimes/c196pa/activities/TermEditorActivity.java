@@ -44,9 +44,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
     private TermEditorViewModel mViewModel;
-
     private int mId;
-
     private Date startDate;
     private Date endDate;
     private CourseAdapter mAdapter;
