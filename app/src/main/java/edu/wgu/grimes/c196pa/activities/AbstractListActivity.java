@@ -1,5 +1,7 @@
 package edu.wgu.grimes.c196pa.activities;
 
+import android.os.Bundle;
+
 import edu.wgu.grimes.c196pa.R;
 
 public abstract class AbstractListActivity extends AbstractActivity {
@@ -31,6 +33,16 @@ public abstract class AbstractListActivity extends AbstractActivity {
 
     @Override
     protected void delete() {
+        // noop
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
+        // noop
+    }
+
+    @Override
+    protected void restoreState(Bundle savedStateInstance) {
         // noop
     }
 

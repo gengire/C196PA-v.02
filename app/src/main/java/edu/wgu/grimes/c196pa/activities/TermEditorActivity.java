@@ -35,6 +35,8 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class TermEditorActivity extends AbstractEditorActivity {
 
+    private static final String TAG = "teststate";
+
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;
     @BindView(R.id.text_view_term_editor_start_date_value)
@@ -72,12 +74,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString("term.title.key");
-            state.startDate = savedInstanceState.getString("term.startDate.key");
-            state.endDate =  savedInstanceState.getString("term.endDate.key");
-        }
-
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +84,29 @@ public class TermEditorActivity extends AbstractEditorActivity {
         });
     }
 
-    String TAG = "savetitle";
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            Log.i(TAG, "restoreState: ");
+            state.title = savedInstanceState.getString("term.title.key");
+            state.startDate = savedInstanceState.getString("term.startDate.key");
+            state.endDate = savedInstanceState.getString("term.endDate.key");
+            loadState(state.title, state.startDate, state.endDate);
+        }
+    }
+
+    private void loadState(String title, String startDate, String endDate) {
+        mTitle.setText(title);
+        mStartDate.setText(startDate);
+        mEndDate.setText(endDate);
+    }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("term.title.key", mTitle.getText().toString());
-        outState.putString("term.startDate.key", mStartDate.getText().toString());
-        outState.putString("term.endDate.key", mEndDate.getText().toString());
+    protected void saveState(@NonNull Bundle outState) {
+        Log.i(TAG, "saveState: ");
+        outState.putString("term.title.key", String.valueOf(mTitle.getText()));
+        outState.putString("term.startDate.key", String.valueOf(mStartDate.getText()));
+        outState.putString("term.endDate.key", String.valueOf(mEndDate.getText()));
     }
 
     @Override
@@ -149,7 +160,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
                 mTitle.setText(state.title == null ? term.getTitle() : state.title);
                 startDate = state.startDate == null ? term.getStartDate() : getDate(state.startDate);
                 endDate = state.endDate == null ? term.getEndDate() : getDate(state.endDate);
-                Log.i(TAG, "onCreate: " + state.title + ": " + state.startDate + ": " + state.endDate);
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
@@ -159,6 +169,15 @@ public class TermEditorActivity extends AbstractEditorActivity {
             }
         });
 
+//        Log.i(TAG, "initViewModel: " + state.startDate);
+//        if (state.startDate != null) {
+//            startDate = getDate(state.startDate);
+//            mStartDate.setText(state.startDate);
+//        }
+//        if (state.endDate != null) {
+//            endDate = getDate(state.endDate);
+//            mEndDate.setText(state.endDate);
+//        }
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             setTitle(getString(R.string.new_term));
@@ -177,9 +196,9 @@ public class TermEditorActivity extends AbstractEditorActivity {
     }
 
     protected void save() {
-        String title = mTitle.getText().toString();
-        String startDate = mStartDate.getText().toString();
-        String endDate = mEndDate.getText().toString();
+        String title = String.valueOf(mTitle.getText());
+        String startDate = String.valueOf(mStartDate.getText());
+        String endDate = String.valueOf(mEndDate.getText());
         if (title.trim().isEmpty()) {
             showValidationError("Missing title", "Please enter a title");
             return;

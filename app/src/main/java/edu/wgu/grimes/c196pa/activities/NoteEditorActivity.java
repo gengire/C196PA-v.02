@@ -35,8 +35,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     @OnClick(R.id.btn_open_send_email)
     void handleOpenSendEmailClick() {
         Intent intent = new Intent(this, SendEmailActivity.class);
-        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + mTitle.getText().toString());
-        intent.putExtra(Constants.EMAIL_MESSAGE_KEY, mDescription.getText().toString());
+        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + String.valueOf(mTitle.getText()));
+        intent.putExtra(Constants.EMAIL_MESSAGE_KEY, String.valueOf(mDescription.getText()));
         openActivity(intent);
     }
 
@@ -65,9 +65,19 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         return R.id.delete_note;
     }
 
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
+
+    }
+
     protected void save() {
-        String title = mTitle.getText().toString();
-        String description = mDescription.getText().toString();
+        String title = String.valueOf(mTitle.getText());
+        String description = String.valueOf( mDescription.getText());
         int courseId = mParentId;
 
         if (title.trim().isEmpty()) {

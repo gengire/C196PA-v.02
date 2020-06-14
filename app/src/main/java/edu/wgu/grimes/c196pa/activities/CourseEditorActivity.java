@@ -14,7 +14,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,8 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.adapters.AssessmentAdapter;
-import edu.wgu.grimes.c196pa.adapters.CourseAdapter;
-import edu.wgu.grimes.c196pa.adapters.TermAdapter;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.AlarmNotificationManager;
@@ -38,7 +35,6 @@ import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
-import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
@@ -106,6 +102,27 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
         initSpinners();
 
+        mFab.setOnClickListener(view -> {
+            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mId);
+            openActivity(intent);
+        });
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
+        outState.putString("course.title.key", String.valueOf(mTitle.getText()));
+        outState.putString("course.code.key", String.valueOf(mCode.getText()));
+        outState.putString("course.cus.key", String.valueOf(mCus.getText()));
+        outState.putInt("course.status.key", mStatus.getSelectedItemPosition());
+        outState.putString("course.startDate.key", String.valueOf(mStartDate.getText()));
+        outState.putString("course.endDate.key", String.valueOf(mEndDate.getText()));
+        outState.putString("course.startDateAlarm.key", String.valueOf(mStartDateAlarm.getText()));
+        outState.putString("course.endDateAlarm.key", String.valueOf(mEndDateAlarm.getText()));
+    }
+
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             state.title = savedInstanceState.getString("course.title.key");
             state.code = savedInstanceState.getString("course.code.key");
@@ -115,26 +132,35 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             state.endDate = savedInstanceState.getString("course.endDate.key");
             state.startDateAlarm = savedInstanceState.getString("course.startDateAlarm.key");
             state.endDateAlarm = savedInstanceState.getString("course.endDateAlarm.key");
+            loadState(state.title, state.code, state.cus, state.status, state.startDate,
+                    state.startDateAlarm, state.endDate, state.endDateAlarm);
+            renderAlarm(startDateAlarm, START);
+            renderAlarm(endDateAlarm, END);
         }
-
-        mFab.setOnClickListener(view -> {
-            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
-            intent.putExtra(Constants.COURSE_ID_KEY, mId);
-            openActivity(intent);
-        });
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("course.title.key", mTitle.getText().toString());
-        outState.putString("course.code.key", mCode.getText().toString());
-        outState.putString("course.cus.key", mCus.getText().toString());
-        outState.putInt("course.status.key", mStatus.getSelectedItemPosition());
-        outState.putString("course.startDate.key", mStartDate.getText().toString());
-        outState.putString("course.endDate.key", mEndDate.getText().toString());
-        outState.putString("course.startDateAlarm.key", mStartDateAlarm.getText().toString());
-        outState.putString("course.endDateAlarm.key", mEndDateAlarm.getText().toString());
+    private void loadState(String title, String code, String cus, Integer status, String startDate,
+                           String startDateAlarm, String endDate, String endDateAlarm) {
+        mTitle.setText(title);
+        mCode.setText(code);
+        mCus.setText(cus);
+        mStatus.setSelection(status);
+        mStartDate.setText(startDate);
+        if (state.startDate != null) {
+            this.startDate = getDate(startDate);
+        }
+        mStartDateAlarm.setText(startDateAlarm);
+        if (state.startDateAlarm != null) {
+            this.startDateAlarm = getDate(SHORT_DATE_PATTERN, startDateAlarm);
+        }
+        mEndDate.setText(endDate);
+        if (state.endDate != null) {
+            this.endDate = getDate(state.endDate);
+        }
+        mEndDateAlarm.setText(endDateAlarm);
+        if (state.endDateAlarm != null) {
+            this.endDateAlarm = getDate(SHORT_DATE_PATTERN, endDateAlarm);
+        }
     }
 
     private void initSpinners() {
@@ -221,9 +247,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             dialog.dismiss();
         });
         Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
-        btnCancelCus.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        btnCancelCus.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
@@ -234,7 +258,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
     @OnClick(R.id.image_view_course_start_date_alert)
     void startDateAlertClickHandler() {
-        if ("".equals(mStartDate.getText())) {
+        if ("".equals(String.valueOf(mStartDate.getText()))) {
             String text = "Please select a start date before adding a start date alarm";
             showValidationError("Missing start date", text);
         } else {
@@ -379,14 +403,14 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     }
 
     protected void save() {
-        String title = mTitle.getText().toString();
-        String code = mCode.getText().toString();
-        String cus = mCus.getText().toString();
+        String title = String.valueOf(mTitle.getText());
+        String code = String.valueOf(mCode.getText());
+        String cus = String.valueOf(mCus.getText());
         String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mParentId);
-        String startDate = mStartDate.getText().toString();
+        String startDate = String.valueOf(mStartDate.getText());
         Date sdAlarm = startDateAlarm;
-        String endDate = mEndDate.getText().toString();
+        String endDate = String.valueOf(mEndDate.getText());
         Date edAlarm = endDateAlarm;
 
         if (title.trim().isEmpty()) {

@@ -36,6 +36,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         initButterKnife();
+        restoreState(savedInstanceState);
         initRecyclerView();
 
         factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
@@ -43,6 +44,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         initViewModel();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveState(outState);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
@@ -168,6 +176,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected abstract void handleSwipeDelete(RecyclerView.ViewHolder viewHolder);
 
     protected abstract void onSwipeCancel(RecyclerView.ViewHolder viewHolder);
+
+    protected abstract void restoreState(Bundle savedInstanceState);
+
+    protected abstract void saveState(Bundle outState);
 
 }
 

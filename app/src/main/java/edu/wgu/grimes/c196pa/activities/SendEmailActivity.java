@@ -85,12 +85,12 @@ public class SendEmailActivity extends AppCompatActivity {
     }
 
     private void sendMail() {
-        String recipientList = mTo.getText().toString();
+        String recipientList = String.valueOf(mTo.getText());
         String[] recipients = recipientList.split(",");
 
         if (recipientList.length() > 0) {
-            String subject = mSubject.getText().toString();
-            String message = mMessage.getText().toString();
+            String subject = String.valueOf(mSubject.getText());
+            String message = String.valueOf(mMessage.getText());
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_EMAIL, recipients);

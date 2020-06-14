@@ -53,11 +53,21 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         return R.id.delete_mentor;
     }
 
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
+
+    }
+
     protected void save() {
-        String firstName = mFirstName.getText().toString();
-        String lastName = mLastName.getText().toString();
-        String phone = mPhone.getText().toString();
-        String email = mEmail.getText().toString();
+        String firstName = String.valueOf(mFirstName.getText());
+        String lastName = String.valueOf(mLastName.getText());
+        String phone = String.valueOf(mPhone.getText());
+        String email = String.valueOf(mEmail.getText());
         int courseId = mParentId;
 
         if (firstName.trim().isEmpty()) {

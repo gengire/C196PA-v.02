@@ -34,6 +34,8 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class AssessmentEditorActivity extends AbstractEditorActivity {
 
+    private static final String TAG = "teststate";
+
     AssessmentEditorViewModel mViewModel;
 
     @BindView(R.id.edit_text_assessment_editor_title)
@@ -79,17 +81,26 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
             state.completionDate = savedInstanceState.getString("assessment.endDate.key");
             state.completionDateAlarm = savedInstanceState.getString("assessment.endDateAlarm.key");
         }
+    }
+
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
 
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("assessment.title.key", mTitle.getText().toString());
+        outState.putString("assessment.title.key", String.valueOf(mTitle.getText()));
         outState.putInt("assessment.type.key", mAssessmentType.getSelectedItemPosition());
         outState.putInt("assessment.status.key", mStatus.getSelectedItemPosition());
-        outState.putString("assessment.endDate.key", mCompletionDate.getText().toString());
-        outState.putString("assessment.endDateAlarm.key", mCompletionDateAlarm.getText().toString());
+        outState.putString("assessment.endDate.key", String.valueOf(mCompletionDate.getText()));
+        outState.putString("assessment.endDateAlarm.key", String.valueOf(mCompletionDateAlarm.getText()));
     }
 
     private void initSpinners() {
@@ -179,8 +190,6 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         imageView.setScaleY(scaleY);
     }
 
-    private String TAG = "teststate";
-
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
         mViewModel.mLiveAssessment.observe(this, (assessment) -> {
@@ -228,10 +237,10 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     }
 
     protected void save() {
-        String title = mTitle.getText().toString();
+        String title = String.valueOf(mTitle.getText());
         String assessmentType = String.valueOf(mAssessmentType.getSelectedItem());
         String status = String.valueOf(mStatus.getSelectedItem());
-        String completionDate = mCompletionDate.getText().toString();
+        String completionDate = String.valueOf(mCompletionDate.getText());
         Date cdAlarm = completionDateAlarm;
 
         if (title.trim().isEmpty()) {
