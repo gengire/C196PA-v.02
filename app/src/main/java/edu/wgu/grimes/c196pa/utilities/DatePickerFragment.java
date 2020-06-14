@@ -37,8 +37,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        TextView textView
-        Log.i(TAG, "onCreateDialog: " + );
         Calendar cDate = Calendar.getInstance();
         if (inputDate != null) {
             cDate.setTime(inputDate);
