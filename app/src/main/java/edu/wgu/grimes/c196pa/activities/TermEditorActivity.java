@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class TermEditorActivity extends AbstractEditorActivity {
@@ -48,6 +50,13 @@ public class TermEditorActivity extends AbstractEditorActivity {
     private Date startDate;
     private Date endDate;
     private CourseAdapter mAdapter;
+    private State state = new State();
+
+    private class State {
+        String title;
+        String startDate;
+        String endDate;
+    }
 
     @Override
     protected int getContentView() {
@@ -63,6 +72,13 @@ public class TermEditorActivity extends AbstractEditorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString("term.title.key");
+            state.startDate = savedInstanceState.getString("term.startDate.key");
+            state.endDate =  savedInstanceState.getString("term.endDate.key");
+            Log.i(TAG, "onCreate: " + state.title + ": " + state.startDate + ": " + state.endDate);
+        }
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +87,19 @@ public class TermEditorActivity extends AbstractEditorActivity {
                 openActivity(intent);
             }
         });
+    }
+
+    String TAG = "savetitle";
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState: " + mTitle.getText().toString());
+        Log.i(TAG, "onSaveInstanceState: " + mStartDate.getText().toString());
+        Log.i(TAG, "onSaveInstanceState: " + mEndDate.getText().toString());
+        outState.putString("term.title.key", mTitle.getText().toString());
+        outState.putString("term.startDate.key", mStartDate.getText().toString());
+        outState.putString("term.endDate.key", mEndDate.getText().toString());
     }
 
     @Override
@@ -121,9 +150,10 @@ public class TermEditorActivity extends AbstractEditorActivity {
         // update the view when the model is changed
         mViewModel.mLiveData.observe(this, (term) -> {
             if (term != null) {
-                mTitle.setText(term.getTitle());
-                startDate = term.getStartDate();
-                endDate = term.getEndDate();
+                mTitle.setText(state.title == null ? term.getTitle() : state.title);
+                startDate = state.startDate == null ? term.getStartDate() : getDate(state.startDate);
+                endDate = state.endDate == null ? term.getEndDate() : getDate(state.endDate);
+                Log.i(TAG, "onCreate: " + state.title + ": " + state.startDate + ": " + state.endDate);
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
