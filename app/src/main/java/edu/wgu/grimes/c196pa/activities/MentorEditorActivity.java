@@ -28,6 +28,14 @@ public class MentorEditorActivity extends AbstractEditorActivity {
     EditText mEmail;
     private MentorEditorViewModel mViewModel;
 
+    private State state = new State();
+    private static class State {
+        String firstName;
+        String lastName;
+        String phoneNumber;
+        String email;
+    }
+
     @Override
     protected int getContentView() {
         return R.layout.activity_mentor_editor;
@@ -55,12 +63,28 @@ public class MentorEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            state.firstName = savedInstanceState.getString("mentor.firstName.key");
+            state.lastName = savedInstanceState.getString("mentor.lastName.key");
+            state.phoneNumber = savedInstanceState.getString("mentor.phoneNumber.key");
+            state.email = savedInstanceState.getString("mentor.email.key");
+            loadState();
+        }
+    }
 
+    private void loadState() {
+        mFirstName.setText(state.firstName);
+        mLastName.setText(state.lastName);
+        mPhone.setText(state.phoneNumber);
+        mEmail.setText(state.email);
     }
 
     @Override
     protected void saveState(Bundle outState) {
-
+        outState.putString("mentor.firstName.key", String.valueOf(mFirstName.getText()));
+        outState.putString("mentor.lastName.key", String.valueOf(mLastName.getText()));
+        outState.putString("mentor.phoneNumber.key", String.valueOf(mPhone.getText()));
+        outState.putString("mentor.email.key", String.valueOf(mEmail.getText()));
     }
 
     protected void save() {
@@ -98,10 +122,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(MentorEditorViewModel.class);
         mViewModel.mLiveMentor.observe(this, (mentor) -> {
             if (mentor != null) {
-                mFirstName.setText(mentor.getFirstName());
-                mLastName.setText(mentor.getLastName());
-                mPhone.setText(mentor.getPhoneNumber());
-                mEmail.setText(mentor.getEmail());
+                mFirstName.setText(state.firstName == null ? mentor.getFirstName() : state.firstName);
+                mLastName.setText(state.lastName == null ? mentor.getLastName() : state.lastName);
+                mPhone.setText(state.phoneNumber == null ? mentor.getPhoneNumber() : state.phoneNumber);
+                mEmail.setText(state.email == null ? mentor.getEmail() : state.email);
             }
         });
 
