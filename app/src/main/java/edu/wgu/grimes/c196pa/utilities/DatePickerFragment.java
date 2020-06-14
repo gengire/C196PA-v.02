@@ -3,6 +3,7 @@ package edu.wgu.grimes.c196pa.utilities;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -14,9 +15,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private final Date inputDate;
+    public static final String TAG = "datecrash";
+    private Date inputDate;
     private TextView outputTextView;
     private HasDate outputDate;
+
+    public DatePickerFragment() {
+        // no arg
+    }
 
     public DatePickerFragment(TextView outputTextView, Date inputDate) {
         this.inputDate = inputDate;
@@ -31,6 +37,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        TextView textView
+        Log.i(TAG, "onCreateDialog: " + );
         Calendar cDate = Calendar.getInstance();
         if (inputDate != null) {
             cDate.setTime(inputDate);
