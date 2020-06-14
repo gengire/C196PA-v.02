@@ -87,7 +87,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            Log.i(TAG, "restoreState: ");
             state.title = savedInstanceState.getString("term.title.key");
             state.startDate = savedInstanceState.getString("term.startDate.key");
             state.endDate = savedInstanceState.getString("term.endDate.key");
@@ -103,7 +102,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void saveState(@NonNull Bundle outState) {
-        Log.i(TAG, "saveState: ");
         outState.putString("term.title.key", String.valueOf(mTitle.getText()));
         outState.putString("term.startDate.key", String.valueOf(mStartDate.getText()));
         outState.putString("term.endDate.key", String.valueOf(mEndDate.getText()));
@@ -169,15 +167,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
             }
         });
 
-//        Log.i(TAG, "initViewModel: " + state.startDate);
-//        if (state.startDate != null) {
-//            startDate = getDate(state.startDate);
-//            mStartDate.setText(state.startDate);
-//        }
-//        if (state.endDate != null) {
-//            endDate = getDate(state.endDate);
-//            mEndDate.setText(state.endDate);
-//        }
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             setTitle(getString(R.string.new_term));
