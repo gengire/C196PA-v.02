@@ -32,6 +32,12 @@ public class NoteEditorActivity extends AbstractEditorActivity {
 
     private NoteEditorViewModel mViewModel;
 
+    private State state = new State();
+    private class State {
+        String title;
+        String description;
+    }
+
     @OnClick(R.id.btn_open_send_email)
     void handleOpenSendEmailClick() {
         Intent intent = new Intent(this, SendEmailActivity.class);
@@ -67,12 +73,22 @@ public class NoteEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString("note.title.key");
+            state.description = savedInstanceState.getString("note.description.key");
+            loadState(state.title, state.description);
+        }
+    }
 
+    private void loadState(String title, String description) {
+        mTitle.setText(title);
+        mDescription.setText(description);
     }
 
     @Override
     protected void saveState(Bundle outState) {
-
+        outState.putString("note.title.key", String.valueOf(mTitle.getText()));
+        outState.putString("note.description.key", String.valueOf(mDescription.getText()));
     }
 
     protected void save() {
@@ -106,8 +122,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         mViewModel = new ViewModelProvider(this, factory).get(NoteEditorViewModel.class);
         mViewModel.mLiveNote.observe(this, (note) -> {
             if (note != null) {
-                mTitle.setText(note.getTitle());
-                mDescription.setText(note.getDescription());
+                mTitle.setText(state.title == null ? note.getTitle() : state.title);
+                mDescription.setText(state.description == null ? note.getDescription() : state.description);
             }
         });
 
