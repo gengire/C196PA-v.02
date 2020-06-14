@@ -37,7 +37,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
     };
     private static int TYPE_COMPLETE = 1;
     private static int TYPE_NOT_COMPLETE = 2;
-    private OnItemClickListener listener;
+    private OnItemClickListener<CourseEntity> listener;
 
     public CourseAdapter() {
         super(DIFF_CALLBACK);
@@ -54,7 +54,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
 
     @NonNull
     @Override
-    public CourseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == TYPE_COMPLETE) {
             view = LayoutInflater.from(parent.getContext())
@@ -81,12 +81,8 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
         return getItem(position);
     }
 
-    public void setOnItemClickListener(CourseAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(CourseEntity course);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

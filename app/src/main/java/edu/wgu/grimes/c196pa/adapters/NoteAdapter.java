@@ -30,7 +30,7 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
             return sameCourse && sameTitle && sameDesc;
         }
     };
-    private OnItemClickListener listener;
+    private OnItemClickListener<NoteEntity> listener;
 
     public NoteAdapter() {
         super(DIFF_CALLBACK);
@@ -55,12 +55,8 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
         return getItem(position);
     }
 
-    public void setOnItemClickListener(NoteAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(NoteEntity note);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

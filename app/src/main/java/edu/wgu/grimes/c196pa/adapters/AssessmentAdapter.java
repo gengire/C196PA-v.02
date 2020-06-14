@@ -34,7 +34,7 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
             return sameTitle && sameCourseId && sameCompletionDate;
         }
     };
-    private AssessmentAdapter.OnItemClickListener listener;
+    private OnItemClickListener<AssessmentEntity> listener;
 
     public AssessmentAdapter() {
         super(DIFF_CALLBACK);
@@ -42,7 +42,7 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
 
     @NonNull
     @Override
-    public AssessmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_assessment, parent, false);
         return new ViewHolder(view);
@@ -61,12 +61,8 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         return getItem(position);
     }
 
-    public void setOnItemClickListener(AssessmentAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(AssessmentEntity assessment);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

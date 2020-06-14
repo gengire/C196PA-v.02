@@ -32,7 +32,7 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
             return sameCourse && sameFirstName && sameLastName && samePhone && sameEmail;
         }
     };
-    private OnItemClickListener listener;
+    private OnItemClickListener<MentorEntity> listener;
 
     public MentorAdapter() {
         super(DIFF_CALLBACK);
@@ -58,12 +58,8 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
         return getItem(position);
     }
 
-    public void setOnItemClickListener(MentorAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(MentorEntity note);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

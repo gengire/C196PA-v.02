@@ -3,10 +3,7 @@ package edu.wgu.grimes.c196pa.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +28,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.adapters.AssessmentAdapter;
+import edu.wgu.grimes.c196pa.adapters.CourseAdapter;
+import edu.wgu.grimes.c196pa.adapters.TermAdapter;
 import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.utilities.AlarmNotificationManager;
@@ -38,6 +37,7 @@ import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.utilities.DatePickerFragment;
 import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
+import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
@@ -50,8 +50,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     EditText mTitle;
     @BindView(R.id.edit_text_course_editor_code)
     EditText mCode;
-    //    @BindView(R.id.spinner_course_editor_cus)
-//    Spinner mCompetencyUnits;
     @BindView(R.id.text_view_course_editor_cus_value)
     TextView mCus;
     @BindView(R.id.spinner_course_editor_status)
@@ -79,7 +77,9 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     ImageView imageViewEndDateAlert;
 
     AssessmentAdapter mAdapter;
+
     private CourseEditorViewModel mViewModel;
+
     private Date startDate;
     private Date startDateAlarm;
     private Date endDate;
@@ -169,7 +169,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         String strCus = String.valueOf(mCus.getText());
         int cusValue = "".equals(strCus) ? 0 : Integer.parseInt(strCus);
 
-        NumberPicker mCuPicker=  dialog.findViewById(R.id.number_picker);
+        NumberPicker mCuPicker = dialog.findViewById(R.id.number_picker);
         mCuPicker.setWrapSelectorWheel(false);
         mCuPicker.setMaxValue(10);
         mCuPicker.setMinValue(0);
@@ -279,8 +279,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
             openActivity(intent);
         });
+
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
+
     }
 
     protected void initViewModel() {
@@ -340,7 +342,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     protected void save() {
         String title = mTitle.getText().toString();
         String code = mCode.getText().toString();
-//        String cus = String.valueOf(mCompetencyUnits.getSelectedItemId());
         String cus = mCus.getText().toString();
         String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mParentId);
@@ -399,10 +400,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     @Override
     protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
-        String courseTitle = assessment.getTitle();
+        String assessmentTitle = assessment.getTitle();
 
         mViewModel.deleteAssessment(assessment);
-        String text = courseTitle + " Deleted";
+        String text = assessmentTitle + " Deleted";
         Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 

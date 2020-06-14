@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 
 @Entity(tableName = "courses")
-public class CourseEntity {
+public class CourseEntity implements HasId {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")

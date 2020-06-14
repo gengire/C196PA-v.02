@@ -33,19 +33,13 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         @Override
         public boolean areContentsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
             boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
-
-            Date oStartDate = oldItem.getStartDate();
-            Date nStartDate = newItem.getStartDate();
-            Date oEndDate = oldItem.getEndDate();
-            Date nEndDate = newItem.getEndDate();
-
             boolean sameStartDate = sameDate(oldItem.getStartDate(), newItem.getStartDate());
             boolean sameEndDate = sameDate(oldItem.getEndDate(), newItem.getEndDate());
             return sameTitle && sameStartDate && sameEndDate;
         }
     };
     Map<Integer, Integer> termCus = new HashMap<>();
-    private OnItemClickListener listener;
+    private OnItemClickListener<TermEntity> listener;
 
     public TermAdapter() {
         super(DIFF_CALLBACK);
@@ -89,10 +83,6 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(TermEntity term);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
