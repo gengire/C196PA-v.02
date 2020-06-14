@@ -1,13 +1,16 @@
 package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,6 +29,7 @@ import edu.wgu.grimes.c196pa.viewmodels.AssessmentEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.ASSESSMENT_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
+import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class AssessmentEditorActivity extends AbstractEditorActivity {
@@ -50,9 +54,17 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.image_view_assessment_end_date_alert)
     ImageView imageViewCompletionDateAlert;
 
-
     private Date completionDate;
     private Date completionDateAlarm;
+    private State state = new State();
+
+    private class State {
+        String title;
+        Integer assessmentTypePosition;
+        Integer statusPosition;
+        String completionDate;
+        String completionDateAlarm;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,24 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
 
         initSpinners();
 
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString("assessment.title.key");
+            state.assessmentTypePosition = savedInstanceState.getInt("assessment.type.key");
+            state.statusPosition = savedInstanceState.getInt("assessment.status.key");
+            state.completionDate = savedInstanceState.getString("assessment.endDate.key");
+            state.completionDateAlarm = savedInstanceState.getString("assessment.endDateAlarm.key");
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("assessment.title.key", mTitle.getText().toString());
+        outState.putInt("assessment.type.key", mAssessmentType.getSelectedItemPosition());
+        outState.putInt("assessment.status.key", mStatus.getSelectedItemPosition());
+        outState.putString("assessment.endDate.key", mCompletionDate.getText().toString());
+        outState.putString("assessment.endDateAlarm.key", mCompletionDateAlarm.getText().toString());
     }
 
     private void initSpinners() {
@@ -149,17 +179,31 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         imageView.setScaleY(scaleY);
     }
 
+    private String TAG = "teststate";
+
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
         mViewModel.mLiveAssessment.observe(this, (assessment) -> {
             if (assessment != null) {
-                mTitle.setText(assessment.getTitle());
-                mAssessmentType.setSelection(((ArrayAdapter) mAssessmentType.getAdapter())
-                        .getPosition(String.valueOf(assessment.getType())));
-                mStatus.setSelection(((ArrayAdapter) mStatus.getAdapter())
-                        .getPosition(String.valueOf(assessment.getStatus())));
-                completionDate = assessment.getCompletionDate();
-                completionDateAlarm = assessment.getCompletionDateAlarm();
+                mTitle.setText(state.title == null ? assessment.getTitle() : state.title);
+
+                SpinnerAdapter assessmentTypeSpinnerAdapter = mAssessmentType.getAdapter();
+                ArrayAdapter<String> assessmentTypeAdapter = (ArrayAdapter<String>)assessmentTypeSpinnerAdapter;
+                mAssessmentType.setSelection(state.assessmentTypePosition == null ?
+                        assessmentTypeAdapter.getPosition(assessment.getType()) :
+                        state.assessmentTypePosition);
+                SpinnerAdapter statusSpinnerAdapter = mStatus.getAdapter();
+                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) statusSpinnerAdapter;
+                mStatus.setSelection(state.statusPosition == null ?
+                        statusAdapter.getPosition(assessment.getStatus()) :
+                        state.statusPosition);
+                completionDate = state.completionDate == null ?
+                        assessment.getCompletionDate() :
+                        getDate(state.completionDate);
+                completionDateAlarm = state.completionDateAlarm == null ?
+                        assessment.getCompletionDateAlarm() :
+                        getDate(SHORT_DATE_PATTERN, state.completionDateAlarm);
+                Log.i(TAG, "initViewModel: cd " + state.completionDateAlarm);
                 renderAlarm(completionDateAlarm);
                 if (completionDate != null) {
                     mCompletionDate.setText(getFormattedDate(completionDate));
