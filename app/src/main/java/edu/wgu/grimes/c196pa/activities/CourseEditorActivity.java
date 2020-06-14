@@ -281,6 +281,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         });
 
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setNestedScrollingEnabled(false);
         initSwipeDelete();
 
     }

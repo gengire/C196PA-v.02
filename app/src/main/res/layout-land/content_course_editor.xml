@@ -8,33 +8,40 @@
     android:layout_margin="@dimen/NORMAL_BORDER_MARGIN"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <EditText
-        android:id="@+id/edit_text_course_editor_title"
+    <LinearLayout
+        android:id="@+id/layout_course_editor_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Course Title"
-        android:inputType="text" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/edit_text_course_editor_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_course_editor_title"
-        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
-        android:hint="Course Code (ex: C999)"
-        android:inputType="text" />
-
-    <RelativeLayout
-        android:id="@+id/layout_course_editor_top_part"
-        android:layout_width="match_parent"
-        android:layout_below="@id/edit_text_course_editor_code"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:id="@+id/layout_course_editor_cus"
+        <EditText
+            android:id="@+id/edit_text_course_editor_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:layout_weight="1"
+            android:hint="Course Title"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edit_text_course_editor_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Course Code (ex: C999)"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_course_editor_competency_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_course_editor_title"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/edit_text_course_editor_cus"
@@ -56,8 +63,8 @@
             android:id="@+id/layout_course_editor_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_cus"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/text_view_course_editor_status"
@@ -71,16 +78,24 @@
                 android:id="@+id/spinner_course_editor_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@id/text_view_course_editor_status"
                 android:layout_alignParentRight="true"
                 android:entries="@array/status_values" />
         </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_course_editor_dates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_course_editor_competency_units"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/layout_course_editor_start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_status"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/text_view_course_editor_start_date"
@@ -116,8 +131,7 @@
             android:id="@+id/layout_course_editor_end_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_start_date"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/text_view_course_editor_end_date"
@@ -147,40 +161,43 @@
                 android:paddingLeft="20dp"
                 app:srcCompat="@drawable/ic_add_alert" />
         </RelativeLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_course_editor_buttons"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layout_course_editor_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_course_editor_dates"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="8">
+
+        <Button
+            android:id="@+id/btn_course_notes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_end_date"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:layout_marginRight="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Course Notes"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-            <Button
-                android:id="@+id/btn_course_notes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="Course Notes" />
-
-            <Button
-                android:id="@+id/btn_course_mentors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="Course Mentors" />
-        </LinearLayout>
-
-    </RelativeLayout>
+        <Button
+            android:id="@+id/btn_course_mentors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="1"
+            android:text="Course Mentors"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_course_editor_assessment_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
+        android:layout_below="@id/layout_course_editor_buttons"
         android:paddingBottom="20dp"
-        android:layout_below="@id/layout_course_editor_top_part"
         tools:listitem="@layout/item_assessment" />
 
 </RelativeLayout>
