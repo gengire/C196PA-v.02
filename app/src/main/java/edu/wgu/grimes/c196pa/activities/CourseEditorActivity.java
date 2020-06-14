@@ -14,6 +14,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ import edu.wgu.grimes.c196pa.viewmodels.TermEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class CourseEditorActivity extends AbstractEditorActivity implements NumberPicker.OnValueChangeListener {
@@ -85,17 +87,54 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     private Date endDate;
     private Date endDateAlarm;
 
+    private State state = new State();
+
+    private class State {
+        String title;
+        String code;
+        String cus;
+        Integer status;
+        String startDate;
+        String endDate;
+        String startDateAlarm;
+        String endDateAlarm;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initSpinners();
 
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString("course.title.key");
+            state.code = savedInstanceState.getString("course.code.key");
+            state.cus = savedInstanceState.getString("course.cus.key");
+            state.status = savedInstanceState.getInt("course.status.key");
+            state.startDate = savedInstanceState.getString("course.startDate.key");
+            state.endDate = savedInstanceState.getString("course.endDate.key");
+            state.startDateAlarm = savedInstanceState.getString("course.startDateAlarm.key");
+            state.endDateAlarm = savedInstanceState.getString("course.endDateAlarm.key");
+        }
+
         mFab.setOnClickListener(view -> {
             Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
             intent.putExtra(Constants.COURSE_ID_KEY, mId);
             openActivity(intent);
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("course.title.key", mTitle.getText().toString());
+        outState.putString("course.code.key", mCode.getText().toString());
+        outState.putString("course.cus.key", mCus.getText().toString());
+        outState.putInt("course.status.key", mStatus.getSelectedItemPosition());
+        outState.putString("course.startDate.key", mStartDate.getText().toString());
+        outState.putString("course.endDate.key", mEndDate.getText().toString());
+        outState.putString("course.startDateAlarm.key", mStartDateAlarm.getText().toString());
+        outState.putString("course.endDateAlarm.key", mEndDateAlarm.getText().toString());
     }
 
     private void initSpinners() {
@@ -290,19 +329,18 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
         mViewModel.mLiveCourse.observe(this, (course) -> {
             if (course != null) {
-                mTitle.setText(course.getTitle());
-                mCode.setText(course.getCode());
-                mCus.setText(String.valueOf(course.getCompetencyUnits()));
+                mTitle.setText(state.title == null ? course.getTitle() : state.title);
+                mCode.setText(state.code == null ? course.getCode() : state.code);
+                mCus.setText(state.cus == null ? String.valueOf(course.getCompetencyUnits()) : state.cus);
 
                 SpinnerAdapter ssa = mStatus.getAdapter();
                 ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
-                mStatus.setSelection(statusAdapter.getPosition(course.getStatus()));
-
-                startDate = course.getStartDate();
-                startDateAlarm = course.getStartDateAlarm();
+                mStatus.setSelection(state.status == null ? statusAdapter.getPosition(course.getStatus()) : state.status);
+                startDate = state.startDate == null ? course.getStartDate() : getDate(state.startDate);
+                startDateAlarm = state.startDateAlarm == null ? course.getStartDateAlarm() : getDate(SHORT_DATE_PATTERN, state.startDateAlarm);
                 renderAlarm(startDateAlarm, START);
-                endDate = course.getEndDate();
-                endDateAlarm = course.getEndDateAlarm();
+                endDate = state.endDate == null ? course.getEndDate() : getDate(state.endDate);
+                endDateAlarm = state.endDateAlarm == null ? course.getEndDateAlarm() : getDate(SHORT_DATE_PATTERN, state.endDateAlarm);
                 renderAlarm(endDateAlarm, END);
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));

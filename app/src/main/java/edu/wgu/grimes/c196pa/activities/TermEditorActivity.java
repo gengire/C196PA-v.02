@@ -76,7 +76,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
             state.title = savedInstanceState.getString("term.title.key");
             state.startDate = savedInstanceState.getString("term.startDate.key");
             state.endDate =  savedInstanceState.getString("term.endDate.key");
-            Log.i(TAG, "onCreate: " + state.title + ": " + state.startDate + ": " + state.endDate);
         }
 
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +93,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState: " + mTitle.getText().toString());
-        Log.i(TAG, "onSaveInstanceState: " + mStartDate.getText().toString());
-        Log.i(TAG, "onSaveInstanceState: " + mEndDate.getText().toString());
         outState.putString("term.title.key", mTitle.getText().toString());
         outState.putString("term.startDate.key", mStartDate.getText().toString());
         outState.putString("term.endDate.key", mEndDate.getText().toString());
