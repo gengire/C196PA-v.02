@@ -52,18 +52,20 @@
                 android:paddingEnd="10dp" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layout_course_editor_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_course_editor_cus"
-            android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP">
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/layout_course_editor_cus">
 
             <TextView
                 android:id="@+id/text_view_course_editor_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:layout_weight="1"
+                android:layout_marginTop="4dp"
                 android:text="Status"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -71,9 +73,14 @@
                 android:id="@+id/spinner_course_editor_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:entries="@array/status_values" />
-        </RelativeLayout>
+                android:layout_weight="1"
+                android:entries="@array/status_values"
+                android:gravity="right|end" />
+
+        </LinearLayout>
+
+
+
 
         <RelativeLayout
             android:id="@+id/layout_course_editor_start_date"
