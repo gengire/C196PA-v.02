@@ -107,27 +107,27 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
     @Override
     protected void saveState(Bundle outState) {
-        outState.putString("course.title.key", String.valueOf(mTitle.getText()));
-        outState.putString("course.code.key", String.valueOf(mCode.getText()));
-        outState.putString("course.cus.key", String.valueOf(mCus.getText()));
-        outState.putInt("course.status.key", mStatus.getSelectedItemPosition());
-        outState.putString("course.startDate.key", String.valueOf(mStartDate.getText()));
-        outState.putString("course.endDate.key", String.valueOf(mEndDate.getText()));
-        outState.putString("course.startDateAlarm.key", String.valueOf(mStartDateAlarm.getText()));
-        outState.putString("course.endDateAlarm.key", String.valueOf(mEndDateAlarm.getText()));
+        outState.putString(getString(R.string.COURSE_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putString(getString(R.string.COURSE_CODE_KEY), String.valueOf(mCode.getText()));
+        outState.putString(getString(R.string.COURSE_COMPETENCY_UNITS_KEY), String.valueOf(mCus.getText()));
+        outState.putInt(getString(R.string.COURSE_STATUS_KEY), mStatus.getSelectedItemPosition());
+        outState.putString(getString(R.string.COURSE_START_DATE_KEY), String.valueOf(mStartDate.getText()));
+        outState.putString(getString(R.string.COURSE_END_DATE_KEY), String.valueOf(mEndDate.getText()));
+        outState.putString(getString(R.string.COURSE_START_DATE_ALARM_KEY), String.valueOf(mStartDateAlarm.getText()));
+        outState.putString(getString(R.string.COURSE_END_DATE_ALARM_KEY), String.valueOf(mEndDateAlarm.getText()));
     }
 
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString("course.title.key");
-            state.code = savedInstanceState.getString("course.code.key");
-            state.cus = savedInstanceState.getString("course.cus.key");
-            state.status = savedInstanceState.getInt("course.status.key");
-            state.startDate = savedInstanceState.getString("course.startDate.key");
-            state.endDate = savedInstanceState.getString("course.endDate.key");
-            state.startDateAlarm = savedInstanceState.getString("course.startDateAlarm.key");
-            state.endDateAlarm = savedInstanceState.getString("course.endDateAlarm.key");
+            state.title = savedInstanceState.getString(getString(R.string.COURSE_TITLE_KEY));
+            state.code = savedInstanceState.getString(getString(R.string.COURSE_CODE_KEY));
+            state.cus = savedInstanceState.getString(getString(R.string.COURSE_COMPETENCY_UNITS_KEY));
+            state.status = savedInstanceState.getInt(getString(R.string.COURSE_STATUS_KEY));
+            state.startDate = savedInstanceState.getString(getString(R.string.COURSE_START_DATE_KEY));
+            state.endDate = savedInstanceState.getString(getString(R.string.COURSE_END_DATE_KEY));
+            state.startDateAlarm = savedInstanceState.getString(getString(R.string.COURSE_START_DATE_ALARM_KEY));
+            state.endDateAlarm = savedInstanceState.getString(getString(R.string.COURSE_END_DATE_ALARM_KEY));
             loadState();
             renderAlarm(startDateAlarm, START);
             renderAlarm(endDateAlarm, END);

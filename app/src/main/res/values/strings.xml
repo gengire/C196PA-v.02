@@ -78,6 +78,28 @@
     <string name="delete_term_title">Delete Term</string>
     <string name="add_sample_terms_title">Add sample terms</string>
     <string name="delete_all_terms_title">Delete all terms</string>
+    <string name="ASSESSMENT_TITLE_KEY">assessment.title.key</string>
+    <string name="ASSESSMENT_TYPE_KEY">assessment.type.key</string>
+    <string name="ASSESSMENT_STATUS_KEY">assessment.status.key</string>
+    <string name="ASSESSMENT_END_DATE_KEY">assessment.endDate.key</string>
+    <string name="ASSESSMENT_END_DATE_ALARM_KEY">assessment.endDateAlarm.key</string>
+    <string name="COURSE_TITLE_KEY">course.title.key</string>
+    <string name="COURSE_CODE_KEY">course.code.key</string>
+    <string name="COURSE_COMPETENCY_UNITS_KEY">course.cus.key</string>
+    <string name="COURSE_STATUS_KEY">course.status.key</string>
+    <string name="COURSE_START_DATE_KEY">course.startDate.key</string>
+    <string name="COURSE_END_DATE_KEY">course.endDate.key</string>
+    <string name="COURSE_START_DATE_ALARM_KEY">course.startDateAlarm.key</string>
+    <string name="COURSE_END_DATE_ALARM_KEY">course.endDateAlarm.key</string>
+    <string name="MENTOR_FIRST_NAME_KEY">mentor.firstName.key</string>
+    <string name="MENTOR_LAST_NAME_KEY">mentor.lastName.key</string>
+    <string name="MENTOR_PHONE_NUMBER_KEY">mentor.phoneNumber.key</string>
+    <string name="MENTOR_EMAIL_KEY">mentor.email.key</string>
+    <string name="NOTE_TITLE_KEY">note.title.key</string>
+    <string name="NOTE_DESCRIPTION_KEY">note.description.key</string>
+    <string name="TERM_TITLE_KEY">term.title.key</string>
+    <string name="TERM_START_DATE_KEY">term.startDate.key</string>
+    <string name="TERM_END_DATE_KEY">term.endDate.key</string>
     <string-array name="assessment_types">
         <item>Performance</item>
         <item>Objective</item>

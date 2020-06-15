@@ -64,10 +64,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            state.firstName = savedInstanceState.getString("mentor.firstName.key");
-            state.lastName = savedInstanceState.getString("mentor.lastName.key");
-            state.phoneNumber = savedInstanceState.getString("mentor.phoneNumber.key");
-            state.email = savedInstanceState.getString("mentor.email.key");
+            state.firstName = savedInstanceState.getString(getString(R.string.MENTOR_FIRST_NAME_KEY));
+            state.lastName = savedInstanceState.getString(getString(R.string.MENTOR_LAST_NAME_KEY));
+            state.phoneNumber = savedInstanceState.getString(getString(R.string.MENTOR_PHONE_NUMBER_KEY));
+            state.email = savedInstanceState.getString(getString(R.string.MENTOR_EMAIL_KEY));
             loadState();
         }
     }
@@ -81,10 +81,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void saveState(Bundle outState) {
-        outState.putString("mentor.firstName.key", String.valueOf(mFirstName.getText()));
-        outState.putString("mentor.lastName.key", String.valueOf(mLastName.getText()));
-        outState.putString("mentor.phoneNumber.key", String.valueOf(mPhone.getText()));
-        outState.putString("mentor.email.key", String.valueOf(mEmail.getText()));
+        outState.putString(getString(R.string.MENTOR_FIRST_NAME_KEY), String.valueOf(mFirstName.getText()));
+        outState.putString(getString(R.string.MENTOR_LAST_NAME_KEY), String.valueOf(mLastName.getText()));
+        outState.putString(getString(R.string.MENTOR_PHONE_NUMBER_KEY), String.valueOf(mPhone.getText()));
+        outState.putString(getString(R.string.MENTOR_EMAIL_KEY), String.valueOf(mEmail.getText()));
     }
 
     protected void save() {

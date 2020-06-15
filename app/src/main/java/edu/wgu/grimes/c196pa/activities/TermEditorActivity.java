@@ -81,9 +81,9 @@ public class TermEditorActivity extends AbstractEditorActivity {
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString("term.title.key");
-            state.startDate = savedInstanceState.getString("term.startDate.key");
-            state.endDate = savedInstanceState.getString("term.endDate.key");
+            state.title = savedInstanceState.getString(getString(R.string.TERM_TITLE_KEY));
+            state.startDate = savedInstanceState.getString(getString(R.string.TERM_START_DATE_KEY));
+            state.endDate = savedInstanceState.getString(getString(R.string.TERM_END_DATE_KEY));
             loadState();
         }
     }
@@ -96,9 +96,9 @@ public class TermEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void saveState(@NonNull Bundle outState) {
-        outState.putString("term.title.key", String.valueOf(mTitle.getText()));
-        outState.putString("term.startDate.key", String.valueOf(mStartDate.getText()));
-        outState.putString("term.endDate.key", String.valueOf(mEndDate.getText()));
+        outState.putString(getString(R.string.TERM_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putString(getString(R.string.TERM_START_DATE_KEY), String.valueOf(mStartDate.getText()));
+        outState.putString(getString(R.string.TERM_END_DATE_KEY), String.valueOf(mEndDate.getText()));
     }
 
     @Override

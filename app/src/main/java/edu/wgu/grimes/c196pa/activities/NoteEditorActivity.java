@@ -74,8 +74,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString("note.title.key");
-            state.description = savedInstanceState.getString("note.description.key");
+            state.title = savedInstanceState.getString(getString(R.string.NOTE_TITLE_KEY));
+            state.description = savedInstanceState.getString(getString(R.string.NOTE_DESCRIPTION_KEY));
             loadState(state.title, state.description);
         }
     }
@@ -87,8 +87,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void saveState(Bundle outState) {
-        outState.putString("note.title.key", String.valueOf(mTitle.getText()));
-        outState.putString("note.description.key", String.valueOf(mDescription.getText()));
+        outState.putString(getString(R.string.NOTE_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putString(getString(R.string.NOTE_DESCRIPTION_KEY), String.valueOf(mDescription.getText()));
     }
 
     protected void save() {

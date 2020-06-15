@@ -1,7 +1,6 @@
 package edu.wgu.grimes.c196pa.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,8 +30,6 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class AssessmentEditorActivity extends AbstractEditorActivity {
-
-    private static final String TAG = "teststate";
 
     AssessmentEditorViewModel mViewModel;
 
@@ -77,11 +74,11 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @Override
     protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString("assessment.title.key");
-            state.assessmentTypePosition = savedInstanceState.getInt("assessment.type.key");
-            state.statusPosition = savedInstanceState.getInt("assessment.status.key");
-            state.completionDate = savedInstanceState.getString("assessment.endDate.key");
-            state.completionDateAlarm = savedInstanceState.getString("assessment.endDateAlarm.key");
+            state.title = savedInstanceState.getString(getString(R.string.ASSESSMENT_TITLE_KEY));
+            state.assessmentTypePosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_TYPE_KEY));
+            state.statusPosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_STATUS_KEY));
+            state.completionDate = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_KEY));
+            state.completionDateAlarm = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY));
             loadState();
             renderAlarm(completionDate);
         }
@@ -103,11 +100,11 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
 
     @Override
     protected void saveState(Bundle outState) {
-        outState.putString("assessment.title.key", String.valueOf(mTitle.getText()));
-        outState.putInt("assessment.type.key", mAssessmentType.getSelectedItemPosition());
-        outState.putInt("assessment.status.key", mStatus.getSelectedItemPosition());
-        outState.putString("assessment.endDate.key", String.valueOf(mCompletionDate.getText()));
-        outState.putString("assessment.endDateAlarm.key", String.valueOf(mCompletionDateAlarm.getText()));
+        outState.putString(getString(R.string.ASSESSMENT_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putInt(getString(R.string.ASSESSMENT_TYPE_KEY), mAssessmentType.getSelectedItemPosition());
+        outState.putInt(getString(R.string.ASSESSMENT_STATUS_KEY), mStatus.getSelectedItemPosition());
+        outState.putString(getString(R.string.ASSESSMENT_END_DATE_KEY), String.valueOf(mCompletionDate.getText()));
+        outState.putString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY), String.valueOf(mCompletionDateAlarm.getText()));
 
     }
 
@@ -236,7 +233,6 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
                 completionDateAlarm = state.completionDateAlarm == null ?
                         assessment.getCompletionDateAlarm() :
                         getDate(state.completionDateAlarm);
-                Log.i(TAG, "initViewModel: cd " + state.completionDateAlarm);
                 renderAlarm(completionDateAlarm);
                 if (completionDate != null) {
                     mCompletionDate.setText(getFormattedDate(completionDate));

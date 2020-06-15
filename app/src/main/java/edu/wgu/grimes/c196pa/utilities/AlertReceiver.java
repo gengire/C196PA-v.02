@@ -14,7 +14,7 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_MESSAGE_ID_
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_TITLE_ID_KEY;
 
 public class AlertReceiver extends BroadcastReceiver {
-    public static final String TAG = "alertReceiver";
+    public static final String TAG = "alarmReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
