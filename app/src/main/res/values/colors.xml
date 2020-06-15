@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#4486a1</color>
+    <color name="colorPrimaryDark">#4486a1</color>
+    <color name="colorAccent">#4486a1</color>
     <color name="color_completed">#558F45</color>
     <color name="color_failed">#CC392E</color>
     <color name="color_badge_complete">#FFF</color>
     <color name="color_badge_not_complete">#555</color>
     <color name="colorBackground">#4486a1</color>
     <color name="colorRowBackground">#F2F2F2</color>
+    <color name="colorBackgroundLight">#82BCD4</color>
 </resources>
