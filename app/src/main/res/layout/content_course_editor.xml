@@ -11,17 +11,19 @@
     <EditText
         android:id="@+id/edit_text_course_editor_title"
         android:layout_width="match_parent"
+        android:autofillHints="auto"
         android:layout_height="wrap_content"
-        android:hint="Course Title"
+        android:hint="@string/course_title_hint"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/edit_text_course_editor_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="auto"
         android:layout_below="@id/edit_text_course_editor_title"
         android:layout_marginTop="@dimen/NORMAL_MARGIN_TOP"
-        android:hint="Course Code (ex: C999)"
+        android:hint="@string/course_code_hint"
         android:inputType="text" />
 
     <RelativeLayout
@@ -40,16 +42,18 @@
                 android:id="@+id/text_view_course_editor_cus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Competency Units"
+                android:layout_toStartOf="@id/text_view_course_editor_cus_value"
+                android:layout_alignParentStart="true"
+                android:text="@string/course_competency_units_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/text_view_course_editor_cus_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:hint="Select CUs"
-                android:paddingEnd="10dp" />
+                android:layout_alignParentEnd="true"
+                android:hint="@string/course_competency_units_hint"
+                android:paddingHorizontal="10dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -66,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginTop="4dp"
-                android:text="Status"
+                android:text="@string/course_status_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <Spinner
@@ -75,12 +79,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:entries="@array/status_values"
-                android:gravity="right|end" />
+                android:gravity="end" />
 
         </LinearLayout>
-
-
-
 
         <RelativeLayout
             android:id="@+id/layout_course_editor_start_date"
@@ -93,29 +94,31 @@
                 android:id="@+id/text_view_course_editor_start_date"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Start Date" />
+                android:text="@string/course_start_date_text" />
 
             <TextView
                 android:id="@+id/text_view_course_editor_start_date_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/text_view_course_editor_start_date"
-                android:hint="Select Start Date" />
+                android:layout_toEndOf="@id/text_view_course_editor_start_date"
+                android:hint="@string/course_start_date_hint" />
 
             <TextView
                 android:id="@+id/text_view_course_editor_alarm_start_date_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/image_view_course_start_date_alert"
+                android:layout_toStartOf="@id/image_view_course_start_date_alert"
+                android:layout_toEndOf="@id/text_view_course_editor_start_date_value"
+                android:gravity="end"
                 android:hint="" />
 
             <ImageView
                 android:id="@+id/image_view_course_start_date_alert"
+                android:contentDescription="@string/course_start_date_alert_content_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="12dp"
-                android:paddingLeft="20dp"
+                android:paddingHorizontal="10dp"
                 app:srcCompat="@drawable/ic_add_alert" />
         </RelativeLayout>
 
@@ -130,28 +133,30 @@
                 android:id="@+id/text_view_course_editor_end_date"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="End Date" />
+                android:text="@string/course_end_date_text" />
 
             <TextView
                 android:id="@+id/text_view_course_editor_end_date_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/text_view_course_editor_end_date"
-                android:hint="Select End Date" />
+                android:layout_toEndOf="@id/text_view_course_editor_end_date"
+                android:hint="@string/course_end_date_hint" />
 
             <TextView
                 android:id="@+id/text_view_course_editor_alarm_end_date_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/image_view_course_end_date_alert" />
+                android:layout_toStartOf="@id/image_view_course_end_date_alert"
+                android:layout_toEndOf="@id/text_view_course_editor_end_date_value"
+                android:gravity="end"/>
 
             <ImageView
                 android:id="@+id/image_view_course_end_date_alert"
+                android:contentDescription="@string/course_end_date_alert_content_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="12dp"
-                android:paddingLeft="20dp"
+                android:paddingHorizontal="10dp"
                 app:srcCompat="@drawable/ic_add_alert" />
         </RelativeLayout>
 
@@ -168,7 +173,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Course Notes" />
+                style="?android:attr/buttonStyleInset"
+                android:text="@string/course_notes_button_text" />
 
             <Button
                 android:id="@+id/btn_course_mentors"
@@ -176,7 +182,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Course Mentors" />
+                style="?android:attr/buttonStyleInset"
+                android:text="@string/course_mentors_button_text" />
         </LinearLayout>
 
     </RelativeLayout>

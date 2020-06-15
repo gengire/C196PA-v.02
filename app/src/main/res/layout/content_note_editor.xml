@@ -12,15 +12,17 @@
         android:id="@+id/edit_text_note_editor_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
+        android:autofillHints="auto"
+        android:hint="@string/note_title_hint"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/edit_text_note_editor_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="auto"
         android:layout_below="@id/edit_text_note_editor_title"
-        android:hint="Description"
+        android:hint="@string/note_description_hint"
         android:inputType="textMultiLine" />
 
     <Button
@@ -29,7 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Send note as an email"
+        style="?android:attr/buttonStyleInset"
+        android:paddingHorizontal="16dp"
+        android:text="@string/note_button_text"
         android:layout_marginBottom="20dp"
         android:layout_gravity="bottom|center" />
 

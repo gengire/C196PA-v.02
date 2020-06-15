@@ -27,7 +27,7 @@ public class SendEmailActivity extends AppCompatActivity {
     @BindView(R.id.edit_text_send_email_text_subject)
     EditText mSubject;
 
-    @BindView(R.id.edit_text_send_email_text_message)
+    @BindView(R.id.edit_text_send_electronic_mail_text_message)
     EditText mMessage;
 
     @Override
@@ -77,11 +77,6 @@ public class SendEmailActivity extends AppCompatActivity {
             mSubject.setText(extras.getString(EMAIL_SUBJECT_KEY));
             mMessage.setText(extras.getString(EMAIL_MESSAGE_KEY));
         }
-    }
-
-    @OnClick(R.id.btn_send_email)
-    void handleSendEmailClick() {
-        sendMail();
     }
 
     private void sendMail() {

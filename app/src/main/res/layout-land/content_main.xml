@@ -17,6 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:weightSum="2"
         android:orientation="horizontal">
         <LinearLayout
@@ -233,8 +234,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        style="?android:attr/buttonStyleInset"
+        android:paddingHorizontal="16dp"
         android:layout_gravity="center"
         android:text="@string/term_list" />
 
@@ -253,6 +254,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="@color/color_completed"
+            android:textColor="@color/color_badge_complete"
+            style="?android:attr/buttonStyleInset"
             android:text="@string/add_samples" />
         <Button
             android:id="@+id/btn_delete_all_terms"
@@ -260,6 +264,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="@color/color_failed"
+            android:textColor="@color/color_badge_complete"
+            style="?android:attr/buttonStyleInset"
             android:text="@string/delete_all" />
     </LinearLayout>
     </LinearLayout>

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add_sample_terms"
-        android:title="Add sample terms"
+        android:title="@string/add_sample_terms_title"
         app:showAsAction="never" />
     <item
         android:id="@+id/delete_all_terms"
-        android:title="Delete all terms"
+        android:title="@string/delete_all_terms_title"
         app:showAsAction="never"/>
 </menu>

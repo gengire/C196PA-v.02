@@ -4,11 +4,11 @@
     <item
         android:id="@+id/save_assessment"
         android:icon="@drawable/ic_save"
-        android:title="Save Assessment"
+        android:title="@string/save_assessment_title"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/delete_assessment"
         android:icon="@drawable/ic_delete"
-        android:title="Delete Assessment"
+        android:title="@string/delete_assessment_title"
         app:showAsAction="ifRoom"/>
 </menu>

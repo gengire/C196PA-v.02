@@ -221,7 +221,9 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:paddingHorizontal="16dp"
+                style="?android:attr/buttonStyleInset"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="@string/term_list" />
@@ -240,6 +242,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            style="?android:attr/buttonStyleInset"
+            android:background="@color/color_completed"
+            android:textColor="@color/color_badge_complete"
             android:text="@string/add_samples" />
         <Button
             android:id="@+id/btn_delete_all_terms"
@@ -247,6 +252,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="@color/color_failed"
+            android:textColor="@color/color_badge_complete"
+            style="?android:attr/buttonStyleInset"
             android:text="@string/delete_all" />
         </LinearLayout>
 

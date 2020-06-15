@@ -15,10 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/number_picker"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:layout_toLeftOf="@+id/number_picker"
-        android:text="Cancel" />
+        android:layout_toStartOf="@+id/number_picker"
+        android:text="@string/number_picker_cancel_button_text" />
 
     <Button
         android:id="@+id/btn_set_cus"
@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btn_cancel_cus"
         android:layout_alignBottom="@+id/btn_cancel_cus"
-        android:layout_marginRight="16dp"
-        android:layout_toRightOf="@+id/number_picker"
-        android:text="Set" />
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@+id/number_picker"
+        android:text="@string/number_picker_set_button_text" />
 
 </RelativeLayout>

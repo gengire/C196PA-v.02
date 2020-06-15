@@ -11,30 +11,26 @@
         android:id="@+id/edit_text_send_email_text_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="To: one@wgu.edu, two@wgu.edu"
+        android:autofillHints="auto"
+        android:hint="@string/send_email_to_hint"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/edit_text_send_email_text_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Subject:"
+        android:autofillHints="auto"
+        android:hint="@string/send_email_subject_hint"
         android:inputType="textEmailSubject" />
 
     <EditText
-        android:id="@+id/edit_text_send_email_text_message"
+        android:id="@+id/edit_text_send_electronic_mail_text_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Message:"
+        android:autofillHints="auto"
+        android:hint="@string/send_email_message_hint"
         android:gravity="start|top"
+        android:inputType="textMultiLine"
         android:lines="10" />
-
-    <Button
-        android:id="@+id/btn_send_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="send"
-        android:visibility="gone"/>
-
 
 </LinearLayout>
