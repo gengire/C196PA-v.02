@@ -35,15 +35,8 @@ public interface TermDao {
     @Query("select * from terms where term_id = :termId")
     TermEntity getTermById(int termId);
 
-    @Query("select * from terms where title = :title")
-    List<TermEntity> getTermByTitle(String title);
-
     @Query("select count(*) from terms")
     Integer getCount();
-
-    @Transaction
-    @Query("select * from terms")
-    LiveData<List<TermWithCourses>> getAllTermsWithCourses();
 
     @Transaction
     @Query("select * from terms where term_id = :termId")

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,6 +94,7 @@ public class AlarmNotificationManager {
         int startDateAlarmRequestCode;
         int endDateAlarmRequestCode;
 
+        @NonNull
         @Override
         public String toString() {
             return "RequestCode{" +

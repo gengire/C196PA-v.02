@@ -2,7 +2,6 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -46,13 +45,10 @@ public class MentorsListActivity extends AbstractListActivity {
 
         setTitle("Course Mentors");
         FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
-                intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-                openActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+            openActivity(intent);
         });
     }
 
@@ -76,9 +72,7 @@ public class MentorsListActivity extends AbstractListActivity {
         Bundle extras = getIntent().getExtras();
         mCourseId = extras.getInt(COURSE_ID_KEY);
         mViewModel.loadCourseMentors(mCourseId);
-        mViewModel.getCourseMentors().observe(this, mentors -> {
-            mAdapter.submitList(mentors);
-        });
+        mViewModel.getCourseMentors().observe(this, mentors -> mAdapter.submitList(mentors));
     }
 
     @Override

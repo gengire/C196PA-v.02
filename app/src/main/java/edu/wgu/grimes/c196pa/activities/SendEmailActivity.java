@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.EMAIL_MESSAGE_KEY;
@@ -47,9 +46,7 @@ public class SendEmailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        if (R.menu.menu_send_email != 0) {
-            inflater.inflate(R.menu.menu_send_email, menu);
-        }
+        inflater.inflate(R.menu.menu_send_email, menu);
         return true;
     }
 
@@ -103,9 +100,7 @@ public class SendEmailActivity extends AppCompatActivity {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setMessage(message).setTitle(title)
                 .setCancelable(true)
-                .setPositiveButton("Okay", (dialog, id) -> {
-                    dialog.cancel();
-                });
+                .setPositiveButton("Okay", (dialog, id) -> dialog.cancel());
         android.app.AlertDialog alert = builder.create();
         alert.show();
     }

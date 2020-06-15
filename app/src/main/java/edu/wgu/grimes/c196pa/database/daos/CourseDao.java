@@ -26,9 +26,6 @@ public interface CourseDao {
     @Query("delete from courses")
     void deleteAll();
 
-    @Query("select * from courses")
-    LiveData<List<CourseEntity>> getAllCourses();
-
     @Query("select * from courses where term_id = :termId")
     LiveData<List<CourseEntity>> getAllCoursesForTerm(int termId);
 
@@ -43,29 +40,5 @@ public interface CourseDao {
 
     @Query("select count(*) from courses")
     LiveData<Integer> getLiveCount();
-
-//    @Transaction
-//    @Query("select * from courses")
-//    LiveData<List<CourseWithMentors>> getAllCoursesWithMentors();
-//
-//    @Transaction
-//    @Query("select * from courses where course_id = :courseId")
-//    LiveData<List<CourseWithMentors>> getCourseWithMentors(int courseId);
-//
-//    @Transaction
-//    @Query("select * from courses")
-//    LiveData<List<CourseWithAssessments>> getAllCoursesWithAssessments();
-//
-//    @Transaction
-//    @Query("select * from courses where course_id = :courseId")
-//    LiveData<List<CourseWithAssessments>> getCourseWithAssessments(int courseId);
-//
-//    @Transaction
-//    @Query("select * from courses")
-//    LiveData<List<CourseWithNotes>> getAllCoursesWithNotes();
-//
-//    @Transaction
-//    @Query("select * from courses where course_id = courseId")
-//    LiveData<List<CourseWithNotes>> getCourseWithNotes(int courseId);
 
 }

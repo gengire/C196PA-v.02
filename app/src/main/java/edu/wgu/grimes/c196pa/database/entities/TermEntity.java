@@ -1,5 +1,6 @@
 package edu.wgu.grimes.c196pa.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -63,6 +64,7 @@ public class TermEntity implements HasId {
         this.endDate = endDate;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "TermEntity{" +

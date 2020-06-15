@@ -180,7 +180,4 @@ public class AppRepository {
         return assessmentDao.getLiveCount();
     }
 
-    public int getAssessmentCountForCourse(CourseEntity course) {
-        return assessmentDao.getAssessmentCountForCourse(course.getId());
-    }
 }

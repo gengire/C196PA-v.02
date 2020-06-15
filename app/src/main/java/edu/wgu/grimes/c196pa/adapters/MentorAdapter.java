@@ -49,7 +49,7 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull MentorAdapter.ViewHolder holder, int position) {
         MentorEntity currentMentor = getItem(position);
-        holder.textViewName.setText(currentMentor.getFirstName() + " " + currentMentor.getLastName());
+        holder.textViewName.setText(String.format("%s %s", currentMentor.getFirstName(), currentMentor.getLastName()));
         holder.textViewPhone.setText(currentMentor.getPhoneNumber());
         holder.textViewEmail.setText(currentMentor.getEmail());
     }

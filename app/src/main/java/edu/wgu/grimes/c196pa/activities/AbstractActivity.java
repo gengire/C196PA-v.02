@@ -79,7 +79,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
             save();
             return true;
         } else if (itemId == getDeleteMenuItem()) {
-            alertDelete(() -> delete(), () -> onCancel()).show();
+            alertDelete(this::delete, this::onCancel).show();
             return true;
         } else if (itemId == android.R.id.home) {
             closeActivity();
@@ -90,7 +90,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     private AlertDialog alertDelete(Runnable deleteRunner, Runnable cancelRunner) {
-        AlertDialog ad = new AlertDialog.Builder(this)
+        return new AlertDialog.Builder(this)
                 .setTitle("Delete")
                 .setMessage("Are you sure you want to delete?")
                 .setIcon(R.drawable.ic_delete)
@@ -102,7 +102,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
                     cancelRunner.run();
                     dialog.dismiss();
                 }).create();
-        return ad;
     }
 
     private void onCancel() {
@@ -132,21 +131,17 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected void openActivity(Intent intent) {
         startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     protected void closeActivity() {
         finish();
-//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     protected void showValidationError(String title, String message) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setMessage(message).setTitle(title)
                 .setCancelable(true)
-                .setPositiveButton("Okay", (dialog, id) -> {
-                    dialog.cancel();
-                });
+                .setPositiveButton("Okay", (dialog, id) -> dialog.cancel());
         android.app.AlertDialog alert = builder.create();
         alert.show();
     }

@@ -81,12 +81,8 @@ public class TermsListActivity extends AbstractListActivity {
 
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
-        mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> {
-            mAdapter.submitList(terms);
-        });
-        mViewModel.getAllTermCus().observe(TermsListActivity.this, termCus -> {
-            mAdapter.setTotalCus(termCus);
-        });
+        mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> mAdapter.submitList(terms));
+        mViewModel.getAllTermCus().observe(TermsListActivity.this, termCus -> mAdapter.setTotalCus(termCus));
     }
 
 

@@ -26,9 +26,6 @@ public interface MentorDao {
     @Query("delete from mentors")
     void deleteAll();
 
-    @Query("select * from mentors")
-    LiveData<List<MentorEntity>> getAllMentors();
-
     @Query("select * from mentors where course_id = :courseId")
     LiveData<List<MentorEntity>> getAllMentorsForCourse(int courseId);
 

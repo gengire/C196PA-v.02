@@ -2,7 +2,6 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,8 +34,6 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 public class TermEditorActivity extends AbstractEditorActivity {
 
-    private static final String TAG = "teststate";
-
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;
     @BindView(R.id.text_view_term_editor_start_date_value)
@@ -54,7 +51,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
     private CourseAdapter mAdapter;
     private State state = new State();
 
-    private class State {
+    private static class State {
         String title;
         String startDate;
         String endDate;
@@ -74,13 +71,10 @@ public class TermEditorActivity extends AbstractEditorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
-                intent.putExtra(Constants.TERM_ID_KEY, mId);
-                openActivity(intent);
-            }
+        mFab.setOnClickListener(view -> {
+            Intent intent = new Intent(TermEditorActivity.this, CourseEditorActivity.class);
+            intent.putExtra(Constants.TERM_ID_KEY, mId);
+            openActivity(intent);
         });
     }
 
@@ -189,9 +183,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
             mId = extras.getInt(TERM_ID_KEY);
             mViewModel.loadTerm(mId);
             mViewModel.loadTermCourses(mId);
-            mViewModel.getTermCourses().observe(this, (courses) -> {
-                mAdapter.submitList(courses);
-            });
+            mViewModel.getTermCourses().observe(this, (courses) -> mAdapter.submitList(courses));
         }
 
     }

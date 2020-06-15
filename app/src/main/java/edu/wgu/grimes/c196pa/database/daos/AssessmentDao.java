@@ -26,9 +26,6 @@ public interface AssessmentDao {
     @Query("delete from assessments")
     void deleteAll();
 
-    @Query("select * from assessments")
-    LiveData<List<AssessmentEntity>> getAllCourses();
-
     @Query("select * from assessments where course_id = :courseId")
     LiveData<List<AssessmentEntity>> getAllAssessmentsForCourse(int courseId);
 
@@ -44,6 +41,4 @@ public interface AssessmentDao {
     @Query("select count(*) from assessments")
     LiveData<Integer> getLiveCount();
 
-    @Query("select count(*) from assessments where course_id = :courseId")
-    int getAssessmentCountForCourse(int courseId);
 }

@@ -2,7 +2,6 @@ package edu.wgu.grimes.c196pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -46,13 +45,10 @@ public class NotesListActivity extends AbstractListActivity {
 
         setTitle("Course Notes");
         FloatingActionButton mFab = findViewById(R.id.fab_add_note);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
-                intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-                openActivity(intent);
-            }
+        mFab.setOnClickListener(view -> {
+            Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
+            openActivity(intent);
         });
     }
 
@@ -66,7 +62,6 @@ public class NotesListActivity extends AbstractListActivity {
             intent.putExtra(NOTE_ID_KEY, note.getId());
             intent.putExtra(COURSE_ID_KEY, mCourseId);
             openActivity(intent);
-//            StyleableToast.makeText(NotesListActivity.this, "note: " + note.getTitle() + " clicked", R.style.toast_message).show();
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
@@ -77,9 +72,7 @@ public class NotesListActivity extends AbstractListActivity {
         Bundle extras = getIntent().getExtras();
         mCourseId = extras.getInt(COURSE_ID_KEY);
         mViewModel.loadCoursesNotes(mCourseId);
-        mViewModel.getCourseNotes().observe(this, notes -> {
-            mAdapter.submitList(notes);
-        });
+        mViewModel.getCourseNotes().observe(this, notes -> mAdapter.submitList(notes));
     }
 
     @Override

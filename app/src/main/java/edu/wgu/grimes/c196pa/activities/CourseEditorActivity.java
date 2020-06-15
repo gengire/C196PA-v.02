@@ -82,7 +82,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     private Date endDateAlarm;
     private State state = new State();
 
-    private class State {
+    private static class State {
         String title;
         String code;
         String cus;
@@ -302,7 +302,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
     @OnClick(R.id.image_view_course_end_date_alert)
     void endDateAlertClickHandler() {
-        if ("".equals(mEndDate.getText())) {
+        if ("".equals(String.valueOf(mEndDate.getText()))) {
             String text = "Please select an end date before adding an end date alarm";
             showValidationError("Missing end date", text);
         } else {
@@ -448,15 +448,13 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         String title = "WGU Scheduler Course Alert";
         String message = mTitle.getText() + " is ";
 
-        if (!"".equals(mStartDate.getText()) && startDateAlarm != null) {
-            String sdEnding = startDateAlarm == null ? "" :
-                    "starting on " + mStartDate.getText();
+        if (!"".equals(String.valueOf(mStartDate.getText())) && startDateAlarm != null) {
+            String sdEnding = "starting on " + mStartDate.getText();
             alm.registerAlarmNotification(this, startDateAlarm, mId, "start",
                     title, message + sdEnding);
         }
-        if (!"".equals(mEndDate.getText()) && endDateAlarm != null) {
-            String edEnding = endDateAlarm == null ? "" :
-                    "ending on " + mEndDate.getText();
+        if (!"".equals(String.valueOf(mEndDate.getText())) && endDateAlarm != null) {
+            String edEnding = "ending on " + mEndDate.getText();
             alm.registerAlarmNotification(this, endDateAlarm, mId, "end",
                     title, message + edEnding);
         }

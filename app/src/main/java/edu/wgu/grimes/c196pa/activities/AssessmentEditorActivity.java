@@ -10,7 +10,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -60,7 +59,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     private Date completionDateAlarm;
     private State state = new State();
 
-    private class State {
+    private static class State {
         String title;
         Integer assessmentTypePosition;
         Integer statusPosition;
@@ -117,12 +116,12 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String[] assessmentTypes = getResources().getStringArray(R.array.assessment_types);
         String[] assessmentStatuses = getResources().getStringArray(R.array.assessment_values);
 
-        ArrayAdapter<String> assessmentTypeItemAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> assessmentTypeItemAdapter = new ArrayAdapter<>(
                 this, R.layout.item_spinner_right, assessmentTypes);
         assessmentTypeItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
         mAssessmentType.setAdapter(assessmentTypeItemAdapter);
 
-        ArrayAdapter<String> assessmentStatusItemAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> assessmentStatusItemAdapter = new ArrayAdapter<>(
                 this, R.layout.item_spinner_right, assessmentStatuses);
         assessmentStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
         mStatus.setAdapter(assessmentStatusItemAdapter);
@@ -168,7 +167,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
 
     @OnClick(R.id.image_view_assessment_end_date_alert)
     void completionDateAlertClickHandler() {
-        if ("".equals(mCompletionDate.getText())) {
+        if ("".equals(String.valueOf(mCompletionDate.getText()))) {
             String text = "Please select a end date before adding an end date alarm";
             showValidationError("Missing end date", text);
         } else {
@@ -284,9 +283,8 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         String title = "WGU Scheduler Assessment Alert";
         String message = mTitle.getText() + " is ";
 
-        if (!"".equals(mCompletionDate.getText()) && completionDateAlarm != null) {
-            String cEnding = completionDateAlarm == null ? "" :
-                    "scheduled to be completed on " + mCompletionDate.getText();
+        if (!"".equals(String.valueOf(mCompletionDate.getText())) && completionDateAlarm != null) {
+            String cEnding = "scheduled to be completed on " + mCompletionDate.getText();
             alm.registerAlarmNotification(this, completionDateAlarm, mId, "end",
                     title, message + cEnding);
         }

@@ -35,7 +35,7 @@ public class AssessmentEditorViewModel extends BaseViewModel {
         if (assessment == null) {
             assessment = new AssessmentEntity(courseId, assessmentType, title, status, getDate(completionDate), completionDateAlarm);
         } else {
-            assessment.setCourseId(Integer.valueOf(courseId));
+            assessment.setCourseId(courseId);
             assessment.setType(assessmentType);
             assessment.setTitle(title);
             assessment.setStatus(status);

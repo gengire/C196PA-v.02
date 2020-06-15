@@ -33,7 +33,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     private NoteEditorViewModel mViewModel;
 
     private State state = new State();
-    private class State {
+    private static class State {
         String title;
         String description;
     }

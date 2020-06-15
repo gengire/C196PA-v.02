@@ -43,11 +43,11 @@ public class CourseEditorViewModel extends BaseViewModel {
             return; // no saving empty titles
         }
         CourseEntity course = mLiveCourse.getValue();
-        int cus = TextUtils.isEmpty(competencyUnits) ? 0 : Integer.valueOf(competencyUnits);
+        int cus = TextUtils.isEmpty(competencyUnits) ? 0 : Integer.parseInt(competencyUnits);
         if (course == null) {
-            course = new CourseEntity(Integer.valueOf(termId), cus, code, title, getDate(startDate), startDateAlarm, getDate(endDate), endDateAlarm, status);
+            course = new CourseEntity(Integer.parseInt(termId), cus, code, title, getDate(startDate), startDateAlarm, getDate(endDate), endDateAlarm, status);
         } else {
-            course.setTermId(Integer.valueOf(termId));
+            course.setTermId(Integer.parseInt(termId));
             course.setCompetencyUnits(cus);
             course.setTitle(title);
             course.setCode(code);

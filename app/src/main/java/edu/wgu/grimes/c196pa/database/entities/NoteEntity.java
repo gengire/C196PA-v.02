@@ -1,5 +1,6 @@
 package edu.wgu.grimes.c196pa.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -62,6 +63,7 @@ public class NoteEntity implements HasId {
         this.description = description;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "NoteEntity{" +

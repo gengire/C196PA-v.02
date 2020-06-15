@@ -13,6 +13,7 @@ public class DeleteCourseValidator {
         AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... voids) {
+                // decided to not use this since it isn't a requirement
 //                if (course == null)  {
 //                    return true;
 //                }
