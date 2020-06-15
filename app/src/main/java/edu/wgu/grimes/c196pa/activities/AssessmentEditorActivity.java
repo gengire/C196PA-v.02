@@ -27,7 +27,6 @@ import edu.wgu.grimes.c196pa.viewmodels.AssessmentEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.ASSESSMENT_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
-import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
@@ -98,7 +97,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         }
         mCompletionDateAlarm.setText(state.completionDateAlarm);
         if (state.completionDateAlarm != null) {
-            completionDateAlarm = getDate(SHORT_DATE_PATTERN, state.completionDateAlarm);
+            completionDateAlarm = getDate(state.completionDateAlarm);
         }
     }
 
@@ -181,7 +180,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
                     @Override
                     public void setDate(Date date) {
                         completionDateAlarm = date;
-                        mCompletionDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        mCompletionDateAlarm.setText(getFormattedDate(date));
                         renderAlarm(completionDateAlarm);
                     }
                 }, completionDate);
@@ -236,14 +235,14 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
                         getDate(state.completionDate);
                 completionDateAlarm = state.completionDateAlarm == null ?
                         assessment.getCompletionDateAlarm() :
-                        getDate(SHORT_DATE_PATTERN, state.completionDateAlarm);
+                        getDate(state.completionDateAlarm);
                 Log.i(TAG, "initViewModel: cd " + state.completionDateAlarm);
                 renderAlarm(completionDateAlarm);
                 if (completionDate != null) {
                     mCompletionDate.setText(getFormattedDate(completionDate));
                 }
                 if (completionDateAlarm != null) {
-                    mCompletionDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, completionDateAlarm));
+                    mCompletionDateAlarm.setText(getFormattedDate(completionDateAlarm));
                 }
             }
         });

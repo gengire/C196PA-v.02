@@ -37,7 +37,6 @@ import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
-import static edu.wgu.grimes.c196pa.utilities.Constants.SHORT_DATE_PATTERN;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
@@ -146,7 +145,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         }
         mStartDateAlarm.setText(state.startDateAlarm);
         if (state.startDateAlarm != null) {
-            startDateAlarm = getDate(SHORT_DATE_PATTERN, state.startDateAlarm);
+            startDateAlarm = getDate(state.startDateAlarm);
         }
         mEndDate.setText(state.endDate);
         if (state.endDate != null) {
@@ -154,7 +153,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         }
         mEndDateAlarm.setText(state.endDateAlarm);
         if (state.endDateAlarm != null) {
-            endDateAlarm = getDate(SHORT_DATE_PATTERN, state.endDateAlarm);
+            endDateAlarm = getDate(state.endDateAlarm);
         }
     }
 
@@ -287,7 +286,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
                     @Override
                     public void setDate(Date date) {
                         startDateAlarm = date;
-                        mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        mStartDateAlarm.setText(getFormattedDate(date));
                         renderAlarm(startDateAlarm, START);
                     }
                 }, startDate);
@@ -316,7 +315,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
                     @Override
                     public void setDate(Date date) {
                         endDateAlarm = date;
-                        mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, date));
+                        mEndDateAlarm.setText(getFormattedDate(date));
                         renderAlarm(endDateAlarm, END);
                     }
                 }, endDate);
@@ -380,10 +379,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
                 ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
                 mStatus.setSelection(state.status == null ? statusAdapter.getPosition(course.getStatus()) : state.status);
                 startDate = state.startDate == null ? course.getStartDate() : getDate(state.startDate);
-                startDateAlarm = state.startDateAlarm == null ? course.getStartDateAlarm() : getDate(SHORT_DATE_PATTERN, state.startDateAlarm);
+                startDateAlarm = state.startDateAlarm == null ? course.getStartDateAlarm() : getDate(state.startDateAlarm);
                 renderAlarm(startDateAlarm, START);
                 endDate = state.endDate == null ? course.getEndDate() : getDate(state.endDate);
-                endDateAlarm = state.endDateAlarm == null ? course.getEndDateAlarm() : getDate(SHORT_DATE_PATTERN, state.endDateAlarm);
+                endDateAlarm = state.endDateAlarm == null ? course.getEndDateAlarm() : getDate(state.endDateAlarm);
                 renderAlarm(endDateAlarm, END);
                 if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
@@ -392,10 +391,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
                     mEndDate.setText(getFormattedDate(endDate));
                 }
                 if (startDateAlarm != null) {
-                    mStartDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, startDateAlarm));
+                    mStartDateAlarm.setText(getFormattedDate(startDateAlarm));
                 }
                 if (endDateAlarm != null) {
-                    mEndDateAlarm.setText(getFormattedDate(SHORT_DATE_PATTERN, endDateAlarm));
+                    mEndDateAlarm.setText(getFormattedDate(endDateAlarm));
                 }
             }
         });
