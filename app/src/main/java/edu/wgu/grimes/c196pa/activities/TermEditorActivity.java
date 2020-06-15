@@ -90,14 +90,14 @@ public class TermEditorActivity extends AbstractEditorActivity {
             state.title = savedInstanceState.getString("term.title.key");
             state.startDate = savedInstanceState.getString("term.startDate.key");
             state.endDate = savedInstanceState.getString("term.endDate.key");
-            loadState(state.title, state.startDate, state.endDate);
+            loadState();
         }
     }
 
-    private void loadState(String title, String startDate, String endDate) {
-        mTitle.setText(title);
-        mStartDate.setText(startDate);
-        mEndDate.setText(endDate);
+    private void loadState() {
+        mTitle.setText(state.title);
+        mStartDate.setText(state.startDate);
+        mEndDate.setText(state.endDate);
     }
 
     @Override
@@ -143,8 +143,20 @@ public class TermEditorActivity extends AbstractEditorActivity {
         dateDialog.show(getSupportFragmentManager(), "startDatePicker");
     }
 
+    @OnClick(R.id.text_view_term_editor_start_date)
+    void startDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
+        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
+    }
+
     @OnClick(R.id.text_view_term_editor_end_date_value)
     void endDateClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
+        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
+    }
+
+    @OnClick(R.id.text_view_term_editor_end_date)
+    void endDateLabelClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
         dateDialog.show(getSupportFragmentManager(), "endDatePicker");
     }

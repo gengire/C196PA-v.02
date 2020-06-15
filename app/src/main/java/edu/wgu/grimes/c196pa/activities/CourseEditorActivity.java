@@ -68,7 +68,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     Button mCourseNotes;
     @BindView(R.id.btn_course_mentors)
     Button mCourseMentors;
-
     @BindView(R.id.image_view_course_start_date_alert)
     ImageView imageViewStartDateAlert;
     @BindView(R.id.image_view_course_end_date_alert)
@@ -77,12 +76,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     AssessmentAdapter mAdapter;
 
     private CourseEditorViewModel mViewModel;
-
     private Date startDate;
     private Date startDateAlarm;
     private Date endDate;
     private Date endDateAlarm;
-
     private State state = new State();
 
     private class State {
@@ -132,34 +129,32 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             state.endDate = savedInstanceState.getString("course.endDate.key");
             state.startDateAlarm = savedInstanceState.getString("course.startDateAlarm.key");
             state.endDateAlarm = savedInstanceState.getString("course.endDateAlarm.key");
-            loadState(state.title, state.code, state.cus, state.status, state.startDate,
-                    state.startDateAlarm, state.endDate, state.endDateAlarm);
+            loadState();
             renderAlarm(startDateAlarm, START);
             renderAlarm(endDateAlarm, END);
         }
     }
 
-    private void loadState(String title, String code, String cus, Integer status, String startDate,
-                           String startDateAlarm, String endDate, String endDateAlarm) {
-        mTitle.setText(title);
-        mCode.setText(code);
-        mCus.setText(cus);
-        mStatus.setSelection(status);
-        mStartDate.setText(startDate);
+    private void loadState() {
+        mTitle.setText(state.title);
+        mCode.setText(state.code);
+        mCus.setText(state.cus);
+        mStatus.setSelection(state.status);
+        mStartDate.setText(state.startDate);
         if (state.startDate != null) {
-            this.startDate = getDate(startDate);
+            startDate = getDate(state.startDate);
         }
-        mStartDateAlarm.setText(startDateAlarm);
+        mStartDateAlarm.setText(state.startDateAlarm);
         if (state.startDateAlarm != null) {
-            this.startDateAlarm = getDate(SHORT_DATE_PATTERN, startDateAlarm);
+            startDateAlarm = getDate(SHORT_DATE_PATTERN, state.startDateAlarm);
         }
-        mEndDate.setText(endDate);
+        mEndDate.setText(state.endDate);
         if (state.endDate != null) {
-            this.endDate = getDate(state.endDate);
+            endDate = getDate(state.endDate);
         }
-        mEndDateAlarm.setText(endDateAlarm);
+        mEndDateAlarm.setText(state.endDateAlarm);
         if (state.endDateAlarm != null) {
-            this.endDateAlarm = getDate(SHORT_DATE_PATTERN, endDateAlarm);
+            endDateAlarm = getDate(SHORT_DATE_PATTERN, state.endDateAlarm);
         }
     }
 
@@ -198,6 +193,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         return R.id.save_course;
     }
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        mCus.setText(String.valueOf(newVal));
+    }
 
     @OnClick(R.id.btn_course_notes)
     void courseNotesClickHandler() {
@@ -213,10 +212,22 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         openActivity(intent);
     }
 
+    @OnClick(R.id.text_view_course_editor_start_date)
+    void startDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
+        dateDialog.show(getSupportFragmentManager(), "courseStartDatePicker");
+    }
+
     @OnClick(R.id.text_view_course_editor_start_date_value)
     void startDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
         dateDialog.show(getSupportFragmentManager(), "courseStartDatePicker");
+    }
+
+    @OnClick(R.id.text_view_course_editor_end_date)
+    void endDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
+        dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
     @OnClick(R.id.text_view_course_editor_end_date_value)
@@ -225,8 +236,17 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
+    @OnClick(R.id.text_view_course_editor_cus)
+    void cusLabelClickHandler() {
+        openCompetencyUnitsPickerDialog();
+    }
+
     @OnClick(R.id.text_view_course_editor_cus_value)
     void cusClickHandler() {
+        openCompetencyUnitsPickerDialog();
+    }
+
+    private void openCompetencyUnitsPickerDialog() {
         final Dialog dialog = new Dialog(CourseEditorActivity.this);
         dialog.setTitle("Competency Units");
         dialog.setContentView(R.layout.number_picker);
@@ -249,11 +269,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
         btnCancelCus.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
-    }
-
-    @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        mCus.setText(String.valueOf(newVal));
     }
 
     @OnClick(R.id.image_view_course_start_date_alert)
@@ -314,6 +329,10 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         }
     }
 
+    @OnClick(R.id.text_view_course_editor_status)
+    void statusLabelClickHandler() {
+        mStatus.performClick();
+    }
     private static final int START = 1;
     private static final int END = 2;
 

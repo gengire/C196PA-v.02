@@ -74,33 +74,43 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
 
         initSpinners();
 
+    }
+
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             state.title = savedInstanceState.getString("assessment.title.key");
             state.assessmentTypePosition = savedInstanceState.getInt("assessment.type.key");
             state.statusPosition = savedInstanceState.getInt("assessment.status.key");
             state.completionDate = savedInstanceState.getString("assessment.endDate.key");
             state.completionDateAlarm = savedInstanceState.getString("assessment.endDateAlarm.key");
+            loadState();
+            renderAlarm(completionDate);
+        }
+    }
+
+    private void loadState() {
+        mTitle.setText(state.title);
+        mAssessmentType.setSelection(state.assessmentTypePosition);
+        mStatus.setSelection(state.statusPosition);
+        mCompletionDate.setText(state.completionDate);
+        if (state.completionDate != null) {
+            completionDate = getDate(state.completionDate);
+        }
+        mCompletionDateAlarm.setText(state.completionDateAlarm);
+        if (state.completionDateAlarm != null) {
+            completionDateAlarm = getDate(SHORT_DATE_PATTERN, state.completionDateAlarm);
         }
     }
 
     @Override
-    protected void restoreState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
     protected void saveState(Bundle outState) {
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putString("assessment.title.key", String.valueOf(mTitle.getText()));
         outState.putInt("assessment.type.key", mAssessmentType.getSelectedItemPosition());
         outState.putInt("assessment.status.key", mStatus.getSelectedItemPosition());
         outState.putString("assessment.endDate.key", String.valueOf(mCompletionDate.getText()));
         outState.putString("assessment.endDateAlarm.key", String.valueOf(mCompletionDateAlarm.getText()));
+
     }
 
     private void initSpinners() {
@@ -144,6 +154,12 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         return R.id.delete_assessment;
     }
 
+    @OnClick(R.id.text_view_assessment_editor_end_date)
+    void completionDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
+        dateDialog.show(getSupportFragmentManager(), "assessmentCompletionDatePicker");
+    }
+
     @OnClick(R.id.text_view_assessment_editor_end_date_value)
     void completionDateClickHandler() {
         DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
@@ -177,6 +193,16 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
                 renderAlarm(null);
             }
         }
+    }
+
+    @OnClick(R.id.text_view_assessment_editor_assessment_type)
+    void assessmentTypeLabelClickHandler() {
+        mAssessmentType.performClick();
+    }
+
+    @OnClick(R.id.text_view_assessment_editor_status)
+    void statusLabelClickHandler() {
+        mStatus.performClick();
     }
 
     private void renderAlarm(Date date) {

@@ -41,7 +41,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     @OnClick(R.id.btn_open_send_email)
     void handleOpenSendEmailClick() {
         Intent intent = new Intent(this, SendEmailActivity.class);
-        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + String.valueOf(mTitle.getText()));
+        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + mTitle.getText());
         intent.putExtra(Constants.EMAIL_MESSAGE_KEY, String.valueOf(mDescription.getText()));
         openActivity(intent);
     }
