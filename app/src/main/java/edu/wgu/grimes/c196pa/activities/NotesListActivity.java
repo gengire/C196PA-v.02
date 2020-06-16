@@ -31,13 +31,38 @@ import edu.wgu.grimes.c196pa.viewmodels.NotesListViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
+/**
+ * Notes Activity, responsible for controlling the notes list
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class NotesListActivity extends AbstractListActivity {
+
+    /**
+     * Local View Model for the notes list
+     */
+    private NotesListViewModel mViewModel;
+    /**
+     * Adapter for the notes in the recycler view
+     */
+    private NoteAdapter mAdapter;
 
     @BindView(R.id.recycler_view_notes_list)
     RecyclerView mRecyclerView;
-    private NotesListViewModel mViewModel;
-    private int mCourseId;
-    private NoteAdapter mAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setTitle("Course Notes");
+        FloatingActionButton mFab = findViewById(R.id.fab_add_note);
+        mFab.setOnClickListener(view -> {
+            Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mParentId);
+            openActivity(intent);
+        });
+    }
 
     @Override
     protected int getContentView() {
@@ -50,18 +75,6 @@ public class NotesListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setTitle("Course Notes");
-        FloatingActionButton mFab = findViewById(R.id.fab_add_note);
-        mFab.setOnClickListener(view -> {
-            Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
-            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-            openActivity(intent);
-        });
-    }
-
     protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -70,18 +83,19 @@ public class NotesListActivity extends AbstractListActivity {
         mAdapter.setOnItemClickListener(note -> {
             Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);
             intent.putExtra(NOTE_ID_KEY, note.getId());
-            intent.putExtra(COURSE_ID_KEY, mCourseId);
+            intent.putExtra(COURSE_ID_KEY, mParentId);
             openActivity(intent);
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
     }
 
+    @Override
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(NotesListViewModel.class);
         Bundle extras = getIntent().getExtras();
-        mCourseId = extras.getInt(COURSE_ID_KEY);
-        mViewModel.loadCoursesNotes(mCourseId);
+        mParentId = extras.getInt(COURSE_ID_KEY);
+        mViewModel.loadCoursesNotes(mParentId);
         mViewModel.getCourseNotes().observe(this, notes -> mAdapter.submitList(notes));
     }
 

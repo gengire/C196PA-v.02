@@ -15,6 +15,12 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Splash Activity, responsible for showing the splash loading screen while the app loads
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -30,14 +30,27 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.Constants;
 import edu.wgu.grimes.c196pa.viewmodels.TermsListViewModel;
 
+/**
+ * Terms List Activity, responsible for controlling the terms list
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermsListActivity extends AbstractListActivity {
+
+    /**
+     * Local View Model for the terms list
+     */
+    private TermsListViewModel mViewModel;
+    /**
+     * Adapter for the terms in the recycler view
+     */
+    private TermAdapter mAdapter;
 
     @BindView(R.id.recycler_view_terms_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.fab_add_term)
     FloatingActionButton fabAddTerm;
-    private TermsListViewModel mViewModel;
-    private TermAdapter mAdapter;
 
     @Override
     protected int getContentView() {
@@ -70,11 +83,7 @@ public class TermsListActivity extends AbstractListActivity {
         }
     }
 
-    @OnClick(R.id.fab_add_term)
-    void addTermClickHandler() {
-        openActivity(TermEditorActivity.class);
-    }
-
+    @Override
     protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -89,12 +98,12 @@ public class TermsListActivity extends AbstractListActivity {
         initSwipeDelete();
     }
 
+    @Override
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(TermsListViewModel.class);
         mViewModel.getAllTerms().observe(TermsListActivity.this, terms -> mAdapter.submitList(terms));
         mViewModel.getAllTermCus().observe(TermsListActivity.this, termCus -> mAdapter.setTotalCus(termCus));
     }
-
 
     @Override
     protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
@@ -121,5 +130,10 @@ public class TermsListActivity extends AbstractListActivity {
     @Override
     protected RecyclerView getRecyclerView() {
         return mRecyclerView;
+    }
+
+    @OnClick(R.id.fab_add_term)
+    void addTermClickHandler() {
+        openActivity(TermEditorActivity.class);
     }
 }

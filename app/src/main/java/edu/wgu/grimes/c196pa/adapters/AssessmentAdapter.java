@@ -28,8 +28,17 @@ import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
+/**
+ * Assessment Adapter, Binds the AssessmentEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentAdapter.ViewHolder> {
 
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
     private static final DiffUtil.ItemCallback<AssessmentEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<AssessmentEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull AssessmentEntity oldItem, @NonNull AssessmentEntity newItem) {
@@ -50,6 +59,14 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         super(DIFF_CALLBACK);
     }
 
+    public AssessmentEntity getAssessmentAt(int position) {
+        return getItem(position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,14 +84,9 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         holder.textViewCompletionDate.setText(completionDate);
     }
 
-    public AssessmentEntity getAssessmentAt(int position) {
-        return getItem(position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
+    /**
+     *
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewCompletionDate;

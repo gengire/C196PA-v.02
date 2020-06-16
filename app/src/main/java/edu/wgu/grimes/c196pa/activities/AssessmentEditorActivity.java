@@ -40,9 +40,31 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
+/**
+ * Assessment Editor Activity, responsible for controlling both new and edit modes for assessments
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AssessmentEditorActivity extends AbstractEditorActivity {
 
+    /**
+     * Local View Model for the assessment editor
+     */
     AssessmentEditorViewModel mViewModel;
+
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date completionDate;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date completionDateAlarm;
+    /**
+     * Local internal state for this activity
+     */
+    private State state = new State();
 
     @BindView(R.id.edit_text_assessment_editor_title)
     EditText mTitle;
@@ -62,39 +84,9 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.image_view_assessment_end_date_alert)
     ImageView imageViewCompletionDateAlert;
 
-    private Date completionDate;
-    private Date completionDateAlarm;
-    private State state = new State();
-
-    private static class State {
-        String title;
-        Integer assessmentTypePosition;
-        Integer statusPosition;
-        String completionDate;
-        String completionDateAlarm;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initSpinners();
-
-    }
-
-    @Override
-    protected void restoreState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString(getString(R.string.ASSESSMENT_TITLE_KEY));
-            state.assessmentTypePosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_TYPE_KEY));
-            state.statusPosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_STATUS_KEY));
-            state.completionDate = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_KEY));
-            state.completionDateAlarm = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY));
-            loadState();
-            renderAlarm(completionDate);
-        }
-    }
-
+    /**
+     * Loads the data from the internal state to the screen
+     */
     private void loadState() {
         mTitle.setText(state.title);
         mAssessmentType.setSelection(state.assessmentTypePosition);
@@ -109,16 +101,9 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    @Override
-    protected void saveState(Bundle outState) {
-        outState.putString(getString(R.string.ASSESSMENT_TITLE_KEY), String.valueOf(mTitle.getText()));
-        outState.putInt(getString(R.string.ASSESSMENT_TYPE_KEY), mAssessmentType.getSelectedItemPosition());
-        outState.putInt(getString(R.string.ASSESSMENT_STATUS_KEY), mStatus.getSelectedItemPosition());
-        outState.putString(getString(R.string.ASSESSMENT_END_DATE_KEY), String.valueOf(mCompletionDate.getText()));
-        outState.putString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY), String.valueOf(mCompletionDateAlarm.getText()));
-
-    }
-
+    /**
+     * Init code for spinners
+     */
     private void initSpinners() {
         String[] assessmentTypes = getResources().getStringArray(R.array.assessment_types);
         String[] assessmentStatuses = getResources().getStringArray(R.array.assessment_values);
@@ -133,6 +118,141 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         assessmentStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
         mStatus.setAdapter(assessmentStatusItemAdapter);
 
+    }
+
+    /**
+     * Handles rendering the alarm icon as either empty or active
+     *
+     * @param date
+     */
+    private void renderAlarm(Date date) {
+        ImageView imageView = imageViewCompletionDateAlert;
+        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float scaleX = date == null ? 1F : 1.2F;
+        float scaleY = date == null ? 1F : 1.1F;
+
+        imageView.setImageResource(dr);
+        imageView.setScaleX(scaleX);
+        imageView.setScaleY(scaleY);
+    }
+
+    /**
+     * Handles the completion date alarm notification scheduling.
+     */
+    private void handleAlarmNotification() {
+        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
+        String title = "WGU Scheduler Assessment Alert";
+        String message = mTitle.getText() + " is ";
+
+        if (!"".equals(String.valueOf(mCompletionDate.getText())) && completionDateAlarm != null) {
+            String cEnding = "scheduled to be completed on " + mCompletionDate.getText();
+            alm.registerAlarmNotification(this, completionDateAlarm, mId, "end",
+                    title, message + cEnding);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initSpinners();
+
+    }
+
+    @Override
+    protected void initViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
+        mViewModel.mLiveAssessment.observe(this, (assessment) -> {
+            if (assessment != null) {
+                mTitle.setText(state.title == null ? assessment.getTitle() : state.title);
+
+                SpinnerAdapter assessmentTypeSpinnerAdapter = mAssessmentType.getAdapter();
+                ArrayAdapter<String> assessmentTypeAdapter = (ArrayAdapter<String>)assessmentTypeSpinnerAdapter;
+                mAssessmentType.setSelection(state.assessmentTypePosition == null ?
+                        assessmentTypeAdapter.getPosition(assessment.getType()) :
+                        state.assessmentTypePosition);
+                SpinnerAdapter statusSpinnerAdapter = mStatus.getAdapter();
+                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) statusSpinnerAdapter;
+                mStatus.setSelection(state.statusPosition == null ?
+                        statusAdapter.getPosition(assessment.getStatus()) :
+                        state.statusPosition);
+                completionDate = state.completionDate == null ?
+                        assessment.getCompletionDate() :
+                        getDate(state.completionDate);
+                completionDateAlarm = state.completionDateAlarm == null ?
+                        assessment.getCompletionDateAlarm() :
+                        getDate(state.completionDateAlarm);
+                renderAlarm(completionDateAlarm);
+                if (completionDate != null) {
+                    mCompletionDate.setText(getFormattedDate(completionDate));
+                }
+                if (completionDateAlarm != null) {
+                    mCompletionDateAlarm.setText(getFormattedDate(completionDateAlarm));
+                }
+            }
+        });
+
+        Bundle extras = getIntent().getExtras();
+        mParentId = extras.getInt(COURSE_ID_KEY);
+
+        if (extras.getInt(ASSESSMENT_ID_KEY) == 0) {
+            setTitle("New Assessment");
+            mNew = true;
+        } else {
+            setTitle("Edit Assessment");
+            mId = extras.getInt(ASSESSMENT_ID_KEY);
+            mViewModel.loadAssessment(mId);
+        }
+    }
+
+    @Override
+    protected void save() {
+        String title = String.valueOf(mTitle.getText());
+        String assessmentType = String.valueOf(mAssessmentType.getSelectedItem());
+        String status = String.valueOf(mStatus.getSelectedItem());
+        String completionDate = String.valueOf(mCompletionDate.getText());
+        Date cdAlarm = completionDateAlarm;
+
+        if (title.trim().isEmpty()) {
+            showValidationError("Missing title", "Please enter a title");
+            return;
+        }
+        mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);
+        handleAlarmNotification();
+        Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        closeActivity();
+    }
+
+    @Override
+    protected void delete() {
+        AssessmentEntity course = mViewModel.mLiveAssessment.getValue();
+        String title = course.getTitle();
+        mViewModel.deleteAssessment();
+        String text = title + " Deleted";
+        Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+        closeActivity();
+    }
+
+    @Override
+    protected void saveState(Bundle outState) {
+        outState.putString(getString(R.string.ASSESSMENT_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putInt(getString(R.string.ASSESSMENT_TYPE_KEY), mAssessmentType.getSelectedItemPosition());
+        outState.putInt(getString(R.string.ASSESSMENT_STATUS_KEY), mStatus.getSelectedItemPosition());
+        outState.putString(getString(R.string.ASSESSMENT_END_DATE_KEY), String.valueOf(mCompletionDate.getText()));
+        outState.putString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY), String.valueOf(mCompletionDateAlarm.getText()));
+    }
+
+    @Override
+    protected void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString(getString(R.string.ASSESSMENT_TITLE_KEY));
+            state.assessmentTypePosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_TYPE_KEY));
+            state.statusPosition = savedInstanceState.getInt(getString(R.string.ASSESSMENT_STATUS_KEY));
+            state.completionDate = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_KEY));
+            state.completionDateAlarm = savedInstanceState.getString(getString(R.string.ASSESSMENT_END_DATE_ALARM_KEY));
+            loadState();
+            renderAlarm(completionDate);
+        }
     }
 
     @Override
@@ -211,99 +331,11 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         mStatus.performClick();
     }
 
-    private void renderAlarm(Date date) {
-        ImageView imageView = imageViewCompletionDateAlert;
-        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
-        float scaleX = date == null ? 1F : 1.2F;
-        float scaleY = date == null ? 1F : 1.1F;
-
-        imageView.setImageResource(dr);
-        imageView.setScaleX(scaleX);
-        imageView.setScaleY(scaleY);
+    private static class State {
+        String title;
+        Integer assessmentTypePosition;
+        Integer statusPosition;
+        String completionDate;
+        String completionDateAlarm;
     }
-
-    protected void initViewModel() {
-        mViewModel = new ViewModelProvider(this, factory).get(AssessmentEditorViewModel.class);
-        mViewModel.mLiveAssessment.observe(this, (assessment) -> {
-            if (assessment != null) {
-                mTitle.setText(state.title == null ? assessment.getTitle() : state.title);
-
-                SpinnerAdapter assessmentTypeSpinnerAdapter = mAssessmentType.getAdapter();
-                ArrayAdapter<String> assessmentTypeAdapter = (ArrayAdapter<String>)assessmentTypeSpinnerAdapter;
-                mAssessmentType.setSelection(state.assessmentTypePosition == null ?
-                        assessmentTypeAdapter.getPosition(assessment.getType()) :
-                        state.assessmentTypePosition);
-                SpinnerAdapter statusSpinnerAdapter = mStatus.getAdapter();
-                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) statusSpinnerAdapter;
-                mStatus.setSelection(state.statusPosition == null ?
-                        statusAdapter.getPosition(assessment.getStatus()) :
-                        state.statusPosition);
-                completionDate = state.completionDate == null ?
-                        assessment.getCompletionDate() :
-                        getDate(state.completionDate);
-                completionDateAlarm = state.completionDateAlarm == null ?
-                        assessment.getCompletionDateAlarm() :
-                        getDate(state.completionDateAlarm);
-                renderAlarm(completionDateAlarm);
-                if (completionDate != null) {
-                    mCompletionDate.setText(getFormattedDate(completionDate));
-                }
-                if (completionDateAlarm != null) {
-                    mCompletionDateAlarm.setText(getFormattedDate(completionDateAlarm));
-                }
-            }
-        });
-
-        Bundle extras = getIntent().getExtras();
-        mParentId = extras.getInt(COURSE_ID_KEY);
-
-        if (extras.getInt(ASSESSMENT_ID_KEY) == 0) {
-            setTitle("New Assessment");
-            mNew = true;
-        } else {
-            setTitle("Edit Assessment");
-            mId = extras.getInt(ASSESSMENT_ID_KEY);
-            mViewModel.loadAssessment(mId);
-        }
-    }
-
-    protected void save() {
-        String title = String.valueOf(mTitle.getText());
-        String assessmentType = String.valueOf(mAssessmentType.getSelectedItem());
-        String status = String.valueOf(mStatus.getSelectedItem());
-        String completionDate = String.valueOf(mCompletionDate.getText());
-        Date cdAlarm = completionDateAlarm;
-
-        if (title.trim().isEmpty()) {
-            showValidationError("Missing title", "Please enter a title");
-            return;
-        }
-        mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);
-        handleAlarmNotification();
-        Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
-        closeActivity();
-    }
-
-    private void handleAlarmNotification() {
-        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
-        String title = "WGU Scheduler Assessment Alert";
-        String message = mTitle.getText() + " is ";
-
-        if (!"".equals(String.valueOf(mCompletionDate.getText())) && completionDateAlarm != null) {
-            String cEnding = "scheduled to be completed on " + mCompletionDate.getText();
-            alm.registerAlarmNotification(this, completionDateAlarm, mId, "end",
-                    title, message + cEnding);
-        }
-    }
-
-    protected void delete() {
-        AssessmentEntity course = mViewModel.mLiveAssessment.getValue();
-        String title = course.getTitle();
-        mViewModel.deleteAssessment();
-        String text = title + " Deleted";
-        Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_SHORT).show();
-        closeActivity();
-    }
-
-
 }

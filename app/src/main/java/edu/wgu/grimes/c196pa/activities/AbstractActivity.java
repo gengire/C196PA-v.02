@@ -28,15 +28,41 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.wgu.grimes.c196pa.R;
 
 /**
+ * Handles a lot of the boiler plate code needed in most of the activities.  I added several hooks
+ * as well to pull up as much of the logic as I could.
  *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
  */
 public abstract class AbstractActivity extends AppCompatActivity {
-
+    /**
+     * Boolean flag to set the state of the activity to either true for new or false for editing
+     */
     protected boolean mNew;
+    /**
+     * Contains the ID of the entity if there is one.
+     */
     protected int mId;
+
+    @Override
+    public void supportFinishAfterTransition() {
+        super.supportFinishAfterTransition();
+    }
+
+    /**
+     * Contains the ID of the parent entity if there is one.
+     */
     protected int mParentId;
+    /**
+     * Base  view model provider factory to create ViewModels
+     */
     protected ViewModelProvider.Factory factory;
 
+    /**
+     * Hook that runs each time the activity is created
+     *
+     * @param savedInstanceState Holds state from previous construction if populated
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +82,26 @@ public abstract class AbstractActivity extends AppCompatActivity {
         initViewModel();
     }
 
+    /**
+     * Hook that runs before the activity is closed if it is interrupted during an orientation
+     * shift or put into the background.
+     *
+     * @param outState The state that will be passed when the activity is recreated.
+     */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState(outState);
     }
 
+    /**
+     * Hook that inflates the menu, this adds items to the action bar if it is present.
+     *
+     * @param menu The menu to inflate
+     * @return True if you want the menu to be displayed
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         if (getMenu() != 0) {
             inflater.inflate(getMenu(), menu);
@@ -72,6 +109,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Hook to handle options menu prep.  I'm using this to set the delete menu icon
+     * to invisible if this is a new entity vs and edit.
+     *
+     * @param menu The menu to interact with
+     * @return True if you want the menu to be displayed
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem delete = menu.findItem(getDeleteMenuItem());
@@ -81,11 +125,15 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Hook to handle action bar item clicks.  The action bar will automatically handle clicks
+     * on the Home/Up button, so long as you specify a parent activity in the AndroidManifest.xml
+     *
+     * @param item The item that was selected
+     * @return True if you want the menu to be displayed
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int itemId = item.getItemId();
         if (itemId == getSaveMenuItem()) {
             save();
@@ -101,6 +149,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Alert Dialog to verify that the user intended to the entity.
+     *
+     * @param deleteRunner Strategy to run the delete if the user confirms.
+     * @param cancelRunner Strategy to run if the user cancels.
+     * @return The Delete Alert Dialog so that the caller can decide when to show it.
+     */
     private AlertDialog alertDelete(Runnable deleteRunner, Runnable cancelRunner) {
         return new AlertDialog.Builder(this)
                 .setTitle("Delete")
@@ -116,10 +171,18 @@ public abstract class AbstractActivity extends AppCompatActivity {
                 }).create();
     }
 
-    private void onCancel() {
+    /**
+     * Default cancel strategy for the alertDelete method
+     */
+    protected void onCancel() {
         // noop
     }
 
+    /**
+     * Swipe Delete initialization code. Abstracted here because both editor and list activities
+     * currently have recycler views and need this init. It sets recycler view to detect the
+     * swipe and calls the hooks so that the subclasses can handle the delete action
+     */
     public void initSwipeDelete() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -136,19 +199,39 @@ public abstract class AbstractActivity extends AppCompatActivity {
         }).attachToRecyclerView(getRecyclerView());
     }
 
+    /**
+     * Abstracted method to launch a new intent.  Probably don't need this here but I thought
+     * I'd do it incase I wanted to do any special behavior to all the intent launches
+     *
+     * @param clazz Class to be attached to the intent
+     */
     protected void openActivity(Class clazz) {
         Intent intent = new Intent(this, clazz);
         openActivity(intent);
     }
 
+    /**
+     * I made this to make the call consistent.  Used with an intent that needed some special
+     * configuration.
+     *
+     * @param intent Intent to launch
+     */
     protected void openActivity(Intent intent) {
         startActivity(intent);
     }
 
+    /**
+     * Another call for consistancy.  Used to close the current activity.
+     */
     protected void closeActivity() {
         finish();
     }
 
+    /**
+     * Shows a validation error with a title and a message with an Okay button to close.
+     * @param title Title of the validation error
+     * @param message Message of the validation error
+     */
     protected void showValidationError(String title, String message) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setMessage(message).setTitle(title)
@@ -158,34 +241,98 @@ public abstract class AbstractActivity extends AppCompatActivity {
         alert.show();
     }
 
+    /**
+     * Hook to get subclass content view
+     *
+     * @return The Content View
+     */
     protected abstract int getContentView();
 
+    /**
+     * Hook to init butterknife in the subclass
+     */
     protected abstract void initButterKnife();
 
+    /**
+     * Hook to init the subclass recycler view
+     */
     protected abstract void initRecyclerView();
 
+    /**
+     * Hook to init the subclass view model
+     */
     protected abstract void initViewModel();
 
+    /**
+     * Hook to get the subclass menu
+     *
+     * @return The Menu
+     */
     protected abstract int getMenu();
 
+    /**
+     * Hook to get the subclass Delete Menu Item
+     *
+     * @return Delete Menu Item
+     */
     protected abstract int getDeleteMenuItem();
 
+    /**
+     * Hook to get the subclass Save Menu Item
+     *
+     * @return Save Menu Item
+     */
     protected abstract int getSaveMenuItem();
 
+    /**
+     * Hook to get the subclass Close Menu Item
+     *
+     * @return Close Menu Item
+     */
     protected abstract int getCloseMenuItem();
 
+    /**
+     * Hook to trigger the subclass to persist the entity to the database
+     */
     protected abstract void save();
 
+    /**
+     * Hook to trigger the subclass to delete the entity from the database
+     */
     protected abstract void delete();
 
+    /**
+     * Hook to get the subclass recycler view
+     *
+     * @return Recyclerview
+     */
     protected abstract RecyclerView getRecyclerView();
 
+    /**
+     * Hook to trigger the subclass to handle the swipe delete action
+     *
+     * @param viewHolder RecyclerView.ViewHolder
+     */
     protected abstract void handleSwipeDelete(RecyclerView.ViewHolder viewHolder);
 
+    /**
+     * Hook to trigger the subclass to handle a canceled swipe delete
+     *
+     * @param viewHolder RecyclerView.ViewHolder
+     */
     protected abstract void onSwipeCancel(RecyclerView.ViewHolder viewHolder);
 
+    /**
+     * Hook to restore the internal activity state from the savedInstanceState Bundle
+     *
+     * @param savedInstanceState Stores the internal activity state
+     */
     protected abstract void restoreState(Bundle savedInstanceState);
 
+    /**
+     * Hook to save the internal activity state to the outState Bundle
+     * @param outState
+     */
     protected abstract void saveState(Bundle outState);
 
 }

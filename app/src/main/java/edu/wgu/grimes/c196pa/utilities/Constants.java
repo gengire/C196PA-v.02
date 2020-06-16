@@ -37,4 +37,6 @@ public class Constants {
     public static final String DATE_PATTERN = "MMM d, yyyy";
     public static final String COURSE_START_ALERT_CHANNEL = "channel1";
     public static final String COURSE_END_ALERT_CHANNEL = "channel2";
+    public static final int START = 1;
+    public static final int END = 2;
 }

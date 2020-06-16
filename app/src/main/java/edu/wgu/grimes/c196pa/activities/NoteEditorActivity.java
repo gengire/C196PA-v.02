@@ -31,7 +31,22 @@ import edu.wgu.grimes.c196pa.viewmodels.NoteEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.NOTE_ID_KEY;
 
+/**
+ * Note Editor Activity, responsible for controlling both new and edit modes for course notes
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class NoteEditorActivity extends AbstractEditorActivity {
+
+    /**
+     * Local View Model for the note editor
+     */
+    private NoteEditorViewModel mViewModel;
+    /**
+     * Local internal state for this activity
+     */
+    private State state = new State();
 
     @BindView(R.id.edit_text_note_editor_title)
     EditText mTitle;
@@ -40,20 +55,14 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     @BindView(R.id.btn_open_send_email)
     Button mSendEmail;
 
-    private NoteEditorViewModel mViewModel;
-
-    private State state = new State();
-    private static class State {
-        String title;
-        String description;
-    }
-
-    @OnClick(R.id.btn_open_send_email)
-    void handleOpenSendEmailClick() {
-        Intent intent = new Intent(this, SendEmailActivity.class);
-        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + mTitle.getText());
-        intent.putExtra(Constants.EMAIL_MESSAGE_KEY, String.valueOf(mDescription.getText()));
-        openActivity(intent);
+    /**
+     * Loads the data from the internal state to the screen
+     * @param title
+     * @param description
+     */
+    private void loadState(String title, String description) {
+        mTitle.setText(title);
+        mDescription.setText(description);
     }
 
     @Override
@@ -90,17 +99,13 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    private void loadState(String title, String description) {
-        mTitle.setText(title);
-        mDescription.setText(description);
-    }
-
     @Override
     protected void saveState(Bundle outState) {
         outState.putString(getString(R.string.NOTE_TITLE_KEY), String.valueOf(mTitle.getText()));
         outState.putString(getString(R.string.NOTE_DESCRIPTION_KEY), String.valueOf(mDescription.getText()));
     }
 
+    @Override
     protected void save() {
         String title = String.valueOf(mTitle.getText());
         String description = String.valueOf( mDescription.getText());
@@ -115,6 +120,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         closeActivity();
     }
 
+    @Override
     protected void delete() {
         NoteEntity course = mViewModel.mLiveNote.getValue();
         String title = course.getTitle();
@@ -124,10 +130,12 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         closeActivity();
     }
 
+    @Override
     protected void initRecyclerView() {
         // noop
     }
 
+    @Override
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(NoteEditorViewModel.class);
         mViewModel.mLiveNote.observe(this, (note) -> {
@@ -151,8 +159,16 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return null; // noop
+    @OnClick(R.id.btn_open_send_email)
+    void handleOpenSendEmailClick() {
+        Intent intent = new Intent(this, SendEmailActivity.class);
+        intent.putExtra(Constants.EMAIL_SUBJECT_KEY, "Course notes: " + mTitle.getText());
+        intent.putExtra(Constants.EMAIL_MESSAGE_KEY, String.valueOf(mDescription.getText()));
+        openActivity(intent);
+    }
+
+    private static class State {
+        String title;
+        String description;
     }
 }

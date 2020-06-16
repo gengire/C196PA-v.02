@@ -42,7 +42,30 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
+/**
+ * Term Editor Activity, responsible for controlling both new and edit modes for terms
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermEditorActivity extends AbstractEditorActivity {
+    /**
+     * Local View Model for the term editor
+     */
+    private TermEditorViewModel mViewModel;
+    private CourseAdapter mAdapter;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date startDate;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date endDate;
+    /**
+     * Local internal state for this activity
+     */
+    private State state = new State();
 
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;
@@ -54,27 +77,14 @@ public class TermEditorActivity extends AbstractEditorActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.fab_add_course)
     FloatingActionButton mFab;
-    private TermEditorViewModel mViewModel;
-    private int mId;
-    private Date startDate;
-    private Date endDate;
-    private CourseAdapter mAdapter;
-    private State state = new State();
 
-    private static class State {
-        String title;
-        String startDate;
-        String endDate;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_term_editor;
-    }
-
-    @Override
-    protected void initButterKnife() {
-        ButterKnife.bind(this);
+    /**
+     * Loads the data from the internal state to the screen
+     */
+    private void loadState() {
+        mTitle.setText(state.title);
+        mStartDate.setText(state.startDate);
+        mEndDate.setText(state.endDate);
     }
 
     @Override
@@ -89,43 +99,6 @@ public class TermEditorActivity extends AbstractEditorActivity {
     }
 
     @Override
-    protected void restoreState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            state.title = savedInstanceState.getString(getString(R.string.TERM_TITLE_KEY));
-            state.startDate = savedInstanceState.getString(getString(R.string.TERM_START_DATE_KEY));
-            state.endDate = savedInstanceState.getString(getString(R.string.TERM_END_DATE_KEY));
-            loadState();
-        }
-    }
-
-    private void loadState() {
-        mTitle.setText(state.title);
-        mStartDate.setText(state.startDate);
-        mEndDate.setText(state.endDate);
-    }
-
-    @Override
-    protected void saveState(@NonNull Bundle outState) {
-        outState.putString(getString(R.string.TERM_TITLE_KEY), String.valueOf(mTitle.getText()));
-        outState.putString(getString(R.string.TERM_START_DATE_KEY), String.valueOf(mStartDate.getText()));
-        outState.putString(getString(R.string.TERM_END_DATE_KEY), String.valueOf(mEndDate.getText()));
-    }
-
-    @Override
-    protected int getDeleteMenuItem() {
-        return R.id.delete_term;
-    }
-
-    @Override
-    protected int getMenu() {
-        return R.menu.menu_term_editor;
-    }
-
-    @Override
-    protected int getSaveMenuItem() {
-        return R.id.save_term;
-    }
-
     protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -141,30 +114,34 @@ public class TermEditorActivity extends AbstractEditorActivity {
         initSwipeDelete();
     }
 
-    @OnClick(R.id.text_view_term_editor_start_date_value)
-    void startDateClickHandler() {
-        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
-        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
-    @OnClick(R.id.text_view_term_editor_start_date)
-    void startDateLabelClickHandler() {
-        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
-        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
+        String courseTitle = course.getTitle();
+
+        mViewModel.validateDeleteCourse(course,
+                () -> { // success
+                    mViewModel.deleteCourse(course);
+                    String text = courseTitle + " Deleted";
+                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                }, () -> { // failure
+                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    String text = courseTitle + " can't be deleted because it has at least one assessment associated with it";
+                    showValidationError("Can't delete", text);
+                });
     }
 
-    @OnClick(R.id.text_view_term_editor_end_date_value)
-    void endDateClickHandler() {
-        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
-        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
+    @Override
+    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 
-    @OnClick(R.id.text_view_term_editor_end_date)
-    void endDateLabelClickHandler() {
-        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
-        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
-    }
-
+    @Override
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
 
@@ -198,6 +175,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
 
     }
 
+    @Override
     protected void save() {
         String title = String.valueOf(mTitle.getText());
         String startDate = String.valueOf(mStartDate.getText());
@@ -211,6 +189,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
         closeActivity();
     }
 
+    @Override
     protected void delete() {
         TermEntity term = mViewModel.mLiveData.getValue();
         String termTitle = term == null ? "<NA>" : term.getTitle();
@@ -227,29 +206,75 @@ public class TermEditorActivity extends AbstractEditorActivity {
     }
 
     @Override
-    protected RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    protected int getContentView() {
+        return R.layout.activity_term_editor;
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
-        CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
-        String courseTitle = course.getTitle();
-
-        mViewModel.validateDeleteCourse(course,
-                () -> { // success
-                    mViewModel.deleteCourse(course);
-                    String text = courseTitle + " Deleted";
-                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
-                }, () -> { // failure
-                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                    String text = courseTitle + " can't be deleted because it has at least one assessment associated with it";
-                    showValidationError("Can't delete", text);
-                });
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
-        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    protected void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            state.title = savedInstanceState.getString(getString(R.string.TERM_TITLE_KEY));
+            state.startDate = savedInstanceState.getString(getString(R.string.TERM_START_DATE_KEY));
+            state.endDate = savedInstanceState.getString(getString(R.string.TERM_END_DATE_KEY));
+            loadState();
+        }
     }
+
+    @Override
+    protected void saveState(@NonNull Bundle outState) {
+        outState.putString(getString(R.string.TERM_TITLE_KEY), String.valueOf(mTitle.getText()));
+        outState.putString(getString(R.string.TERM_START_DATE_KEY), String.valueOf(mStartDate.getText()));
+        outState.putString(getString(R.string.TERM_END_DATE_KEY), String.valueOf(mEndDate.getText()));
+    }
+
+    @Override
+    protected int getDeleteMenuItem() {
+        return R.id.delete_term;
+    }
+
+    @Override
+    protected int getMenu() {
+        return R.menu.menu_term_editor;
+    }
+
+    @Override
+    protected int getSaveMenuItem() {
+        return R.id.save_term;
+    }
+
+    @OnClick(R.id.text_view_term_editor_start_date_value)
+    void startDateClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
+        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
+    }
+
+    @OnClick(R.id.text_view_term_editor_start_date)
+    void startDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
+        dateDialog.show(getSupportFragmentManager(), "startDatePicker");
+    }
+
+    @OnClick(R.id.text_view_term_editor_end_date_value)
+    void endDateClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
+        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
+    }
+
+    @OnClick(R.id.text_view_term_editor_end_date)
+    void endDateLabelClickHandler() {
+        DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
+        dateDialog.show(getSupportFragmentManager(), "endDatePicker");
+    }
+
+    private static class State {
+        String title;
+        String startDate;
+        String endDate;
+    }
+
 }

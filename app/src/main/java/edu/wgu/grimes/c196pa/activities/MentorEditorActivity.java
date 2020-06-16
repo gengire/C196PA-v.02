@@ -27,7 +27,22 @@ import edu.wgu.grimes.c196pa.viewmodels.MentorEditorViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
+/**
+ * Mentor Editor Activity, responsible for controlling both new and edit modes for mentors
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MentorEditorActivity extends AbstractEditorActivity {
+
+    /**
+     * Local View Model for the mentor editor
+     */
+    private MentorEditorViewModel mViewModel;
+    /**
+     * Local internal state for this activity
+     */
+    private State state = new State();
 
     @BindView(R.id.edit_text_mentor_editor_first_name)
     EditText mFirstName;
@@ -37,14 +52,20 @@ public class MentorEditorActivity extends AbstractEditorActivity {
     EditText mPhone;
     @BindView(R.id.edit_text_mentor_editor_email)
     EditText mEmail;
-    private MentorEditorViewModel mViewModel;
 
-    private State state = new State();
-    private static class State {
-        String firstName;
-        String lastName;
-        String phoneNumber;
-        String email;
+    /**
+     * Loads the data from the internal state to the screen
+     */
+    private void loadState() {
+        mFirstName.setText(state.firstName);
+        mLastName.setText(state.lastName);
+        mPhone.setText(state.phoneNumber);
+        mEmail.setText(state.email);
+    }
+
+    @Override
+    protected void initRecyclerView() {
+        // noop
     }
 
     @Override
@@ -83,13 +104,6 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    private void loadState() {
-        mFirstName.setText(state.firstName);
-        mLastName.setText(state.lastName);
-        mPhone.setText(state.phoneNumber);
-        mEmail.setText(state.email);
-    }
-
     @Override
     protected void saveState(Bundle outState) {
         outState.putString(getString(R.string.MENTOR_FIRST_NAME_KEY), String.valueOf(mFirstName.getText()));
@@ -98,6 +112,7 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         outState.putString(getString(R.string.MENTOR_EMAIL_KEY), String.valueOf(mEmail.getText()));
     }
 
+    @Override
     protected void save() {
         String firstName = String.valueOf(mFirstName.getText());
         String lastName = String.valueOf(mLastName.getText());
@@ -114,6 +129,7 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         closeActivity();
     }
 
+    @Override
     protected void delete() {
         MentorEntity mentor = mViewModel.mLiveMentor.getValue();
         String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
@@ -121,11 +137,6 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         String text = mentorName + " Deleted";
         Toast.makeText(MentorEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
-    }
-
-    @Override
-    protected void initRecyclerView() {
-        // noop
     }
 
     @Override
@@ -153,8 +164,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return null; // noop
+    private static class State {
+        String firstName;
+        String lastName;
+        String phoneNumber;
+        String email;
     }
 }

@@ -14,8 +14,18 @@ import android.os.Bundle;
 
 import edu.wgu.grimes.c196pa.R;
 
+/**
+ * Contains some empty implementations to keep the subclass activities as clean as possible
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public abstract class AbstractListActivity extends AbstractActivity {
 
+    /**
+     * List activities use a back icon.
+     * @return Back icon ( <- )
+     */
     @Override
     protected int getCloseMenuItem() {
         return R.drawable.ic_arrow_back;

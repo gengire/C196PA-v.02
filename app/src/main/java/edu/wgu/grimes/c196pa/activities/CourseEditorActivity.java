@@ -48,11 +48,48 @@ import edu.wgu.grimes.c196pa.utilities.HasDate;
 import edu.wgu.grimes.c196pa.viewmodels.CourseEditorViewModel;
 
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
+import static edu.wgu.grimes.c196pa.utilities.Constants.END;
+import static edu.wgu.grimes.c196pa.utilities.Constants.START;
 import static edu.wgu.grimes.c196pa.utilities.Constants.TERM_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
+/**
+ * Course Editor Activity, responsible for controlling both new and edit modes for courses
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class CourseEditorActivity extends AbstractEditorActivity implements NumberPicker.OnValueChangeListener {
+
+    /**
+     * Local View Model for the course editor
+     */
+    private CourseEditorViewModel mViewModel;
+    /**
+     * Adapter for assessments in the recycler view
+     */
+    private AssessmentAdapter mAdapter;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date startDate;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date startDateAlarm;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date endDate;
+    /**
+     * Used with the Date Picker Fragment
+     */
+    private Date endDateAlarm;
+    /**
+     * Local internal state for this activity
+     */
+    private State state = new State();
 
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
@@ -83,24 +120,118 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     @BindView(R.id.image_view_course_end_date_alert)
     ImageView imageViewEndDateAlert;
 
-    AssessmentAdapter mAdapter;
+    /**
+     * Loads the data from the internal state to the screen
+     */
+    private void loadState() {
+        mTitle.setText(state.title);
+        mCode.setText(state.code);
+        mCus.setText(state.cus);
+        mStatus.setSelection(state.status);
+        mStartDate.setText(state.startDate);
+        if (state.startDate != null) {
+            startDate = getDate(state.startDate);
+        }
+        mStartDateAlarm.setText(state.startDateAlarm);
+        if (state.startDateAlarm != null) {
+            startDateAlarm = getDate(state.startDateAlarm);
+        }
+        mEndDate.setText(state.endDate);
+        if (state.endDate != null) {
+            endDate = getDate(state.endDate);
+        }
+        mEndDateAlarm.setText(state.endDateAlarm);
+        if (state.endDateAlarm != null) {
+            endDateAlarm = getDate(state.endDateAlarm);
+        }
+    }
 
-    private CourseEditorViewModel mViewModel;
-    private Date startDate;
-    private Date startDateAlarm;
-    private Date endDate;
-    private Date endDateAlarm;
-    private State state = new State();
+    /**
+     * init code for spinners
+     */
+    private void initSpinners() {
+        String[] courseStatuses = getResources().getStringArray(R.array.status_values);
 
-    private static class State {
-        String title;
-        String code;
-        String cus;
-        Integer status;
-        String startDate;
-        String endDate;
-        String startDateAlarm;
-        String endDateAlarm;
+        ArrayAdapter<String> courseStatusItemAdapter = new ArrayAdapter<>(
+                this, R.layout.item_spinner_right, courseStatuses);
+        courseStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
+        mStatus.setAdapter(courseStatusItemAdapter);
+
+    }
+
+    /**
+     * Opens the competency units number picker dialog
+     */
+    private void openCompetencyUnitsPickerDialog() {
+        final Dialog dialog = new Dialog(CourseEditorActivity.this);
+        dialog.setTitle("Competency Units");
+        dialog.setContentView(R.layout.number_picker);
+
+        String strCus = String.valueOf(mCus.getText());
+        int cusValue = "".equals(strCus) ? 0 : Integer.parseInt(strCus);
+
+        NumberPicker mCuPicker = dialog.findViewById(R.id.number_picker);
+        mCuPicker.setWrapSelectorWheel(false);
+        mCuPicker.setMaxValue(10);
+        mCuPicker.setMinValue(0);
+        mCuPicker.setValue(cusValue); // set value needs to be set after set min and max :/
+        mCuPicker.setOnValueChangedListener(this);
+
+        Button btnSetCus = dialog.findViewById(R.id.btn_set_cus);
+        btnSetCus.setOnClickListener(v -> {
+            mCus.setText(String.valueOf(mCuPicker.getValue()));
+            dialog.dismiss();
+        });
+        Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
+        btnCancelCus.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    /**
+     * Handles rendering the alarm icon as either empty or active
+     *
+     * @param date
+     * @param which
+     */
+    private void renderAlarm(Date date, int which) {
+        ImageView iv = which == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
+        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float x = date == null ? 1F : 1.2F;
+        float y = date == null ? 1F : 1.1F;
+        setAlarmActive(iv, dr, x, y);
+    }
+
+    /**
+     * Convenience method to help render the alarms
+     * @param imageView
+     * @param p
+     * @param scaleX
+     * @param scaleY
+     */
+    private void setAlarmActive(ImageView imageView, int p, float scaleX, float scaleY) {
+        imageView.setImageResource(p);
+        imageView.setScaleX(scaleX);
+        imageView.setScaleY(scaleY);
+    }
+
+    /**
+     * Handles the start and end date alarm notification scheduling.
+     */
+    private void handleAlarmNotifications() {
+        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
+        String title = "WGU Scheduler Course Alert";
+        String message = mTitle.getText() + " is ";
+
+        if (!"".equals(String.valueOf(mStartDate.getText())) && startDateAlarm != null) {
+            String sdEnding = "starting on " + mStartDate.getText();
+            alm.registerAlarmNotification(this, startDateAlarm, mId, "start",
+                    title, message + sdEnding);
+        }
+        if (!"".equals(String.valueOf(mEndDate.getText())) && endDateAlarm != null) {
+            String edEnding = "ending on " + mEndDate.getText();
+            alm.registerAlarmNotification(this, endDateAlarm, mId, "end",
+                    title, message + edEnding);
+        }
     }
 
     @Override
@@ -145,39 +276,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         }
     }
 
-    private void loadState() {
-        mTitle.setText(state.title);
-        mCode.setText(state.code);
-        mCus.setText(state.cus);
-        mStatus.setSelection(state.status);
-        mStartDate.setText(state.startDate);
-        if (state.startDate != null) {
-            startDate = getDate(state.startDate);
-        }
-        mStartDateAlarm.setText(state.startDateAlarm);
-        if (state.startDateAlarm != null) {
-            startDateAlarm = getDate(state.startDateAlarm);
-        }
-        mEndDate.setText(state.endDate);
-        if (state.endDate != null) {
-            endDate = getDate(state.endDate);
-        }
-        mEndDateAlarm.setText(state.endDateAlarm);
-        if (state.endDateAlarm != null) {
-            endDateAlarm = getDate(state.endDateAlarm);
-        }
-    }
-
-    private void initSpinners() {
-        String[] courseStatuses = getResources().getStringArray(R.array.status_values);
-
-        ArrayAdapter<String> courseStatusItemAdapter = new ArrayAdapter<>(
-                this, R.layout.item_spinner_right, courseStatuses);
-        courseStatusItemAdapter.setDropDownViewResource(R.layout.item_spinner_right);
-        mStatus.setAdapter(courseStatusItemAdapter);
-
-    }
-
     @Override
     public int getContentView() {
         return R.layout.activity_course_editor;
@@ -206,6 +304,140 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         mCus.setText(String.valueOf(newVal));
+    }
+
+    @Override
+    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+        AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
+        String assessmentTitle = assessment.getTitle();
+
+        mViewModel.deleteAssessment(assessment);
+        String text = assessmentTitle + " Deleted";
+        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
+    @Override
+    protected void initRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new AssessmentAdapter();
+
+        mAdapter.setOnItemClickListener(assessment -> {
+            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mId);
+            intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
+            openActivity(intent);
+        });
+
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        initSwipeDelete();
+
+    }
+
+    @Override
+    protected void initViewModel() {
+        mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
+        mViewModel.mLiveCourse.observe(this, (course) -> {
+            if (course != null) {
+                mTitle.setText(state.title == null ? course.getTitle() : state.title);
+                mCode.setText(state.code == null ? course.getCode() : state.code);
+                mCus.setText(state.cus == null ? String.valueOf(course.getCompetencyUnits()) : state.cus);
+
+                SpinnerAdapter ssa = mStatus.getAdapter();
+                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
+                mStatus.setSelection(state.status == null ? statusAdapter.getPosition(course.getStatus()) : state.status);
+                startDate = state.startDate == null ? course.getStartDate() : getDate(state.startDate);
+                startDateAlarm = state.startDateAlarm == null ? course.getStartDateAlarm() : getDate(state.startDateAlarm);
+                renderAlarm(startDateAlarm, START);
+                endDate = state.endDate == null ? course.getEndDate() : getDate(state.endDate);
+                endDateAlarm = state.endDateAlarm == null ? course.getEndDateAlarm() : getDate(state.endDateAlarm);
+                renderAlarm(endDateAlarm, END);
+                if (startDate != null) {
+                    mStartDate.setText(getFormattedDate(startDate));
+                }
+                if (endDate != null) {
+                    mEndDate.setText(getFormattedDate(endDate));
+                }
+                if (startDateAlarm != null) {
+                    mStartDateAlarm.setText(getFormattedDate(startDateAlarm));
+                }
+                if (endDateAlarm != null) {
+                    mEndDateAlarm.setText(getFormattedDate(endDateAlarm));
+                }
+            }
+        });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mParentId = extras.getInt(TERM_ID_KEY);
+
+            if (extras.getInt(COURSE_ID_KEY) == 0) {
+                setTitle(getString(R.string.new_course));
+                mNew = true;
+                mCourseNotes.setVisibility(View.GONE);
+                mCourseMentors.setVisibility(View.GONE);
+                mFab.setVisibility(View.GONE);
+            } else {
+                setTitle(getString(R.string.edit_course));
+                mId = extras.getInt(COURSE_ID_KEY);
+                mViewModel.loadCourse(mId);
+                mViewModel.loadCourseAssessments(mId);
+                mViewModel.getCourseAssessments().observe(this, (assessments) ->
+                        mAdapter.submitList(assessments));
+            }
+        }
+    }
+
+    @Override
+    protected void save() {
+        String title = String.valueOf(mTitle.getText());
+        String code = String.valueOf(mCode.getText());
+        String cus = String.valueOf(mCus.getText());
+        String status = String.valueOf(mStatus.getSelectedItem());
+        String termId = String.valueOf(mParentId);
+        String startDate = String.valueOf(mStartDate.getText());
+        Date sdAlarm = startDateAlarm;
+        String endDate = String.valueOf(mEndDate.getText());
+        Date edAlarm = endDateAlarm;
+
+        if (title.trim().isEmpty()) {
+            showValidationError("Missing title", "Please enter a title");
+            return;
+        }
+        mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
+        handleAlarmNotifications();
+
+        Toast.makeText(CourseEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        closeActivity();
+    }
+
+    @Override
+    protected void delete() {
+        CourseEntity course = mViewModel.mLiveCourse.getValue();
+        if (course != null) {
+            String title = course.getTitle();
+            mViewModel.validateDeleteCourse(course,
+                    () -> { // success
+                        mViewModel.deleteCourse();
+                        String text = title + " Deleted";
+                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                        closeActivity();
+                    }, () -> { // failure
+                        String text = title + " can't be deleted because it has at least one assessment associated with it";
+                        showValidationError("Can't delete", text);
+                    });
+        }
     }
 
     @OnClick(R.id.btn_course_notes)
@@ -254,31 +486,6 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     @OnClick(R.id.text_view_course_editor_cus_value)
     void cusClickHandler() {
         openCompetencyUnitsPickerDialog();
-    }
-
-    private void openCompetencyUnitsPickerDialog() {
-        final Dialog dialog = new Dialog(CourseEditorActivity.this);
-        dialog.setTitle("Competency Units");
-        dialog.setContentView(R.layout.number_picker);
-
-        String strCus = String.valueOf(mCus.getText());
-        int cusValue = "".equals(strCus) ? 0 : Integer.parseInt(strCus);
-
-        NumberPicker mCuPicker = dialog.findViewById(R.id.number_picker);
-        mCuPicker.setWrapSelectorWheel(false);
-        mCuPicker.setMaxValue(10);
-        mCuPicker.setMinValue(0);
-        mCuPicker.setValue(cusValue); // set value needs to be set after set min and max :/
-        mCuPicker.setOnValueChangedListener(this);
-
-        Button btnSetCus = dialog.findViewById(R.id.btn_set_cus);
-        btnSetCus.setOnClickListener(v -> {
-            mCus.setText(String.valueOf(mCuPicker.getValue()));
-            dialog.dismiss();
-        });
-        Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
-        btnCancelCus.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
     }
 
     @OnClick(R.id.image_view_course_start_date_alert)
@@ -343,168 +550,15 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     void statusLabelClickHandler() {
         mStatus.performClick();
     }
-    private static final int START = 1;
-    private static final int END = 2;
 
-    private void renderAlarm(Date date, int which) {
-        ImageView iv = which == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
-        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
-        float x = date == null ? 1F : 1.2F;
-        float y = date == null ? 1F : 1.1F;
-        setAlarmActive(iv, dr, x, y);
+    private static class State {
+        String title;
+        String code;
+        String cus;
+        Integer status;
+        String startDate;
+        String endDate;
+        String startDateAlarm;
+        String endDateAlarm;
     }
-
-    private void setAlarmActive(ImageView imageView, int p, float scaleX, float scaleY) {
-        imageView.setImageResource(p);
-        imageView.setScaleX(scaleX);
-        imageView.setScaleY(scaleY);
-    }
-
-    protected void initRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(true);
-        mAdapter = new AssessmentAdapter();
-
-        mAdapter.setOnItemClickListener(assessment -> {
-            Intent intent = new Intent(CourseEditorActivity.this, AssessmentEditorActivity.class);
-            intent.putExtra(Constants.COURSE_ID_KEY, mId);
-            intent.putExtra(Constants.ASSESSMENT_ID_KEY, assessment.getId());
-            openActivity(intent);
-        });
-
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        initSwipeDelete();
-
-    }
-
-    protected void initViewModel() {
-        mViewModel = new ViewModelProvider(this, factory).get(CourseEditorViewModel.class);
-        mViewModel.mLiveCourse.observe(this, (course) -> {
-            if (course != null) {
-                mTitle.setText(state.title == null ? course.getTitle() : state.title);
-                mCode.setText(state.code == null ? course.getCode() : state.code);
-                mCus.setText(state.cus == null ? String.valueOf(course.getCompetencyUnits()) : state.cus);
-
-                SpinnerAdapter ssa = mStatus.getAdapter();
-                ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
-                mStatus.setSelection(state.status == null ? statusAdapter.getPosition(course.getStatus()) : state.status);
-                startDate = state.startDate == null ? course.getStartDate() : getDate(state.startDate);
-                startDateAlarm = state.startDateAlarm == null ? course.getStartDateAlarm() : getDate(state.startDateAlarm);
-                renderAlarm(startDateAlarm, START);
-                endDate = state.endDate == null ? course.getEndDate() : getDate(state.endDate);
-                endDateAlarm = state.endDateAlarm == null ? course.getEndDateAlarm() : getDate(state.endDateAlarm);
-                renderAlarm(endDateAlarm, END);
-                if (startDate != null) {
-                    mStartDate.setText(getFormattedDate(startDate));
-                }
-                if (endDate != null) {
-                    mEndDate.setText(getFormattedDate(endDate));
-                }
-                if (startDateAlarm != null) {
-                    mStartDateAlarm.setText(getFormattedDate(startDateAlarm));
-                }
-                if (endDateAlarm != null) {
-                    mEndDateAlarm.setText(getFormattedDate(endDateAlarm));
-                }
-            }
-        });
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mParentId = extras.getInt(TERM_ID_KEY);
-
-            if (extras.getInt(COURSE_ID_KEY) == 0) {
-                setTitle(getString(R.string.new_course));
-                mNew = true;
-                mCourseNotes.setVisibility(View.GONE);
-                mCourseMentors.setVisibility(View.GONE);
-                mFab.setVisibility(View.GONE);
-            } else {
-                setTitle(getString(R.string.edit_course));
-                mId = extras.getInt(COURSE_ID_KEY);
-                mViewModel.loadCourse(mId);
-                mViewModel.loadCourseAssessments(mId);
-                mViewModel.getCourseAssessments().observe(this, (assessments) ->
-                        mAdapter.submitList(assessments));
-            }
-        }
-    }
-
-    protected void save() {
-        String title = String.valueOf(mTitle.getText());
-        String code = String.valueOf(mCode.getText());
-        String cus = String.valueOf(mCus.getText());
-        String status = String.valueOf(mStatus.getSelectedItem());
-        String termId = String.valueOf(mParentId);
-        String startDate = String.valueOf(mStartDate.getText());
-        Date sdAlarm = startDateAlarm;
-        String endDate = String.valueOf(mEndDate.getText());
-        Date edAlarm = endDateAlarm;
-
-        if (title.trim().isEmpty()) {
-            showValidationError("Missing title", "Please enter a title");
-            return;
-        }
-        mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
-        handleAlarmNotifications();
-
-        Toast.makeText(CourseEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
-        closeActivity();
-    }
-
-    private void handleAlarmNotifications() {
-        AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
-        String title = "WGU Scheduler Course Alert";
-        String message = mTitle.getText() + " is ";
-
-        if (!"".equals(String.valueOf(mStartDate.getText())) && startDateAlarm != null) {
-            String sdEnding = "starting on " + mStartDate.getText();
-            alm.registerAlarmNotification(this, startDateAlarm, mId, "start",
-                    title, message + sdEnding);
-        }
-        if (!"".equals(String.valueOf(mEndDate.getText())) && endDateAlarm != null) {
-            String edEnding = "ending on " + mEndDate.getText();
-            alm.registerAlarmNotification(this, endDateAlarm, mId, "end",
-                    title, message + edEnding);
-        }
-    }
-
-    protected void delete() {
-        CourseEntity course = mViewModel.mLiveCourse.getValue();
-        if (course != null) {
-            String title = course.getTitle();
-            mViewModel.validateDeleteCourse(course,
-                    () -> { // success
-                        mViewModel.deleteCourse();
-                        String text = title + " Deleted";
-                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
-                        closeActivity();
-                    }, () -> { // failure
-                        String text = title + " can't be deleted because it has at least one assessment associated with it";
-                        showValidationError("Can't delete", text);
-                    });
-        }
-    }
-
-    @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
-        AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
-        String assessmentTitle = assessment.getTitle();
-
-        mViewModel.deleteAssessment(assessment);
-        String text = assessmentTitle + " Deleted";
-        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
-        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-    }
-
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
 }

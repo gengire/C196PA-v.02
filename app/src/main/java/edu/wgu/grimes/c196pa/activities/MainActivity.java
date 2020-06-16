@@ -28,7 +28,54 @@ import butterknife.OnClick;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.viewmodels.MainViewModel;
 
+/**
+ * Main Activity, responsible for controlling the main stats screen
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
+
+    /**
+     * Local View Model for the main stats screen
+     */
+    private MainViewModel mViewModel;
+    /**
+     * Courses count
+     */
+    private int iCourseCount = 0;
+    /**
+     * Assessments count
+     */
+    private int iAssessmentCount = 0;
+    /**
+     * Courses completed count
+     */
+    private int iCourseCompleted = 0;
+    /**
+     * Courses in progress count
+     */
+    private int iCourseInProgress = 0;
+    /**
+     * Courses dropped count
+     */
+    private int iCourseDropped = 0;
+    /**
+     * Courses failed count
+     */
+    private int iCourseFailed = 0;
+    /**
+     * Assessments passed count
+     */
+    private int iAssessmentPassed = 0;
+    /**
+     * Assessments pending count
+     */
+    private int iAssessmentPending = 0;
+    /**
+     * Assessments failed count
+     */
+    private int iAssessmentFailed = 0;
 
     @BindView(R.id.text_view_courses_completed_value)
     TextView mCoursesCompleted;
@@ -44,54 +91,11 @@ public class MainActivity extends AppCompatActivity {
     TextView mAssessmentsPending;
     @BindView(R.id.text_view_assessments_failed_value)
     TextView mAssessmentsFailed;
-    private MainViewModel mViewModel;
 
-    private int iCourseCount = 0;
-    private int iAssessmentCount = 0;
-    private int iCourseCompleted = 0;
-    private int iCourseInProgress = 0;
-    private int iCourseDropped = 0;
-    private int iCourseFailed = 0;
-    private int iAssessmentPassed = 0;
-    private int iAssessmentPending = 0;
-    private int iAssessmentFailed = 0;
-
-    @OnClick(R.id.btn_terms_list)
-    void termsClickHandler() {
-        Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btn_add_sample_terms)
-    void addSamplesClickHandler() {
-        mViewModel.addSampleData();
-    }
-
-    @OnClick(R.id.btn_delete_all_terms)
-    void deleteAllClickHandler() {
-        mViewModel.deleteAll();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ButterKnife.bind(this);
-
-        initViewModel();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
+    /**
+     * Set's up all the observers of the live data coming from the database and updates the view
+     * when the data changes.
+     */
     private void initViewModel() {
 
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
@@ -141,6 +145,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Helper to handle when multiple stats need to be updated due to a single change in the data
+     *
+     * @param numerator
+     * @param denominator
+     * @param textView
+     */
     private void updateStats(int numerator, int denominator, TextView textView) {
         StringBuilder sb = new StringBuilder();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -163,6 +174,42 @@ public class MainActivity extends AppCompatActivity {
         }
         sb.append("%)");
         textView.setText(sb.toString());
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
+
+        initViewModel();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @OnClick(R.id.btn_terms_list)
+    void termsClickHandler() {
+        Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_add_sample_terms)
+    void addSamplesClickHandler() {
+        mViewModel.addSampleData();
+    }
+
+    @OnClick(R.id.btn_delete_all_terms)
+    void deleteAllClickHandler() {
+        mViewModel.deleteAll();
     }
 
 }

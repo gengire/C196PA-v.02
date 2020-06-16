@@ -14,8 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.wgu.grimes.c196pa.R;
 
+/**
+ * Contains some empty implementations to keep the subclass activities as clean as possible
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public abstract class AbstractEditorActivity extends AbstractActivity {
 
+    /**
+     * Editor activities use a close icon.
+     * @return Close Icon ( X )
+     */
     @Override
     protected int getCloseMenuItem() {
         return R.drawable.ic_close;

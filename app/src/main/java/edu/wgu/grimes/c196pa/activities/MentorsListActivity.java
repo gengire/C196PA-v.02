@@ -32,13 +32,39 @@ import edu.wgu.grimes.c196pa.viewmodels.MentorsListViewModel;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.MENTOR_ID_KEY;
 
+/**
+ * Mentors List Activity, responsible for controlling the mentors list
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MentorsListActivity extends AbstractListActivity {
+
+    /**
+     * Local View Model for the mentors list
+     */
+    private MentorsListViewModel mViewModel;
+
+    /**
+     * Adapter for the mentors in the recycler view
+     */
+    private MentorAdapter mAdapter;
 
     @BindView(R.id.recycler_view_mentors_list)
     RecyclerView mRecyclerView;
-    private MentorsListViewModel mViewModel;
-    private int mCourseId;
-    private MentorAdapter mAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setTitle("Course Mentors");
+        FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
+            intent.putExtra(Constants.COURSE_ID_KEY, mParentId);
+            openActivity(intent);
+        });
+    }
 
     @Override
     protected int getContentView() {
@@ -51,18 +77,6 @@ public class MentorsListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setTitle("Course Mentors");
-        FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
-            intent.putExtra(Constants.COURSE_ID_KEY, mCourseId);
-            openActivity(intent);
-        });
-    }
-
     protected void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -71,18 +85,19 @@ public class MentorsListActivity extends AbstractListActivity {
         mAdapter.setOnItemClickListener(mentor -> {
             Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
             intent.putExtra(MENTOR_ID_KEY, mentor.getId());
-            intent.putExtra(COURSE_ID_KEY, mCourseId);
+            intent.putExtra(COURSE_ID_KEY, mParentId);
             openActivity(intent);
         });
         mRecyclerView.setAdapter(mAdapter);
         initSwipeDelete();
     }
 
+    @Override
     protected void initViewModel() {
         mViewModel = new ViewModelProvider(this, factory).get(MentorsListViewModel.class);
         Bundle extras = getIntent().getExtras();
-        mCourseId = extras.getInt(COURSE_ID_KEY);
-        mViewModel.loadCourseMentors(mCourseId);
+        mParentId = extras.getInt(COURSE_ID_KEY);
+        mViewModel.loadCourseMentors(mParentId);
         mViewModel.getCourseMentors().observe(this, mentors -> mAdapter.submitList(mentors));
     }
 
