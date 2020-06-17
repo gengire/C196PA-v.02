@@ -24,8 +24,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 
+/**
+ * Course Mentor Adapter, Used to binds the MentorEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewHolder> {
 
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
     private static final DiffUtil.ItemCallback<MentorEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<MentorEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull MentorEntity oldItem, @NonNull MentorEntity newItem) {

@@ -32,8 +32,17 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
+/**
+ * Term Adapter, Used to binds the TermEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder> {
 
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
     private static final DiffUtil.ItemCallback<TermEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<TermEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {

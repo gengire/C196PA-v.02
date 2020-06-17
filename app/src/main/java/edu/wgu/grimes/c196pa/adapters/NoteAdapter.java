@@ -24,8 +24,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.wgu.grimes.c196pa.R;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 
+/**
+ * Course Note Adapter, Used to binds the NoteEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder> {
 
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
     private static final DiffUtil.ItemCallback<NoteEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<NoteEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull NoteEntity oldItem, @NonNull NoteEntity newItem) {

@@ -21,21 +21,51 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 
+/**
+ * DAO for the courses table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Dao
 public interface CourseDao {
 
+    /**
+     * Inserts / Updates the given entity
+     *
+     * @param course
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(CourseEntity course);
 
+    /**
+     * Inserts / Updates the given list of entities
+     *
+     * @param sampleCourses
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<CourseEntity> sampleCourses);
 
+    /**
+     * Deletes the given entity
+     *
+     * @param course
+     */
     @Delete
     void delete(CourseEntity course);
 
+    /**
+     * Deletes all rows from the table
+     */
     @Query("delete from courses")
     void deleteAll();
 
+    /**
+     * Gets the courses (observable) associated with the given term id
+     *
+     * @param termId The identifier
+     * @return
+     */
     @Query("select * from courses where term_id = :termId")
     LiveData<List<CourseEntity>> getAllCoursesForTerm(int termId);
 

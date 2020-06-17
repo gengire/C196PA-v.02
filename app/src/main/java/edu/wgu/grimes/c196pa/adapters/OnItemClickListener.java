@@ -12,6 +12,11 @@ package edu.wgu.grimes.c196pa.adapters;
 
 import edu.wgu.grimes.c196pa.database.entities.HasId;
 
+/**
+ * Generic click listener for click event on individual items in the recycler view
+ *
+ * @param <T> The type of entity ultimately bound to the recycler view row
+ */
 public interface OnItemClickListener<T extends HasId> {
     void onItemClick(T entity);
 }

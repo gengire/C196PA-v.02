@@ -29,7 +29,7 @@ import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
 
 /**
- * Assessment Adapter, Binds the AssessmentEntity to the RecyclerView
+ * Assessment Adapter, Used to binds the AssessmentEntity to the RecyclerView
  *
  * @author Chris Grimes Copyright (2020)
  * @version 1.0
@@ -84,9 +84,6 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         holder.textViewCompletionDate.setText(completionDate);
     }
 
-    /**
-     *
-     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewCompletionDate;

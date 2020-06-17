@@ -25,8 +25,17 @@ import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
 
+/**
+ * Course Adapter, Used to binds the CourseEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewHolder> {
 
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
     private static final DiffUtil.ItemCallback<CourseEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<CourseEntity>() {
         @Override
         public boolean areItemsTheSame(@NonNull CourseEntity oldItem, @NonNull CourseEntity newItem) {
