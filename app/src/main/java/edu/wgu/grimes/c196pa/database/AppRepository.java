@@ -32,19 +32,54 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
 
+/**
+ * Database Repository responsible for ensuring all database calls that need to be off the
+ * GUI thread are handled asynchronously.  Also meant to separate the view models from the
+ * database implementation.
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AppRepository {
 
+    /**
+     * only one instance of the repo
+     */
     private static AppRepository instance;
+    /**
+     * observable list of terms
+     */
     private LiveData<List<TermEntity>> mTerms;
+    /**
+     * enables executing code bits in a separate thread
+     */
     private Executor executor = Executors.newSingleThreadExecutor();
+    /**
+     * Term Data Access Object
+     */
     private TermDao termDao;
+    /**
+     * Course Data Access Object
+     */
     private CourseDao courseDao;
+    /**
+     * Assessment Data Access Object
+     */
     private AssessmentDao assessmentDao;
+    /**
+     * Note Data Access Object
+     */
     private NoteDao noteDao;
+    /**
+     * Mentor Data Access Object
+     */
     private MentorDao mentorDao;
+    /**
+     * Database instance
+     */
     private AppDatabase mDb;
 
-    public AppRepository(Context context) {
+    private AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
         termDao = mDb.termDao();
         courseDao = mDb.courseDao();

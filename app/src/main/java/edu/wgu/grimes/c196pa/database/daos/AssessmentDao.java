@@ -41,15 +41,15 @@ public interface AssessmentDao {
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param sampleAssessments
+     * @param assessments
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void saveAll(List<AssessmentEntity> sampleAssessments);
+    void saveAll(List<AssessmentEntity> assessments);
 
     /**
      * Deletes the given entity
      *
-      * @param course
+     * @param course
      */
     @Delete
     void delete(AssessmentEntity course);
@@ -97,6 +97,7 @@ public interface AssessmentDao {
 
     /**
      * Gets a count (observable) of all the assessments
+     *
      * @return
      */
     @Query("select count(*) from assessments")

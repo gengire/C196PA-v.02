@@ -15,6 +15,13 @@ import androidx.room.Relation;
 
 import java.util.List;
 
+/**
+ * Class to relate courses to terms. Another experiment with Room that I think now I would do
+ * differently. It works but I think next time I would just make a join query to get this data.
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermWithCourses {
     @Embedded
     public TermEntity term;

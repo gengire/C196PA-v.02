@@ -18,19 +18,56 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+/**
+ * Entity for the assessments table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Entity(tableName = "assessments")
 public class AssessmentEntity implements HasId {
+    /**
+     * Assessment primary key
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "assessment_id")
     private int id;
+    /**
+     * Course foreign key
+     */
     @ColumnInfo(name = "course_id")
     private int courseId;
+    /**
+     * Assessment type e.g. Performance, Objective
+     */
     private String type;
+    /**
+     * Assessment title
+     */
     private String title;
+    /**
+     * Assessment Status e.g. Passed, Failed, Pending
+     */
     private String status;
+    /**
+     * Assessment completion / goal date.
+     */
     private Date completionDate;
+    /**
+     * Assessment completion / goal date notification alarm
+     */
     private Date completionDateAlarm;
 
+    /**
+     * Constructor for new assessments lacking primary key
+     *
+     * @param courseId
+     * @param type
+     * @param title
+     * @param status
+     * @param completionDate
+     * @param completionDateAlarm
+     */
     @Ignore
     public AssessmentEntity(int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
         this.courseId = courseId;
@@ -41,6 +78,16 @@ public class AssessmentEntity implements HasId {
         this.completionDateAlarm = completionDateAlarm;
     }
 
+    /**
+     * Constructor for updated assessments (or new with non generated primary key)
+     * @param id
+     * @param courseId
+     * @param type
+     * @param title
+     * @param status
+     * @param completionDate
+     * @param completionDateAlarm
+     */
     public AssessmentEntity(int id, int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
         this.id = id;
         this.courseId = courseId;

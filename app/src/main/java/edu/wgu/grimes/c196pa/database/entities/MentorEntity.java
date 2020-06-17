@@ -16,18 +16,51 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+/**
+ * Entity for the mentors table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Entity(tableName = "mentors")
 public class MentorEntity implements HasId {
+    /**
+     * Mentor primary key
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "mentor_id")
     private int id;
+    /**
+     * Course foreign key
+     */
     @ColumnInfo(name = "course_id")
     private int courseId;
+    /**
+     * First name of the mentor
+     */
     private String firstName;
+    /**
+     * Last name of the mentor
+     */
     private String lastName;
+    /**
+     * Phone number of the mentor
+     */
     private String phoneNumber;
+    /**
+     * Email of the mentor
+     */
     private String email;
 
+    /**
+     * Constructor for new mentor lacking primary key
+     *
+     * @param courseId
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @param email
+     */
     @Ignore
     public MentorEntity(int courseId, String firstName, String lastName, String phoneNumber, String email) {
         this.courseId = courseId;
@@ -37,6 +70,16 @@ public class MentorEntity implements HasId {
         this.email = email;
     }
 
+    /**
+     * Constructor for updating mentors (or new with non generated primary key)
+     *
+     * @param id
+     * @param courseId
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @param email
+     */
     public MentorEntity(int id, int courseId, String firstName, String lastName, String phoneNumber, String email) {
         this.id = id;
         this.courseId = courseId;

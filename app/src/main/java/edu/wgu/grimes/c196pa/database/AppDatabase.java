@@ -28,6 +28,13 @@ import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
+/**
+ * Database factory for the app.  Responsible for ensuring no collisions on database calls.
+ * REMEMBER TO UPDATE THE VERSION WHEN CHANGING SCHEMA INFO
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Database(entities = {TermEntity.class, CourseEntity.class, AssessmentEntity.class,
         NoteEntity.class, MentorEntity.class}, version = 11, exportSchema = false)
 @TypeConverters({DateConverter.class})

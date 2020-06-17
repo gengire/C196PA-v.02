@@ -12,6 +12,13 @@ package edu.wgu.grimes.c196pa.database.entities;
 
 import androidx.room.ColumnInfo;
 
+/**
+ * This was me experimenting with what Room has to offer. I think now that this tuple was not
+ * necessary but it was worth doing it this way for the educational benefit.
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermCusTuple {
     @ColumnInfo(name = "term_id")
     public int termId;

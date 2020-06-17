@@ -16,17 +16,42 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+/**
+ * Entity for the notes table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Entity(tableName = "notes")
 public class NoteEntity implements HasId {
 
+    /**
+     * Note primary key
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
     private int id;
+    /**
+     * Course foreign key
+     */
     @ColumnInfo(name = "course_id")
     private int courseId;
+    /**
+     * Note title
+     */
     private String title;
+    /**
+     * Note description
+     */
     private String description;
 
+    /**
+     * Constructor for new note lacking primary key
+     *
+     * @param courseId
+     * @param title
+     * @param description
+     */
     @Ignore
     public NoteEntity(int courseId, String title, String description) {
         this.courseId = courseId;
@@ -34,6 +59,14 @@ public class NoteEntity implements HasId {
         this.description = description;
     }
 
+    /**
+     * Constructor for updating notes (or new with non generated primary key)
+     *
+     * @param id
+     * @param courseId
+     * @param title
+     * @param description
+     */
     public NoteEntity(int id, int courseId, String title, String description) {
         this.id = id;
         this.courseId = courseId;

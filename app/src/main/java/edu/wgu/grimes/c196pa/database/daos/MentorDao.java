@@ -21,30 +21,76 @@ import java.util.List;
 
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 
+/**
+ * DAO for the mentors table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Dao
 public interface MentorDao {
 
+    /**
+     * Inserts / Updates the given entity
+     *
+     * @param course
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(MentorEntity course);
 
+    /**
+     * Inserts / Updates the given list of entities
+     *
+     * @param mentors
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<MentorEntity> mentors);
 
+    /**
+     * Deletes the given entity
+     *
+     * @param course
+     */
     @Delete
     void delete(MentorEntity course);
 
+    /**
+     * Deletes all rows from the table
+     */
     @Query("delete from mentors")
     void deleteAll();
 
+    /**
+     * Gets the mentors (observable) associated with the given course id
+     *
+     * @param courseId
+     * @return
+     */
     @Query("select * from mentors where course_id = :courseId")
     LiveData<List<MentorEntity>> getAllMentorsForCourse(int courseId);
 
+    /**
+     * Gets a mentor by mentor id
+     *
+     * @param mentorId
+     * @return
+     */
     @Query("select * from mentors where mentor_id = :mentorId")
     MentorEntity getMentorById(int mentorId);
 
+    /**
+     * Gets the total count of mentors
+     *
+     * @return
+     */
     @Query("select count(*) from mentors")
     Integer getCount();
 
+    /**
+     * Deletes all mentors associated to a given course id
+     *
+     * @param courseId
+     */
     @Query("delete from mentors where course_id = :courseId")
     void deleteMentorsForCourse(int courseId);
 }

@@ -18,16 +18,41 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+/**
+ * Entity for the terms table
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 @Entity(tableName = "terms")
 public class TermEntity implements HasId {
 
+    /**
+     * Term primary key
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "term_id")
     private int id;
+    /**
+     * Term title
+     */
     private String title;
+    /**
+     * Term start date
+     */
     private Date startDate;
+    /**
+     * Term end date
+     */
     private Date endDate;
 
+    /**
+     * Constructor for new term lacking primary key
+     *
+     * @param title
+     * @param startDate
+     * @param endDate
+     */
     @Ignore
     public TermEntity(String title, Date startDate, Date endDate) {
         this.title = title;
@@ -35,6 +60,14 @@ public class TermEntity implements HasId {
         this.endDate = endDate;
     }
 
+    /**
+     * Constructor for updating terms (or new terms with non generated primary key)
+     *
+     * @param id
+     * @param title
+     * @param startDate
+     * @param endDate
+     */
     public TermEntity(int id, String title, Date startDate, Date endDate) {
         this.id = id;
         this.title = title;

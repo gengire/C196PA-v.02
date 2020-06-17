@@ -27,6 +27,6 @@ public class BaseViewModel extends AndroidViewModel {
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
-        mRepository = new AppRepository(application.getApplicationContext());
+        mRepository = AppRepository.getInstance(application.getApplicationContext());
     }
 }
