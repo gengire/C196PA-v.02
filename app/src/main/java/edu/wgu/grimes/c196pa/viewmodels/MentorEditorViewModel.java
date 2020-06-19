@@ -18,14 +18,32 @@ import androidx.lifecycle.MutableLiveData;
 
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 
+/**
+ * View model for the mentor editor activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MentorEditorViewModel extends BaseViewModel {
 
+    /**
+     * Observable mentor that notifies on update
+     */
     public MutableLiveData<MentorEntity> mLiveMentor = new MutableLiveData<>();
 
+    /**
+     * Constructor
+     *
+     * @param application
+     */
     public MentorEditorViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Sets the mentor with the given id as the observable for this editor
+     * @param mentorId
+     */
     public void loadMentor(int mentorId) {
         executor.execute(() -> {
             MentorEntity mentor = mRepository.getMentorById(mentorId);
@@ -33,6 +51,14 @@ public class MentorEditorViewModel extends BaseViewModel {
         });
     }
 
+    /**
+     * Passes the data from the screen to the repo for persisting
+     * @param courseId
+     * @param firstName
+     * @param lastName
+     * @param phone
+     * @param email
+     */
     public void saveMentor(int courseId, String firstName, String lastName, String phone, String email) {
         if (TextUtils.isEmpty(firstName.trim())) {
             return; // no saving blank first names
@@ -50,6 +76,9 @@ public class MentorEditorViewModel extends BaseViewModel {
         mRepository.saveMentor(mentor);
     }
 
+    /**
+     * Forwards the request to delete the currently observable mentor to the repo
+     */
     public void deleteMentor() {
         mRepository.deleteMentor(mLiveMentor.getValue());
     }

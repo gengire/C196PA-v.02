@@ -27,16 +27,38 @@ import edu.wgu.grimes.c196pa.utilities.validation.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
+/**
+ * View model for the term editor activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class TermEditorViewModel extends BaseViewModel {
 
+    /**
+     * Observable term that notifies on update
+     */
     public MutableLiveData<TermEntity> mLiveData = new MutableLiveData<>();
 
+    /**
+     * Observable list of courses for the term being edited
+     */
     private LiveData<List<CourseEntity>> mCourses;
 
+    /**
+     * Constructor
+     *
+     * @param application
+     */
     public TermEditorViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Sets the term with the given id as the observable for this editor
+     *
+     * @param termId
+     */
     public void loadTerm(int termId) {
         executor.execute(() -> {
             TermEntity term = mRepository.getTermById(termId);
@@ -44,10 +66,22 @@ public class TermEditorViewModel extends BaseViewModel {
         });
     }
 
+    /**
+     * Sets the courses for the given term id as the observable list for the recycler view
+     *
+     * @param termId
+     */
     public void loadTermCourses(int termId) {
         mCourses = mRepository.getCoursesByTermId(termId);
     }
 
+    /**
+     * Passes the data from the screen to the repo for persisting
+     *
+     * @param title
+     * @param sDate
+     * @param eDate
+     */
     public void saveTerm(String title, String sDate, String eDate) {
         if (TextUtils.isEmpty(title.trim())) {
             return; // no saving blank titles
@@ -63,22 +97,49 @@ public class TermEditorViewModel extends BaseViewModel {
         mRepository.saveTerm(term);
     }
 
+    /**
+     * Forwards the request to delete the currently observable term to the repo
+     */
     public void deleteTerm() {
         mRepository.deleteTerm(mLiveData.getValue());
     }
 
+    /**
+     * Returns the observable list of courses for this term
+     *
+     * @return
+     */
     public LiveData<List<CourseEntity>> getTermCourses() {
         return mCourses;
     }
 
+    /**
+     * Forwards the request to delete the given course to the repo
+     *
+     * @param course
+     */
     public void deleteCourse(CourseEntity course) {
         mRepository.deleteCourse(course);
     }
 
+    /**
+     * Calls into the delete course validator
+     *
+     * @param course
+     * @param onSuccess
+     * @param onFailure
+     */
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteCourseValidator.validateDeleteCourse(getApplication().getApplicationContext(), course, onSuccess, onFailure);
     }
 
+    /**
+     * Calls into the delete term validator
+     *
+     * @param term
+     * @param onSuccess
+     * @param onFailure
+     */
     public void validateDeleteTerm(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteTermValidator.validateDeleteTerm(getApplication(), term, onSuccess, onFailure);
     }

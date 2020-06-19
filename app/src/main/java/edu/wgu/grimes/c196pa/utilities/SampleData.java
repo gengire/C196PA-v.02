@@ -21,6 +21,12 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
+/**
+ * Sample Data
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class SampleData {
 
     public static List<TermEntity> getSampleTerms() {
@@ -141,7 +147,7 @@ public class SampleData {
         list.add(new CourseEntity(24, 4, 3, "C196",
                 "Mobile Application Development",
                 getDate("May 19, 2020"), null,
-                getDate("June 15, 2020"), getDate("Jun 15, 2020"),"In Progress"));
+                getDate("June 20, 2020"), getDate("Jun 20, 2020"),"In Progress"));
         list.add(new CourseEntity(25, 4, 4, "C868",
                 "Software Development Capstone",
                 null, null,
@@ -241,7 +247,7 @@ public class SampleData {
                 "Pass", getDate("May 18, 2020"), null));
         list.add(new AssessmentEntity(26, 24,
                 "Performance", "Mobile Application Development - ABM1",
-                "Pending", getDate("June 15, 2020"), getDate("June 15, 2020")));
+                "Pending", getDate("June 20, 2020"), getDate("June 20, 2020")));
         list.add(new AssessmentEntity(27, 25,
                 "Performance", "Software Development Capstone - EZP1",
                 "Pending", getDate("September 30, 2020"), getDate("September 30, 2020")));

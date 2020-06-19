@@ -23,6 +23,12 @@ import edu.wgu.grimes.c196pa.R;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
 
+/**
+ * Attempt to abstract the notification code.
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class NotificationHelper extends ContextWrapper {
 
     NotificationManager manager;

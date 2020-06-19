@@ -12,8 +12,21 @@ package edu.wgu.grimes.c196pa.utilities;
 
 import java.util.Date;
 
+/**
+ * Date Utility functions
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class DateUtils {
 
+    /**
+     * Determines if the given dates are the same or not
+     *
+     * @param d1
+     * @param d2
+     * @return
+     */
     public static boolean sameDate(final Date d1, final Date d2) {
         boolean same = d1 == null && d2 == null;
         if ((d1 != null && d2 == null) || (d1 == null && d2 != null)) {

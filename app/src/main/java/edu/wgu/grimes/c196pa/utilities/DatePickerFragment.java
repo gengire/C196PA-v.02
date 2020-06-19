@@ -23,10 +23,25 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Handles date input requests
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    /**
+     * Date the calendar should open to
+     */
     private Date inputDate;
+    /**
+     * Text view to assign the selected date
+     */
     private TextView outputTextView;
+    /**
+     * Date field to assign the selected date
+     */
     private HasDate outputDate;
 
     public DatePickerFragment() {

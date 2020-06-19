@@ -18,14 +18,33 @@ import androidx.lifecycle.MutableLiveData;
 
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
 
+/**
+ * View model for the note editor activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class NoteEditorViewModel extends BaseViewModel {
 
+    /**
+     * Observable note that notifies on updates
+     */
     public MutableLiveData<NoteEntity> mLiveNote = new MutableLiveData<>();
 
+    /**
+     * Constructor
+     *
+     * @param application
+     */
     public NoteEditorViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Sets the note with the given id as the observable for this editor
+     *
+     * @param noteId
+     */
     public void loadNote(int noteId) {
         executor.execute(() -> {
             NoteEntity note = mRepository.getNoteById(noteId);
@@ -33,6 +52,13 @@ public class NoteEditorViewModel extends BaseViewModel {
         });
     }
 
+    /**
+     * Passes the data from the screen to the repo for persisting
+     *
+     * @param courseId
+     * @param title
+     * @param description
+     */
     public void saveNote(int courseId, String title, String description) {
         if (TextUtils.isEmpty(title.trim())) {
             return; // no saving blank titles
@@ -48,6 +74,9 @@ public class NoteEditorViewModel extends BaseViewModel {
         mRepository.saveNote(note);
     }
 
+    /**
+     * Forwards the request to delete the currently observable note to the repo
+     */
     public void deleteNote() {
         mRepository.deleteNote(mLiveNote.getValue());
     }

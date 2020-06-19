@@ -20,6 +20,12 @@ import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196pa.database.AppRepository;
 
+/**
+ * Abstracted repo and executor construction
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class BaseViewModel extends AndroidViewModel {
 
     protected AppRepository mRepository;

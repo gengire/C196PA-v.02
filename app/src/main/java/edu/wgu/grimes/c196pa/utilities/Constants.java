@@ -10,6 +10,12 @@
 //*********************************************************************************
 package edu.wgu.grimes.c196pa.utilities;
 
+/**
+ * List of constants used in the app
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class Constants {
     public static final String TERM_ID_KEY =
             "edu.wgu.grimes.c196pa.utilities.term_editor.term_id_key";

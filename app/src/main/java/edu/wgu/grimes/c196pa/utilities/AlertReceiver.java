@@ -23,9 +23,19 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_KEY_ID;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_MESSAGE_ID_KEY;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_TITLE_ID_KEY;
 
+/**
+ * Alert Receiver
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AlertReceiver extends BroadcastReceiver {
-    public static final String TAG = "alarmReceiver";
 
+    /**
+     * Gets the receiver alert and fires off the notification helper
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -36,6 +46,5 @@ public class AlertReceiver extends BroadcastReceiver {
         NotificationHelper helper = new NotificationHelper(context);
         NotificationCompat.Builder nb = helper.getChannelNotification(title, message, channelId);
         helper.getManager().notify(key, nb.build());
-        Log.i(TAG, "onReceive: sending notification on channel: " + channelId);
     }
 }

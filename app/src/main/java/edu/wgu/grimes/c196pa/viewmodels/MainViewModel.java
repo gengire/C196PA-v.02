@@ -15,18 +15,56 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+/**
+ * View model for the main statistics and tracking activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class MainViewModel extends BaseViewModel {
 
+    /**
+     * Observable count of completed courses
+     */
     public LiveData<Integer> mCoursesCompleted;
+    /**
+     * Observable count of courses in progress
+     */
     public LiveData<Integer> mCoursesInProgress;
+    /**
+     * Observable count of dropped courses
+     */
     public LiveData<Integer> mCoursesDropped;
+    /**
+     * Observable count of failed courses
+     */
     public LiveData<Integer> mCoursesFailed;
+    /**
+     * Observable count of pending assessments
+     */
     public LiveData<Integer> mAssessmentsPending;
+    /**
+     * Observable count of passed assessments
+     */
     public LiveData<Integer> mAssessmentsPassed;
+    /**
+     * Observable count of failed assessments
+     */
     public LiveData<Integer> mAssessmentsFailed;
+    /**
+     * Observable count of total courses
+     */
     public LiveData<Integer> mTotalCourses;
+    /**
+     * Observable count of total assessments
+     */
     public LiveData<Integer> mTotalAssessments;
 
+    /**
+     * Loads the data from the repo
+     *
+     * @param application
+     */
     public MainViewModel(@NonNull Application application) {
         super(application);
         mCoursesCompleted = mRepository.getCoursesByStatus("Complete");
@@ -40,10 +78,16 @@ public class MainViewModel extends BaseViewModel {
         mTotalAssessments = mRepository.getTotalAssessmentCount();
     }
 
+    /**
+     * Directs the repo to load sample data
+     */
     public void addSampleData() {
         mRepository.addSampleData();
     }
 
+    /**
+     * Directs the repo to delete all data
+     */
     public void deleteAll() {
         mRepository.deleteAllData();
     }

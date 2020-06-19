@@ -14,12 +14,16 @@ import android.app.Application;
 
 import edu.wgu.grimes.c196pa.utilities.NotificationHelper;
 
+/**
+ * Main application hoook
+ */
 public class App extends Application {
 
     @Override
     public void onCreate() { // app on create hook
         super.onCreate();
-        new NotificationHelper(getBaseContext());
+        // Decided not to put this here
+//        new NotificationHelper(getBaseContext());
     }
 
 }

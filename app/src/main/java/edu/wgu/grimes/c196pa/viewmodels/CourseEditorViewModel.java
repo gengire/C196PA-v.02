@@ -27,16 +27,38 @@ import edu.wgu.grimes.c196pa.utilities.validation.ValidationCallback;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
+/**
+ * View model for the course editor activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class CourseEditorViewModel extends BaseViewModel {
 
+    /**
+     * Observable course that notifies on update
+     */
     public MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
 
+    /**
+     * Observable list of assessments for the course being edited
+     */
     private LiveData<List<AssessmentEntity>> mAssessments;
 
+    /**
+     * Constructor
+     *
+     * @param application
+     */
     public CourseEditorViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Sets the course with the given id as the observable for this editor
+     *
+     * @param courseId
+     */
     public void loadCourse(int courseId) {
         executor.execute(() -> {
             CourseEntity course = mRepository.getCourseById(courseId);
@@ -44,10 +66,28 @@ public class CourseEditorViewModel extends BaseViewModel {
         });
     }
 
+    /**
+     * Sets the assessments for the given course id as the observable list for the recycler view
+     *
+     * @param courseId
+     */
     public void loadCourseAssessments(int courseId) {
         mAssessments = mRepository.getAssessmentsForCourse(courseId);
     }
 
+    /**
+     * Passes the data from the screen to the repo for persisting
+     *
+     * @param title
+     * @param code
+     * @param termId
+     * @param competencyUnits
+     * @param status
+     * @param startDate
+     * @param startDateAlarm
+     * @param endDate
+     * @param endDateAlarm
+     */
     public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, Date startDateAlarm, String endDate, Date endDateAlarm) {
         if (TextUtils.isEmpty(title)) {
             return; // no saving empty titles
@@ -70,18 +110,38 @@ public class CourseEditorViewModel extends BaseViewModel {
         mRepository.saveCourse(course);
     }
 
+    /**
+     * Forwards the request to delete the currently observable course to the repo
+     */
     public void deleteCourse() {
         mRepository.deleteCourse(mLiveCourse.getValue());
     }
 
+    /**
+     * Returns the observable list of assessments for this course
+     *
+     * @return
+     */
     public LiveData<List<AssessmentEntity>> getCourseAssessments() {
         return mAssessments;
     }
 
+    /**
+     * Calls into the delete course validator.
+     *
+     * @param course
+     * @param onSuccess
+     * @param onFailure
+     */
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteCourseValidator.validateDeleteCourse(getApplication(), course, onSuccess, onFailure);
     }
 
+    /**
+     * Forwards the request to delete an assessment to the repo
+     *
+     * @param assessment
+     */
     public void deleteAssessment(AssessmentEntity assessment) {
         mRepository.deleteAssessment(assessment);
     }

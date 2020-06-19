@@ -22,14 +22,33 @@ import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.StringUtils.getDate;
 
+/**
+ * View model for the assessment editor activity
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AssessmentEditorViewModel extends BaseViewModel {
 
+    /**
+     * Observable assessment that notifies on update
+     */
     public MutableLiveData<AssessmentEntity> mLiveAssessment = new MutableLiveData<>();
 
+    /**
+     * Constructor
+     *
+     * @param application
+     */
     public AssessmentEditorViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Sets the assessment with the given id as the observable for this editor
+     *
+     * @param assessmentId
+     */
     public void loadAssessment(int assessmentId) {
         executor.execute(() -> {
             AssessmentEntity assessment = mRepository.getAssessmentById(assessmentId);
@@ -37,6 +56,16 @@ public class AssessmentEditorViewModel extends BaseViewModel {
         });
     }
 
+    /**
+     * Passes the data from the screen into the repo for persisting
+     *
+     * @param courseId
+     * @param assessmentType
+     * @param title
+     * @param status
+     * @param completionDate
+     * @param completionDateAlarm
+     */
     public void saveAssessment(Integer courseId, String assessmentType, String title, String status, String completionDate, Date completionDateAlarm) {
         if (TextUtils.isEmpty(title)) {
             return; // no saving empty titles
@@ -55,6 +84,9 @@ public class AssessmentEditorViewModel extends BaseViewModel {
         mRepository.saveAssessment(assessment);
     }
 
+    /**
+     * Forwards the request to delete the currently observable assessment to the repo
+     */
     public void deleteAssessment() {
         mRepository.deleteAssessment(mLiveAssessment.getValue());
     }

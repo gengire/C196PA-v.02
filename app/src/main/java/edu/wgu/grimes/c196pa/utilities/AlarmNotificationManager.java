@@ -30,9 +30,14 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_ALARM_TITLE_ID_KE
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_END_ALERT_CHANNEL;
 import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANNEL;
 
+/**
+ * Manages alarm notifications
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class AlarmNotificationManager {
 
-    private static final String TAG = "alarm";
     private static Map<Integer, RequestCode> requestCodesByCourseId = new HashMap<>();
 
     private static AlarmNotificationManager instance;
@@ -71,15 +76,10 @@ public class AlarmNotificationManager {
         intent.putExtra(CHANNEL_ID_KEY, start ? COURSE_START_ALERT_CHANNEL : COURSE_END_ALERT_CHANNEL);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, key, intent, 0);
 
-        Log.i(TAG, "handleAlarms: start date alarm: " + alarmDate + " on channel "
-                + intent.getExtras().getString(CHANNEL_ID_KEY));
-
         if (alarmDate == null) {
             alarmManager.cancel(pendingIntent);
-            Log.i(TAG, "registerAlarmNotification: " + type + " alarm cancelled");
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
-            Log.i(TAG, "registerAlarmNotification: " + type + " alarm scheduled");
         }
     }
 

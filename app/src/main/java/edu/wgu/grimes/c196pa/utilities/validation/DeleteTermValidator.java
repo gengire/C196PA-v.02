@@ -17,8 +17,22 @@ import edu.wgu.grimes.c196pa.database.AppRepository;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 
+/**
+ * Handles validation for deleting terms
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class DeleteTermValidator {
 
+    /**
+     * Requires that before a term can be deleted, that it has no courses associated to it.
+     *
+     * @param context
+     * @param term
+     * @param onSuccess
+     * @param onFailure
+     */
     public static void validateDeleteTerm(Context context, TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         AppRepository mRepository = AppRepository.getInstance(context);
         AsyncTask<Void, Void, Boolean> async = new AsyncTask<Void, Void, Boolean>() {

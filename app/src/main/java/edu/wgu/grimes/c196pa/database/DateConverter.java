@@ -14,6 +14,13 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
+/**
+ * The database doesn't have a Date time so we need to Tell Room how to convert the Date
+ * objects into Longs to store in the database and also back into dates when selecting.
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
 public class DateConverter {
 
     @TypeConverter
