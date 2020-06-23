@@ -57,7 +57,7 @@
     <string name="course_assessment_performance_type_text">P</string>
     <string name="course_competency_unit_text">4</string>
     <string name="course_mentor_name_text">Name</string>
-    <string name="course_mentor_phone_text">(999) 999-9999</string>
+    <string name="course_mentor_phone_text">(999) 999–9999</string>
     <string name="course_mentor_email_text">some.decently.longname@email.eml</string>
     <string name="note_title_text">title</string>
     <string name="note_description_text">description</string>

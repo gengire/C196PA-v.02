@@ -79,8 +79,8 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTitle;
-        private TextView textViewDescription;
+        private final TextView textViewTitle;
+        private final TextView textViewDescription;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

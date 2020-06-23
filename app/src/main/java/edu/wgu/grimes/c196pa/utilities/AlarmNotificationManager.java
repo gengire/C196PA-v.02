@@ -37,7 +37,7 @@ import static edu.wgu.grimes.c196pa.utilities.Constants.COURSE_START_ALERT_CHANN
  */
 public class AlarmNotificationManager {
 
-    private static Map<Integer, RequestCode> requestCodesByCourseId = new HashMap<>();
+    private static final Map<Integer, RequestCode> requestCodesByCourseId = new HashMap<>();
 
     private static AlarmNotificationManager instance;
 

@@ -41,7 +41,7 @@ public class MentorEditorActivity extends AbstractEditorActivity {
     /**
      * Local internal state for this activity
      */
-    private State state = new State();
+    private final State state = new State();
 
     @BindView(R.id.edit_text_mentor_editor_first_name)
     EditText mFirstName;
@@ -60,11 +60,6 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         mLastName.setText(state.lastName);
         mPhone.setText(state.phoneNumber);
         mEmail.setText(state.email);
-    }
-
-    @Override
-    protected void initRecyclerView() {
-        // noop
     }
 
     @Override

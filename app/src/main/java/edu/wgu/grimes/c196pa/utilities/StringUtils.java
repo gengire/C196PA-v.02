@@ -33,7 +33,7 @@ public class StringUtils {
      * @param month The month
      * @param dayOfMonth The day
      * @param year The year
-     * @return
+     * @return The string formatted version of the given monday/day/year
      */
     public static String getFormattedDate(int month, int dayOfMonth, int year) {
         Calendar c = Calendar.getInstance();

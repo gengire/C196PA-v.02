@@ -38,7 +38,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Observable course that notifies on update
      */
-    public MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
+    public final MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
 
     /**
      * Observable list of assessments for the course being edited

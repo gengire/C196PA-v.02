@@ -26,39 +26,39 @@ public class MainViewModel extends BaseViewModel {
     /**
      * Observable count of completed courses
      */
-    public LiveData<Integer> mCoursesCompleted;
+    public final LiveData<Integer> mCoursesCompleted;
     /**
      * Observable count of courses in progress
      */
-    public LiveData<Integer> mCoursesInProgress;
+    public final LiveData<Integer> mCoursesInProgress;
     /**
      * Observable count of dropped courses
      */
-    public LiveData<Integer> mCoursesDropped;
+    public final LiveData<Integer> mCoursesDropped;
     /**
      * Observable count of failed courses
      */
-    public LiveData<Integer> mCoursesFailed;
+    public final LiveData<Integer> mCoursesFailed;
     /**
      * Observable count of pending assessments
      */
-    public LiveData<Integer> mAssessmentsPending;
+    public final LiveData<Integer> mAssessmentsPending;
     /**
      * Observable count of passed assessments
      */
-    public LiveData<Integer> mAssessmentsPassed;
+    public final LiveData<Integer> mAssessmentsPassed;
     /**
      * Observable count of failed assessments
      */
-    public LiveData<Integer> mAssessmentsFailed;
+    public final LiveData<Integer> mAssessmentsFailed;
     /**
      * Observable count of total courses
      */
-    public LiveData<Integer> mTotalCourses;
+    public final LiveData<Integer> mTotalCourses;
     /**
      * Observable count of total assessments
      */
-    public LiveData<Integer> mTotalAssessments;
+    public final LiveData<Integer> mTotalAssessments;
 
     /**
      * Loads the data from the repo

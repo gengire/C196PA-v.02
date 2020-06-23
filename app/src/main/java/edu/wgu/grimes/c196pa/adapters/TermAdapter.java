@@ -57,7 +57,7 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
             return sameTitle && sameStartDate && sameEndDate;
         }
     };
-    Map<Integer, Integer> termCus = new HashMap<>();
+    final Map<Integer, Integer> termCus = new HashMap<>();
     private OnItemClickListener<TermEntity> listener;
 
     public TermAdapter() {
@@ -105,9 +105,9 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTitle;
-        private TextView textViewDateRange;
-        private TextView textViewCompetencyUnits;
+        private final TextView textViewTitle;
+        private final TextView textViewDateRange;
+        private final TextView textViewCompetencyUnits;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

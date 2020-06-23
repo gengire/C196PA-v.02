@@ -33,7 +33,7 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Observable list of terms
      */
-    private LiveData<List<TermEntity>> allTerms;
+    private final LiveData<List<TermEntity>> allTerms;
 
     /**
      * Constructor

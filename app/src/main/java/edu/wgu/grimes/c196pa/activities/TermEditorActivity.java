@@ -65,7 +65,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
     /**
      * Local internal state for this activity
      */
-    private State state = new State();
+    private final State state = new State();
 
     @BindView(R.id.edit_text_term_editor_title)
     EditText mTitle;

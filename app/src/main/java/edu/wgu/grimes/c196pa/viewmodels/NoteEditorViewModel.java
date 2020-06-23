@@ -29,7 +29,7 @@ public class NoteEditorViewModel extends BaseViewModel {
     /**
      * Observable note that notifies on updates
      */
-    public MutableLiveData<NoteEntity> mLiveNote = new MutableLiveData<>();
+    public final MutableLiveData<NoteEntity> mLiveNote = new MutableLiveData<>();
 
     /**
      * Constructor

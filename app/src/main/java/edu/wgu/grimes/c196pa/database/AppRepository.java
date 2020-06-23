@@ -49,35 +49,35 @@ public class AppRepository {
     /**
      * observable list of terms
      */
-    private LiveData<List<TermEntity>> mTerms;
+    private final LiveData<List<TermEntity>> mTerms;
     /**
      * enables executing code bits in a separate thread
      */
-    private Executor executor = Executors.newSingleThreadExecutor();
+    private final Executor executor = Executors.newSingleThreadExecutor();
     /**
      * Term Data Access Object
      */
-    private TermDao termDao;
+    private final TermDao termDao;
     /**
      * Course Data Access Object
      */
-    private CourseDao courseDao;
+    private final CourseDao courseDao;
     /**
      * Assessment Data Access Object
      */
-    private AssessmentDao assessmentDao;
+    private final AssessmentDao assessmentDao;
     /**
      * Note Data Access Object
      */
-    private NoteDao noteDao;
+    private final NoteDao noteDao;
     /**
      * Mentor Data Access Object
      */
-    private MentorDao mentorDao;
+    private final MentorDao mentorDao;
     /**
      * Database instance
      */
-    private AppDatabase mDb;
+    private final AppDatabase mDb;
 
     /**
      * Private constructor to ensure single instance, use getInstance()

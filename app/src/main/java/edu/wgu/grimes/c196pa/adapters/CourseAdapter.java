@@ -54,8 +54,8 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
             return sameTitle && sameCode && sameCus && sameTermId && sameStatus && sameStartDate && sameEndDate;
         }
     };
-    private static int TYPE_COMPLETE = 1;
-    private static int TYPE_NOT_COMPLETE = 2;
+    private static final int TYPE_COMPLETE = 1;
+    private static final int TYPE_NOT_COMPLETE = 2;
     private OnItemClickListener<CourseEntity> listener;
 
     public CourseAdapter() {
@@ -105,9 +105,9 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewCuAmount;
-        private TextView textViewTitle;
-        private TextView textViewAssessmentType;
+        private final TextView textViewCuAmount;
+        private final TextView textViewTitle;
+        private final TextView textViewAssessmentType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

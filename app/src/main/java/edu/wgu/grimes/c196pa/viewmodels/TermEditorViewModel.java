@@ -38,7 +38,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Observable term that notifies on update
      */
-    public MutableLiveData<TermEntity> mLiveData = new MutableLiveData<>();
+    public final MutableLiveData<TermEntity> mLiveData = new MutableLiveData<>();
 
     /**
      * Observable list of courses for the term being edited

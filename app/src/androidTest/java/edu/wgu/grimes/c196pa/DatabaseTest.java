@@ -126,7 +126,7 @@ public class DatabaseTest {
         assertThat(term, notNullValue());
         assertThat(term.courses, notNullValue());
         assertThat(term.courses.isEmpty(), is(Boolean.FALSE));
-        assertThat(term.courses.size(), is(Integer.valueOf(10)));
+        assertThat(term.courses.size(), is(10));
     }
 
     // having trouble testing live data

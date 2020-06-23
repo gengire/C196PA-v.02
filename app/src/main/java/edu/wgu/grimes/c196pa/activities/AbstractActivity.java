@@ -44,11 +44,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
      */
     protected int mId;
 
-    @Override
-    public void supportFinishAfterTransition() {
-        super.supportFinishAfterTransition();
-    }
-
     /**
      * Contains the ID of the parent entity if there is one.
      */
@@ -201,7 +196,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     /**
      * Abstracted method to launch a new intent.  Probably don't need this here but I thought
-     * I'd do it incase I wanted to do any special behavior to all the intent launches
+     * I'd do it in case I wanted to do any special behavior to all the intent launches
      *
      * @param clazz Class to be attached to the intent
      */
@@ -221,7 +216,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     /**
-     * Another call for consistancy.  Used to close the current activity.
+     * Another call for consistency.  Used to close the current activity.
      */
     protected void closeActivity() {
         finish();
@@ -249,7 +244,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected abstract int getContentView();
 
     /**
-     * Hook to init butterknife in the subclass
+     * Hook to init butter knife in the subclass
      */
     protected abstract void initButterKnife();
 

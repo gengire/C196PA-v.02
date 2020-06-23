@@ -33,7 +33,7 @@ public class AssessmentEditorViewModel extends BaseViewModel {
     /**
      * Observable assessment that notifies on update
      */
-    public MutableLiveData<AssessmentEntity> mLiveAssessment = new MutableLiveData<>();
+    public final MutableLiveData<AssessmentEntity> mLiveAssessment = new MutableLiveData<>();
 
     /**
      * Constructor

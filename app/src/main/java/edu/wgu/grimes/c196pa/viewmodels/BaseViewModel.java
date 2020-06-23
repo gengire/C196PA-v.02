@@ -28,8 +28,8 @@ import edu.wgu.grimes.c196pa.database.AppRepository;
  */
 public class BaseViewModel extends AndroidViewModel {
 
-    protected AppRepository mRepository;
-    protected Executor executor = Executors.newSingleThreadExecutor();
+    protected final AppRepository mRepository;
+    protected final Executor executor = Executors.newSingleThreadExecutor();
 
     public BaseViewModel(@NonNull Application application) {
         super(application);

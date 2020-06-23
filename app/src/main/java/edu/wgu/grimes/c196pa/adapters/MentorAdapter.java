@@ -82,9 +82,9 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewName;
-        private TextView textViewPhone;
-        private TextView textViewEmail;
+        private final TextView textViewName;
+        private final TextView textViewPhone;
+        private final TextView textViewEmail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

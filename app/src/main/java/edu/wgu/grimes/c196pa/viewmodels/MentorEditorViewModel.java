@@ -29,7 +29,7 @@ public class MentorEditorViewModel extends BaseViewModel {
     /**
      * Observable mentor that notifies on update
      */
-    public MutableLiveData<MentorEntity> mLiveMentor = new MutableLiveData<>();
+    public final MutableLiveData<MentorEntity> mLiveMentor = new MutableLiveData<>();
 
     /**
      * Constructor

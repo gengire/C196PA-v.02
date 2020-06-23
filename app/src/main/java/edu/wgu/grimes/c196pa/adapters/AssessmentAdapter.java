@@ -85,8 +85,8 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTitle;
-        private TextView textViewCompletionDate;
+        private final TextView textViewTitle;
+        private final TextView textViewCompletionDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

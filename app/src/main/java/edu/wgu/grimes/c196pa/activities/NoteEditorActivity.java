@@ -45,7 +45,7 @@ public class NoteEditorActivity extends AbstractEditorActivity {
     /**
      * Local internal state for this activity
      */
-    private State state = new State();
+    private final State state = new State();
 
     @BindView(R.id.edit_text_note_editor_title)
     EditText mTitle;
@@ -127,11 +127,6 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         String text = title + " Deleted";
         Toast.makeText(NoteEditorActivity.this, text, Toast.LENGTH_SHORT).show();
         closeActivity();
-    }
-
-    @Override
-    protected void initRecyclerView() {
-        // noop
     }
 
     @Override

@@ -89,7 +89,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     /**
      * Local internal state for this activity
      */
-    private State state = new State();
+    private final State state = new State();
 
     @BindView(R.id.edit_text_course_editor_title)
     EditText mTitle;
