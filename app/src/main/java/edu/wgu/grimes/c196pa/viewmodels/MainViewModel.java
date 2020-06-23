@@ -63,7 +63,7 @@ public class MainViewModel extends BaseViewModel {
     /**
      * Loads the data from the repo
      *
-     * @param application
+     * @param application The context
      */
     public MainViewModel(@NonNull Application application) {
         super(application);

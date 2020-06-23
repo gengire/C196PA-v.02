@@ -34,7 +34,7 @@ public class NoteEditorViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public NoteEditorViewModel(@NonNull Application application) {
         super(application);
@@ -43,7 +43,7 @@ public class NoteEditorViewModel extends BaseViewModel {
     /**
      * Sets the note with the given id as the observable for this editor
      *
-     * @param noteId
+     * @param noteId The id of the note to be loaded
      */
     public void loadNote(int noteId) {
         executor.execute(() -> {
@@ -55,9 +55,9 @@ public class NoteEditorViewModel extends BaseViewModel {
     /**
      * Passes the data from the screen to the repo for persisting
      *
-     * @param courseId
-     * @param title
-     * @param description
+     * @param courseId The id of the course this note is associated with
+     * @param title The title of the note
+     * @param description The description of the note
      */
     public void saveNote(int courseId, String title, String description) {
         if (TextUtils.isEmpty(title.trim())) {

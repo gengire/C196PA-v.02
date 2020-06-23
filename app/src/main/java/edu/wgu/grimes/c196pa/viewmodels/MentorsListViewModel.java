@@ -35,7 +35,7 @@ public class MentorsListViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public MentorsListViewModel(@NonNull Application application) {
         super(application);
@@ -43,7 +43,7 @@ public class MentorsListViewModel extends BaseViewModel {
 
     /**
      * Sets the mentors with the given course id as the observables for this list
-     * @param courseId
+     * @param courseId The id of the course to load the mentors for
      */
     public void loadCourseMentors(int courseId) {
         allMentors = mRepository.getMentorsForCourse(courseId);
@@ -51,7 +51,7 @@ public class MentorsListViewModel extends BaseViewModel {
 
     /**
      * Forwards the request to delete the given mentor to the repo
-     * @param mentor
+     * @param mentor The mentor to delete
      */
     public void deleteMentor(MentorEntity mentor) {
         mRepository.deleteMentor(mentor);
@@ -59,7 +59,7 @@ public class MentorsListViewModel extends BaseViewModel {
 
     /**
      * Returns the observable list of mentors
-     * @return
+     * @return An observable list of mentors for the currently selected course
      */
     public LiveData<List<MentorEntity>> getCourseMentors() {
         return allMentors;

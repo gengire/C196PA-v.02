@@ -38,7 +38,7 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public TermsListViewModel(@NonNull Application application) {
         super(application);
@@ -48,7 +48,7 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Forwards the request to delete the given term to the repo
      *
-     * @param term
+     * @param term The term to be deleted
      */
     public void deleteTerm(TermEntity term) {
         mRepository.deleteTerm(term);
@@ -64,7 +64,7 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Returns the observable list of terms
      *
-     * @return
+     * @return An observable list of all terms
      */
     public LiveData<List<TermEntity>> getAllTerms() {
         return allTerms;
@@ -80,9 +80,9 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Calls into the delete term validator
      *
-     * @param term
-     * @param onSuccess
-     * @param onFailure
+     * @param term The term to be validated / deleted
+     * @param onSuccess The on validation success strategy
+     * @param onFailure The on validation failure strategy
      */
     public void validateDeleteTerm(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteTermValidator.validateDeleteTerm(getApplication(), term, onSuccess, onFailure);
@@ -91,7 +91,7 @@ public class TermsListViewModel extends BaseViewModel {
     /**
      * Returns the observable list of Term / Competency Units Tuple
      *
-     * @return
+     * @return An observable TermCusTuple for all terms
      */
     public LiveData<List<TermCusTuple>> getAllTermCus() {
         return mRepository.getAllTermCus();
