@@ -148,9 +148,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Helper to handle when multiple stats need to be updated due to a single change in the data
      *
-     * @param numerator
-     * @param denominator
-     * @param textView
+     * @param numerator The numerator of the ratio
+     * @param denominator The denominator of the ratio
+     * @param textView The text view to update
      */
     private void updateStats(int numerator, int denominator, TextView textView) {
         StringBuilder sb = new StringBuilder();

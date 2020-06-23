@@ -34,7 +34,7 @@ public class MentorEditorViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public MentorEditorViewModel(@NonNull Application application) {
         super(application);
@@ -42,7 +42,8 @@ public class MentorEditorViewModel extends BaseViewModel {
 
     /**
      * Sets the mentor with the given id as the observable for this editor
-     * @param mentorId
+     *
+     * @param mentorId The mentor to load
      */
     public void loadMentor(int mentorId) {
         executor.execute(() -> {
@@ -53,11 +54,12 @@ public class MentorEditorViewModel extends BaseViewModel {
 
     /**
      * Passes the data from the screen to the repo for persisting
-     * @param courseId
-     * @param firstName
-     * @param lastName
-     * @param phone
-     * @param email
+     *
+     * @param courseId The id of the course associated to this mentor
+     * @param firstName The first name of the mentor
+     * @param lastName The last name of the mentor
+     * @param phone The phone number of the mentor
+     * @param email The email address of the mentor
      */
     public void saveMentor(int courseId, String firstName, String lastName, String phone, String email) {
         if (TextUtils.isEmpty(firstName.trim())) {

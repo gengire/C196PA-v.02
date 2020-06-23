@@ -331,7 +331,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     /**
      * Hook to save the internal activity state to the outState Bundle
-     * @param outState
+     * @param outState Contains the internal activity state
      */
     protected abstract void saveState(Bundle outState);
 

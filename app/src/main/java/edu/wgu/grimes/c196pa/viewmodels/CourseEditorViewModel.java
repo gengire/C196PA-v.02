@@ -48,7 +48,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public CourseEditorViewModel(@NonNull Application application) {
         super(application);
@@ -57,7 +57,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Sets the course with the given id as the observable for this editor
      *
-     * @param courseId
+     * @param courseId The id of the course
      */
     public void loadCourse(int courseId) {
         executor.execute(() -> {
@@ -69,7 +69,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Sets the assessments for the given course id as the observable list for the recycler view
      *
-     * @param courseId
+     * @param courseId The id of the course
      */
     public void loadCourseAssessments(int courseId) {
         mAssessments = mRepository.getAssessmentsForCourse(courseId);
@@ -78,15 +78,15 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Passes the data from the screen to the repo for persisting
      *
-     * @param title
-     * @param code
-     * @param termId
-     * @param competencyUnits
-     * @param status
-     * @param startDate
-     * @param startDateAlarm
-     * @param endDate
-     * @param endDateAlarm
+     * @param title           The course title
+     * @param code            The course code
+     * @param termId          The term id this course is associated with
+     * @param competencyUnits The course competency units
+     * @param status          The course status
+     * @param startDate       The course start date
+     * @param startDateAlarm  The course start date alarm
+     * @param endDate         The course end date
+     * @param endDateAlarm    The course end date alarm
      */
     public void saveCourse(String title, String code, String termId, String competencyUnits, String status, String startDate, Date startDateAlarm, String endDate, Date endDateAlarm) {
         if (TextUtils.isEmpty(title)) {
@@ -120,7 +120,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Returns the observable list of assessments for this course
      *
-     * @return
+     * @return An observable list of assessments associated with the loaded course
      */
     public LiveData<List<AssessmentEntity>> getCourseAssessments() {
         return mAssessments;
@@ -129,9 +129,9 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Calls into the delete course validator.
      *
-     * @param course
-     * @param onSuccess
-     * @param onFailure
+     * @param course The course to be validated / deleted
+     * @param onSuccess The on success strategy
+     * @param onFailure The on failure strategy
      */
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteCourseValidator.validateDeleteCourse(getApplication(), course, onSuccess, onFailure);
@@ -140,7 +140,7 @@ public class CourseEditorViewModel extends BaseViewModel {
     /**
      * Forwards the request to delete an assessment to the repo
      *
-     * @param assessment
+     * @param assessment The assessment to delete
      */
     public void deleteAssessment(AssessmentEntity assessment) {
         mRepository.deleteAssessment(assessment);

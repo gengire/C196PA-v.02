@@ -82,7 +82,7 @@ public class AppRepository {
     /**
      * Private constructor to ensure single instance, use getInstance()
      *
-     * @param context
+     * @param context The context
      */
     private AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
@@ -97,8 +97,8 @@ public class AppRepository {
     /**
      * Returns a single instance of the repo
      *
-     * @param context
-     * @return
+     * @param context The context
+     * @return The app repo
      */
     public static AppRepository getInstance(Context context) {
         if (instance == null) {
@@ -109,7 +109,8 @@ public class AppRepository {
 
     /**
      * Saves (insert / update) the given term
-     * @param term
+     *
+     * @param term The term to save
      */
     public void saveTerm(TermEntity term) {
         executor.execute(() -> termDao.save(term));
@@ -117,7 +118,8 @@ public class AppRepository {
 
     /**
      * Deletes the given term
-     * @param term
+     *
+     * @param term The term to delete
      */
     public void deleteTerm(TermEntity term) {
         executor.execute(() -> termDao.delete(term));
@@ -125,7 +127,8 @@ public class AppRepository {
 
     /**
      * Saves (insert / update) the given course
-     * @param course
+     *
+     * @param course The course to save
      */
     public void saveCourse(CourseEntity course) {
         executor.execute(() -> courseDao.save(course));
@@ -133,7 +136,8 @@ public class AppRepository {
 
     /**
      * Deletes the given course
-     * @param course
+     *
+     * @param course The course to delete
      */
     public void deleteCourse(CourseEntity course) {
         executor.execute(() -> {
@@ -146,7 +150,8 @@ public class AppRepository {
 
     /**
      * Saves (insert / update) the given note
-     * @param note
+     *
+     * @param note The note to save
      */
     public void saveNote(NoteEntity note) {
         executor.execute(() -> noteDao.save(note));
@@ -154,7 +159,8 @@ public class AppRepository {
 
     /**
      * Deletes the given note
-     * @param note
+     *
+     * @param note The note to delete
      */
     public void deleteNote(NoteEntity note) {
         executor.execute(() -> noteDao.delete(note));
@@ -162,7 +168,8 @@ public class AppRepository {
 
     /**
      * Saves (insert / update) the given assessment
-     * @param assessment
+     *
+     * @param assessment The assessment to save
      */
     public void saveAssessment(AssessmentEntity assessment) {
         executor.execute(() -> assessmentDao.save(assessment));
@@ -170,7 +177,8 @@ public class AppRepository {
 
     /**
      * Deletes the given assessment
-     * @param assessment
+     *
+     * @param assessment The assessment ot delete
      */
     public void deleteAssessment(AssessmentEntity assessment) {
         executor.execute(() -> assessmentDao.delete(assessment));
@@ -178,7 +186,8 @@ public class AppRepository {
 
     /**
      * Saves (insert / update) the given mentor
-     * @param mentor
+     *
+     * @param mentor The mentor to save
      */
     public void saveMentor(MentorEntity mentor) {
         executor.execute(() -> mentorDao.save(mentor));
@@ -186,7 +195,8 @@ public class AppRepository {
 
     /**
      * Deletes the given mentor
-     * @param mentor
+     *
+     * @param mentor The mentor to delete
      */
     public void deleteMentor(MentorEntity mentor) {
         executor.execute(() -> mentorDao.delete(mentor));
@@ -207,7 +217,8 @@ public class AppRepository {
 
     /**
      * Gets an observable list of terms
-     * @return
+     *
+     * @return An observable list of all terms
      */
     public LiveData<List<TermEntity>> getAllTerms() {
         return mTerms;
@@ -215,8 +226,9 @@ public class AppRepository {
 
     /**
      * Gets a term by id
-     * @param termId
-     * @return
+     *
+     * @param termId The id of the term
+     * @return The term with the given id
      */
     public TermEntity getTermById(int termId) {
         return mDb.termDao().getTermById(termId);
@@ -224,8 +236,9 @@ public class AppRepository {
 
     /**
      * Gets an observable count of courses by status
-     * @param status
-     * @return
+     *
+     * @param status The status of the course
+     * @return An observable count of courses with the given status
      */
     public LiveData<Integer> getCoursesByStatus(String status) {
         return courseDao.getCoursesByStatus(status);
@@ -233,8 +246,9 @@ public class AppRepository {
 
     /**
      * Gets an observable count of courses by term id
-     * @param termId
-     * @return
+     *
+     * @param termId The term id
+     * @return An observable list of courses associated with the given term id
      */
     public LiveData<List<CourseEntity>> getCoursesByTermId(int termId) {
         return courseDao.getAllCoursesForTerm(termId);
@@ -242,8 +256,9 @@ public class AppRepository {
 
     /**
      * Gets an observable list of notes by course id
-     * @param courseId
-     * @return
+     *
+     * @param courseId The course id
+     * @return An observable list of notes associated with the given course id
      */
     public LiveData<List<NoteEntity>> getNotesForCourse(int courseId) {
         return noteDao.getNotesForCourse(courseId);
@@ -251,8 +266,9 @@ public class AppRepository {
 
     /**
      * Gets a note by id
-     * @param noteId
-     * @return
+     *
+     * @param noteId The id of the note
+     * @return The note with the given id
      */
     public NoteEntity getNoteById(int noteId) {
         return noteDao.getNoteById(noteId);
@@ -260,8 +276,9 @@ public class AppRepository {
 
     /**
      * Gets an observable count of assessments by status
-     * @param status
-     * @return
+     *
+     * @param status The status of the assessment
+     * @return An observable count of assessments with the given status
      */
     public LiveData<Integer> getAssessmentsByStatus(String status) {
         return assessmentDao.getAssessmentsByStatus(status);
@@ -269,8 +286,9 @@ public class AppRepository {
 
     /**
      * Gets an observable list of assessments by course
-     * @param courseId
-     * @return
+     *
+     * @param courseId The course id
+     * @return An observable list of assessment associated with the given course id
      */
     public LiveData<List<AssessmentEntity>> getAssessmentsForCourse(int courseId) {
         return assessmentDao.getAllAssessmentsForCourse(courseId);
@@ -292,25 +310,27 @@ public class AppRepository {
     /**
      * Returns a TermWithCourses object that has a list of associated courses
      *
-     * @param id
-     * @return
+     * @param termId The term termId
+     * @return TermWithCourses for the given term termId
      */
-    public TermWithCourses getTermWithCourses(int id) {
-        return termDao.getTermWithCourses(id);
+    public TermWithCourses getTermWithCourses(int termId) {
+        return termDao.getTermWithCourses(termId);
     }
 
     /**
      * Gets a course by id
-     * @param i
-     * @return
+     *
+     * @param courseId The id of the course
+     * @return The course with the given id
      */
-    public CourseEntity getCourseById(int i) {
-        return courseDao.getCourseById(i);
+    public CourseEntity getCourseById(int courseId) {
+        return courseDao.getCourseById(courseId);
     }
 
     /**
      * Gets an observable list of terms with a sum of competency units in each
-     * @return
+     *
+     * @return An observable list of TermCusTuples for all terms
      */
     public LiveData<List<TermCusTuple>> getAllTermCus() {
         return termDao.getTermCus();
@@ -318,8 +338,9 @@ public class AppRepository {
 
     /**
      * Gets an assessment by id
-     * @param assessmentId
-     * @return
+     *
+     * @param assessmentId The id of the assessment
+     * @return Assessment with the given id
      */
     public AssessmentEntity getAssessmentById(int assessmentId) {
         return assessmentDao.getAssessmentById(assessmentId);
@@ -327,8 +348,9 @@ public class AppRepository {
 
     /**
      * Get an observable list of mentors by course id
-     * @param courseId
-     * @return
+     *
+     * @param courseId The course id
+     * @return An observable list of mentors associated with the given course id
      */
     public LiveData<List<MentorEntity>> getMentorsForCourse(int courseId) {
         return mentorDao.getAllMentorsForCourse(courseId);
@@ -336,8 +358,9 @@ public class AppRepository {
 
     /**
      * Gets a mentor by id
-     * @param mentorId
-     * @return
+     *
+     * @param mentorId The id of the mentor
+     * @return The mentor with the given id
      */
     public MentorEntity getMentorById(int mentorId) {
         return mentorDao.getMentorById(mentorId);
@@ -345,7 +368,8 @@ public class AppRepository {
 
     /**
      * Gets an observable count of total courses
-     * @return
+     *
+     * @return An observable count of all courses
      */
     public LiveData<Integer> getTotalCourseCount() {
         return courseDao.getLiveCount();
@@ -353,7 +377,8 @@ public class AppRepository {
 
     /**
      * Gets an observable count of total assessments
-     * @return
+     *
+     * @return An observable count of all assessments
      */
     public LiveData<Integer> getTotalAssessmentCount() {
         return assessmentDao.getLiveCount();

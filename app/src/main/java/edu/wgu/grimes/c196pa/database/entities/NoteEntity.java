@@ -48,9 +48,9 @@ public class NoteEntity implements HasId {
     /**
      * Constructor for new note lacking primary key
      *
-     * @param courseId
-     * @param title
-     * @param description
+     * @param courseId The id of the course the note is associated with
+     * @param title The title of the note
+     * @param description The description of the note
      */
     @Ignore
     public NoteEntity(int courseId, String title, String description) {
@@ -62,10 +62,10 @@ public class NoteEntity implements HasId {
     /**
      * Constructor for updating notes (or new with non generated primary key)
      *
-     * @param id
-     * @param courseId
-     * @param title
-     * @param description
+     * @param id The id of the note
+     * @param courseId The id of the course the note is associated with
+     * @param title The title of the note
+     * @param description The description of the note
      */
     public NoteEntity(int id, int courseId, String title, String description) {
         this.id = id;

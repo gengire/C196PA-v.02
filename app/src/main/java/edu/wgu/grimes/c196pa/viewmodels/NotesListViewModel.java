@@ -35,7 +35,7 @@ public class NotesListViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public NotesListViewModel(@NonNull Application application) {
         super(application);
@@ -44,7 +44,7 @@ public class NotesListViewModel extends BaseViewModel {
     /**
      * Sets the notes with the given course id as the observables for this list
      *
-     * @param courseId
+     * @param courseId The id of the course
      */
     public void loadCoursesNotes(int courseId) {
         allNotes = mRepository.getNotesForCourse(courseId);
@@ -53,7 +53,7 @@ public class NotesListViewModel extends BaseViewModel {
     /**
      * Returns the observable list of notes
      *
-     * @return
+     * @return An observable list of note for the currently selected course
      */
     public LiveData<List<NoteEntity>> getCourseNotes() {
         return allNotes;
@@ -62,7 +62,7 @@ public class NotesListViewModel extends BaseViewModel {
     /**
      * Forward the request to delete the currently observable note to the repo
      *
-     * @param note
+     * @param note The note to delete
      */
     public void deleteNote(NoteEntity note) {
         mRepository.deleteNote(note);

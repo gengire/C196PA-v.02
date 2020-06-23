@@ -16,7 +16,7 @@ package edu.wgu.grimes.c196pa.database.entities;
  * @author Chris Grimes Copyright (2020)
  * @version 1.0
  */
-public interface HasId {
+public interface    HasId {
     /**
      * Gets the primary key of the entity
      *

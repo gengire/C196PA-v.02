@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -100,7 +100,7 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<TermEntity> listener) {
         this.listener = listener;
     }
 

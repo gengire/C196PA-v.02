@@ -33,15 +33,15 @@ public interface AssessmentDao {
     /**
      * Inserts / Updates the given entity
      *
-     * @param course
+     * @param assessment The assessment to be saved
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(AssessmentEntity course);
+    void save(AssessmentEntity assessment);
 
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param assessments
+     * @param assessments The assessments to be saved
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<AssessmentEntity> assessments);
@@ -49,10 +49,10 @@ public interface AssessmentDao {
     /**
      * Deletes the given entity
      *
-     * @param course
+     * @param assessment  The assessment to delete
      */
     @Delete
-    void delete(AssessmentEntity course);
+    void delete(AssessmentEntity assessment);
 
     /**
      * Deletes all rows from the table
@@ -90,7 +90,7 @@ public interface AssessmentDao {
     /**
      * Deletes the assessments associated to the given course id
      *
-     * @param courseId
+     * @param courseId The id of the course
      */
     @Query("delete from assessments where course_id = :courseId")
     void deleteAssessmentsForCourse(int courseId);
@@ -98,7 +98,7 @@ public interface AssessmentDao {
     /**
      * Gets a count (observable) of all the assessments
      *
-     * @return
+     * @return An Observable count of all assessments
      */
     @Query("select count(*) from assessments")
     LiveData<Integer> getLiveCount();

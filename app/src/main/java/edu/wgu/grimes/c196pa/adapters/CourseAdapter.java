@@ -100,7 +100,7 @@ public class CourseAdapter extends ListAdapter<CourseEntity, CourseAdapter.ViewH
         return getItem(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<CourseEntity> listener) {
         this.listener = listener;
     }
 

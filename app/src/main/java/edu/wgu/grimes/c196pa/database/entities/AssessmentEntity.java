@@ -61,12 +61,12 @@ public class AssessmentEntity implements HasId {
     /**
      * Constructor for new assessments lacking primary key
      *
-     * @param courseId
-     * @param type
-     * @param title
-     * @param status
-     * @param completionDate
-     * @param completionDateAlarm
+     * @param courseId The course id this assessment is associated with
+     * @param type  The assessment type (performance or objective)
+     * @param title The assessment title
+     * @param status The assessment status
+     * @param completionDate The assessment completion date
+     * @param completionDateAlarm The assessment completion date alarm
      */
     @Ignore
     public AssessmentEntity(int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
@@ -80,13 +80,13 @@ public class AssessmentEntity implements HasId {
 
     /**
      * Constructor for updated assessments (or new with non generated primary key)
-     * @param id
-     * @param courseId
-     * @param type
-     * @param title
-     * @param status
-     * @param completionDate
-     * @param completionDateAlarm
+     * @param id The id of the assessment
+     * @param courseId The course id this assessment is associated with
+     * @param type  The assessment type (performance or objective)
+     * @param title The assessment title
+     * @param status The assessment status
+     * @param completionDate The assessment completion date
+     * @param completionDateAlarm The assessment completion date alarm
      */
     public AssessmentEntity(int id, int courseId, String type, String title, String status, Date completionDate, Date completionDateAlarm) {
         this.id = id;

@@ -35,21 +35,24 @@ public interface TermDao {
 
     /**
      * Inserts / Updates the given entity
-     * @param term
+     *
+     * @param term The term to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(TermEntity term);
 
     /**
      * Inserts / Updates the given list of entities
-     * @param term
+     *
+     * @param term The terms to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<TermEntity> term);
 
     /**
      * Deletes the given entity
-     * @param term
+     *
+     * @param term The term to delete
      */
     @Delete
     void delete(TermEntity term);
@@ -62,30 +65,34 @@ public interface TermDao {
 
     /**
      * Gets all terms (observable)
-     * @return
+     *
+     * @return An observable list of all terms
      */
     @Query("select * from terms")
     LiveData<List<TermEntity>> getAllTerms();
 
     /**
      * Gets a term by id
-     * @param termId
-     * @return
+     *
+     * @param termId The id of the term
+     * @return The therm with the given id
      */
     @Query("select * from terms where term_id = :termId")
     TermEntity getTermById(int termId);
 
     /**
      * Gets the count of all terms
-     * @return
+     *
+     * @return A count of all terms
      */
     @Query("select count(*) from terms")
     Integer getCount();
 
     /**
      * Gets a term pojo with a list of ossociated courses
-     * @param termId
-     * @return
+     *
+     * @param termId The id of the term
+     * @return TermWithCourses for the given term
      */
     @Transaction
     @Query("select * from terms where term_id = :termId")
@@ -93,7 +100,8 @@ public interface TermDao {
 
     /**
      * Gets a list of (observable) Terms with the sum of competency units for each term
-     * @return
+     *
+     * @return An observable list of TermCusTuples
      */
     @Query("select term_id, sum(competencyUnits) \"cus\" from terms " +
             "join courses using (term_id) " +

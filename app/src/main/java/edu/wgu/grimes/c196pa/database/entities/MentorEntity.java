@@ -55,11 +55,11 @@ public class MentorEntity implements HasId {
     /**
      * Constructor for new mentor lacking primary key
      *
-     * @param courseId
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param email
+     * @param courseId The course this mentor is associated with
+     * @param firstName The first name of the mentor
+     * @param lastName The last name of the mentor
+     * @param phoneNumber The phone number of the mentor
+     * @param email The email address of the mentor
      */
     @Ignore
     public MentorEntity(int courseId, String firstName, String lastName, String phoneNumber, String email) {
@@ -73,12 +73,12 @@ public class MentorEntity implements HasId {
     /**
      * Constructor for updating mentors (or new with non generated primary key)
      *
-     * @param id
-     * @param courseId
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param email
+     * @param id The id of the mentor
+     * @param courseId The course this mentor is associated with
+     * @param firstName The first name of the mentor
+     * @param lastName The last name of the mentor
+     * @param phoneNumber The phone number of the mentor
+     * @param email The email address of the mentor
      */
     public MentorEntity(int id, int courseId, String firstName, String lastName, String phoneNumber, String email) {
         this.id = id;

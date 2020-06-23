@@ -63,7 +63,7 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
         return getItem(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<AssessmentEntity> listener) {
         this.listener = listener;
     }
 

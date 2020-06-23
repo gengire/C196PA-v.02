@@ -30,9 +30,9 @@ public class StringUtils {
     /**
      * Helper to convert a given month, day, and year into a formatted date string
      *
-     * @param month
-     * @param dayOfMonth
-     * @param year
+     * @param month The month
+     * @param dayOfMonth The day
+     * @param year The year
      * @return
      */
     public static String getFormattedDate(int month, int dayOfMonth, int year) {
@@ -44,8 +44,8 @@ public class StringUtils {
     /**
      * Helper to convert a Date object into a formatted date string
      *
-     * @param date
-     * @return
+     * @param date The date
+     * @return The string formatted version of the given date
      */
     public static String getFormattedDate(Date date) {
         return getFormattedDate(DATE_PATTERN, date);
@@ -54,9 +54,9 @@ public class StringUtils {
     /**
      * Helper to convert a Date object into a specific formatted date string
      *
-     * @param pattern
-     * @param date
-     * @return
+     * @param pattern The pattern
+     * @param date The date
+     * @return The string formatted version of the given date
      */
     public static String getFormattedDate(String pattern, Date date) {
         DateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
@@ -66,9 +66,9 @@ public class StringUtils {
     /**
      * Helper to convert a given string into a date object
      *
-     * @param format
-     * @param dateText
-     * @return
+     * @param format The format
+     * @param dateText The date text
+     * @return The date set to the given date text value
      */
     public static Date getDate(String format, String dateText) {
         Date date = null;
@@ -83,8 +83,8 @@ public class StringUtils {
     /**
      * Helper to convert a given string into a date object
      *
-     * @param dateText
-     * @return
+     * @param dateText The date text
+     * @return The ate set to the given date text value
      */
     public static Date getDate(String dateText) {
         return getDate(DATE_PATTERN, dateText);

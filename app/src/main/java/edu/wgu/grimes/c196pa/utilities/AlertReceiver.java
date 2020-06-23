@@ -14,7 +14,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -33,8 +32,8 @@ public class AlertReceiver extends BroadcastReceiver {
 
     /**
      * Gets the receiver alert and fires off the notification helper
-     * @param context
-     * @param intent
+     * @param context The context
+     * @param intent The intent
      */
     @Override
     public void onReceive(Context context, Intent intent) {

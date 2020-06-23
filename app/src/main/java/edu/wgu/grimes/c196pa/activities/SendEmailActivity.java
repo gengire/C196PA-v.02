@@ -82,8 +82,8 @@ public class SendEmailActivity extends AppCompatActivity {
     }
 
     /**
-     * @param title
-     * @param message
+     * @param title The title of the email
+     * @param message The message of the email
      * @see AbstractActivity#showValidationError(String, String)
      */
     private void showValidationError(String title, String message) {

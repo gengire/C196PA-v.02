@@ -74,7 +74,7 @@ public class NoteAdapter extends ListAdapter<NoteEntity, NoteAdapter.ViewHolder>
         return getItem(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<NoteEntity> listener) {
         this.listener = listener;
     }
 

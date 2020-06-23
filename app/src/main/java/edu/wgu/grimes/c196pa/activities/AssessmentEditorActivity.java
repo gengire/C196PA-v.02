@@ -123,13 +123,13 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     /**
      * Handles rendering the alarm icon as either empty or active
      *
-     * @param date
+     * @param alarmDate The alarm alarmDate
      */
-    private void renderAlarm(Date date) {
+    private void renderAlarm(Date alarmDate) {
         ImageView imageView = imageViewCompletionDateAlert;
-        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
-        float scaleX = date == null ? 1F : 1.2F;
-        float scaleY = date == null ? 1F : 1.1F;
+        int dr = alarmDate == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float scaleX = alarmDate == null ? 1F : 1.2F;
+        float scaleY = alarmDate == null ? 1F : 1.1F;
 
         imageView.setImageResource(dr);
         imageView.setScaleX(scaleX);

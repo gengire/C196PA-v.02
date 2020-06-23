@@ -27,10 +27,10 @@ public class DeleteCourseValidator {
     /**
      * Handles validation for deleting courses
      *
-     * @param context
-     * @param course
-     * @param onSuccess
-     * @param onFailure
+     * @param context THe context
+     * @param course The course to validate
+     * @param onSuccess The on success strategy
+     * @param onFailure The on failure strategy
      */
     public static void validateDeleteCourse(Context context, CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         AppRepository mRepository = AppRepository.getInstance(context);

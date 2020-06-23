@@ -33,15 +33,15 @@ public interface MentorDao {
     /**
      * Inserts / Updates the given entity
      *
-     * @param course
+     * @param mentor The mentor to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(MentorEntity course);
+    void save(MentorEntity mentor);
 
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param mentors
+     * @param mentors The mentors to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<MentorEntity> mentors);
@@ -49,10 +49,10 @@ public interface MentorDao {
     /**
      * Deletes the given entity
      *
-     * @param course
+     * @param mentor The mentor to delete
      */
     @Delete
-    void delete(MentorEntity course);
+    void delete(MentorEntity mentor);
 
     /**
      * Deletes all rows from the table
@@ -63,8 +63,8 @@ public interface MentorDao {
     /**
      * Gets the mentors (observable) associated with the given course id
      *
-     * @param courseId
-     * @return
+     * @param courseId The id of the course
+     * @return An observable list of mentors for the given course
      */
     @Query("select * from mentors where course_id = :courseId")
     LiveData<List<MentorEntity>> getAllMentorsForCourse(int courseId);
@@ -72,8 +72,8 @@ public interface MentorDao {
     /**
      * Gets a mentor by mentor id
      *
-     * @param mentorId
-     * @return
+     * @param mentorId The id of the mentor
+     * @return The mentor with the given id
      */
     @Query("select * from mentors where mentor_id = :mentorId")
     MentorEntity getMentorById(int mentorId);
@@ -81,7 +81,7 @@ public interface MentorDao {
     /**
      * Gets the total count of mentors
      *
-     * @return
+     * @return A count of all mentors
      */
     @Query("select count(*) from mentors")
     Integer getCount();
@@ -89,7 +89,7 @@ public interface MentorDao {
     /**
      * Deletes all mentors associated to a given course id
      *
-     * @param courseId
+     * @param courseId The id of the course to delete all the mentors from
      */
     @Query("delete from mentors where course_id = :courseId")
     void deleteMentorsForCourse(int courseId);

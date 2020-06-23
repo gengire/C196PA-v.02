@@ -12,16 +12,17 @@ package edu.wgu.grimes.c196pa;
 
 import android.app.Application;
 
-import edu.wgu.grimes.c196pa.utilities.NotificationHelper;
+import edu.wgu.grimes.c196pa.database.AppRepository;
 
 /**
- * Main application hoook
+ * Main application hook
  */
 public class App extends Application {
 
     @Override
     public void onCreate() { // app on create hook
         super.onCreate();
+        AppRepository.getInstance(this); // kicking off the instance for this session
         // Decided not to put this here
 //        new NotificationHelper(getBaseContext());
     }

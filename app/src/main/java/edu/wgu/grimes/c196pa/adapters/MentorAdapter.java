@@ -77,7 +77,7 @@ public class MentorAdapter extends ListAdapter<MentorEntity, MentorAdapter.ViewH
         return getItem(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<MentorEntity> listener) {
         this.listener = listener;
     }
 

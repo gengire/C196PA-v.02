@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,8 +56,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
 
     /**
      * Loads the data from the internal state to the screen
-     * @param title
-     * @param description
+     * @param title The title of the note
+     * @param description The description of the note
      */
     private void loadState(String title, String description) {
         mTitle.setText(title);

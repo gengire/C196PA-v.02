@@ -33,7 +33,7 @@ public interface NoteDao {
     /**
      * Inserts / Updates the given entity
      *
-     * @param note
+     * @param note The note to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(NoteEntity note);
@@ -41,7 +41,7 @@ public interface NoteDao {
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param notes
+     * @param notes The notes to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<NoteEntity> notes);
@@ -49,7 +49,7 @@ public interface NoteDao {
     /**
      * Deletes the given entity
      *
-     * @param note
+     * @param note The note to delete
      */
     @Delete
     void delete(NoteEntity note);
@@ -63,7 +63,7 @@ public interface NoteDao {
     /**
      * Deletes all the notes associated to a given course id
      *
-     * @param courseId
+     * @param courseId The id of the course to delete the notes from
      */
     @Query("delete from notes where course_id = :courseId")
     void deleteNotesForCourse(int courseId);
@@ -71,8 +71,8 @@ public interface NoteDao {
     /**
      * Gets a note by the given id
      *
-     * @param noteId
-     * @return
+     * @param noteId The id of the note
+     * @return The note with the given id
      */
     @Query("select * from notes where note_id = :noteId")
     NoteEntity getNoteById(int noteId);
@@ -80,8 +80,8 @@ public interface NoteDao {
     /**
      * Gets the notes (observable) associated to the given course id
      *
-     * @param courseId
-     * @return
+     * @param courseId The id of the course
+     * @return An observable list of notes associated to the given course id
      */
     @Query("select * from notes where course_id = :courseId")
     LiveData<List<NoteEntity>> getNotesForCourse(int courseId);
@@ -89,7 +89,7 @@ public interface NoteDao {
     /**
      * Gets the count of all notes
      *
-     * @return
+     * @return A count of all notes
      */
     @Query("select count(*) from notes")
     int getCount();

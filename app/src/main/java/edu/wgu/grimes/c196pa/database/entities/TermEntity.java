@@ -49,9 +49,9 @@ public class TermEntity implements HasId {
     /**
      * Constructor for new term lacking primary key
      *
-     * @param title
-     * @param startDate
-     * @param endDate
+     * @param title The title of the term
+     * @param startDate The start date of the term
+     * @param endDate The end date of the term
      */
     @Ignore
     public TermEntity(String title, Date startDate, Date endDate) {
@@ -63,11 +63,10 @@ public class TermEntity implements HasId {
     /**
      * Constructor for updating terms (or new terms with non generated primary key)
      *
-     * @param id
-     * @param title
-     * @param startDate
-     * @param endDate
-     */
+     * @param id The id of the term
+     * @param title The title of the term
+     * @param startDate The start date of the term
+     * @param endDate The end date of the term     */
     public TermEntity(int id, String title, Date startDate, Date endDate) {
         this.id = id;
         this.title = title;

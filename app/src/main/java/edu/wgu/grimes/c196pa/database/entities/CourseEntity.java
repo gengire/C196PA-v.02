@@ -74,15 +74,15 @@ public class CourseEntity implements HasId {
     /**
      * Constructor for new course lacking primary key
      *
-     * @param termId
-     * @param competencyUnits
-     * @param code
-     * @param title
-     * @param startDate
-     * @param startDateAlarm
-     * @param endDate
-     * @param endDateAlarm
-     * @param status
+     * @param termId The term id this course is associated with
+     * @param competencyUnits   The term competency units
+     * @param code The term code
+     * @param title The term title
+     * @param startDate The term start date
+     * @param startDateAlarm The term start date alarm
+     * @param endDate The term end date
+     * @param endDateAlarm The term end date alarm
+     * @param status The term status
      */
     @Ignore
     public CourseEntity(int termId, int competencyUnits, String code, String title, Date startDate, Date startDateAlarm, Date endDate, Date endDateAlarm, String status) {
@@ -100,16 +100,16 @@ public class CourseEntity implements HasId {
     /**
      * Constructor for updated courses (or new with non generated primary key)
      *
-     * @param id
-     * @param termId
-     * @param competencyUnits
-     * @param code
-     * @param title
-     * @param startDate
-     * @param startDateAlarm
-     * @param endDate
-     * @param endDateAlarm
-     * @param status
+     * @param id The id of the term
+     * @param termId The term id this course is associated with
+     * @param competencyUnits   The term competency units
+     * @param code The term code
+     * @param title The term title
+     * @param startDate The term start date
+     * @param startDateAlarm The term start date alarm
+     * @param endDate The term end date
+     * @param endDateAlarm The term end date alarm
+     * @param status The term status
      */
     public CourseEntity(int id, int termId, int competencyUnits, String code, String title, Date startDate, Date startDateAlarm, Date endDate, Date endDateAlarm, String status) {
         this.id = id;

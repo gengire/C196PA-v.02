@@ -28,10 +28,10 @@ public class DeleteTermValidator {
     /**
      * Requires that before a term can be deleted, that it has no courses associated to it.
      *
-     * @param context
-     * @param term
-     * @param onSuccess
-     * @param onFailure
+     * @param context The context
+     * @param term The term to validate
+     * @param onSuccess The on success strategy
+     * @param onFailure The on failure strategy
      */
     public static void validateDeleteTerm(Context context, TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         AppRepository mRepository = AppRepository.getInstance(context);

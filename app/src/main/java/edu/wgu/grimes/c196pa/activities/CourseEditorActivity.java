@@ -190,26 +190,26 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     /**
      * Handles rendering the alarm icon as either empty or active
      *
-     * @param date
-     * @param which
+     * @param alarmDate The alarm date
+     * @param whichAlarm Start or end alarm date
      */
-    private void renderAlarm(Date date, int which) {
-        ImageView iv = which == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
-        int dr = date == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
-        float x = date == null ? 1F : 1.2F;
-        float y = date == null ? 1F : 1.1F;
+    private void renderAlarm(Date alarmDate, int whichAlarm) {
+        ImageView iv = whichAlarm == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
+        int dr = alarmDate == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
+        float x = alarmDate == null ? 1F : 1.2F;
+        float y = alarmDate == null ? 1F : 1.1F;
         setAlarmActive(iv, dr, x, y);
     }
 
     /**
      * Convenience method to help render the alarms
-     * @param imageView
-     * @param p
-     * @param scaleX
-     * @param scaleY
+     * @param imageView The image view to render
+     * @param alarmDrawableId The id of the alarm image to render
+     * @param scaleX scale on the x axis
+     * @param scaleY scale on the y axis
      */
-    private void setAlarmActive(ImageView imageView, int p, float scaleX, float scaleY) {
-        imageView.setImageResource(p);
+    private void setAlarmActive(ImageView imageView, int alarmDrawableId, float scaleX, float scaleY) {
+        imageView.setImageResource(alarmDrawableId);
         imageView.setScaleX(scaleX);
         imageView.setScaleY(scaleY);
     }

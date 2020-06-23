@@ -48,7 +48,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public TermEditorViewModel(@NonNull Application application) {
         super(application);
@@ -57,7 +57,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Sets the term with the given id as the observable for this editor
      *
-     * @param termId
+     * @param termId The id of the term to load
      */
     public void loadTerm(int termId) {
         executor.execute(() -> {
@@ -69,7 +69,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Sets the courses for the given term id as the observable list for the recycler view
      *
-     * @param termId
+     * @param termId The id of the term
      */
     public void loadTermCourses(int termId) {
         mCourses = mRepository.getCoursesByTermId(termId);
@@ -78,9 +78,9 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Passes the data from the screen to the repo for persisting
      *
-     * @param title
-     * @param sDate
-     * @param eDate
+     * @param title The title of the term
+     * @param sDate The start date of the term
+     * @param eDate The end date of the term
      */
     public void saveTerm(String title, String sDate, String eDate) {
         if (TextUtils.isEmpty(title.trim())) {
@@ -107,7 +107,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Returns the observable list of courses for this term
      *
-     * @return
+     * @return An observable list of courses for the currently selected term
      */
     public LiveData<List<CourseEntity>> getTermCourses() {
         return mCourses;
@@ -116,7 +116,7 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Forwards the request to delete the given course to the repo
      *
-     * @param course
+     * @param course The course to be deleted
      */
     public void deleteCourse(CourseEntity course) {
         mRepository.deleteCourse(course);
@@ -125,9 +125,9 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Calls into the delete course validator
      *
-     * @param course
-     * @param onSuccess
-     * @param onFailure
+     * @param course The course to be validated / deleted
+     * @param onSuccess The on validation success strategy
+     * @param onFailure The on validation failure strategy
      */
     public void validateDeleteCourse(CourseEntity course, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteCourseValidator.validateDeleteCourse(getApplication().getApplicationContext(), course, onSuccess, onFailure);
@@ -136,9 +136,9 @@ public class TermEditorViewModel extends BaseViewModel {
     /**
      * Calls into the delete term validator
      *
-     * @param term
-     * @param onSuccess
-     * @param onFailure
+     * @param term The term to be validated / deleted
+     * @param onSuccess The on validation success strategy
+     * @param onFailure The on validation failure strategy
      */
     public void validateDeleteTerm(TermEntity term, ValidationCallback onSuccess, ValidationCallback onFailure) {
         DeleteTermValidator.validateDeleteTerm(getApplication(), term, onSuccess, onFailure);

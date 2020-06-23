@@ -23,16 +23,19 @@ public class DateUtils {
     /**
      * Determines if the given dates are the same or not
      *
-     * @param d1
-     * @param d2
-     * @return
+     * @param date1 The first date to compare
+     * @param date2 The second date to compare
+     * @return True if the dates are the same
      */
-    public static boolean sameDate(final Date d1, final Date d2) {
-        boolean same = d1 == null && d2 == null;
-        if ((d1 != null && d2 == null) || (d1 == null && d2 != null)) {
-            same = false;
-        } else if (!same) {
-            same = d1.getTime() == d2.getTime();
+    public static boolean sameDate(final Date date1, final Date date2) {
+        boolean same = date1 == null && date2 == null;
+//        if ((date1 != null && date2 == null) || (date1 == null && date2 != null)) {
+//            same = false;
+//        } else if (!same) {
+//            same = date1.getTime() == date2.getTime();
+//        }
+        if (!same) {
+            same = date1.getTime() == date2.getTime();
         }
         return same;
     }

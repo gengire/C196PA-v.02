@@ -33,7 +33,7 @@ public interface CourseDao {
     /**
      * Inserts / Updates the given entity
      *
-     * @param course
+     * @param course The course to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(CourseEntity course);
@@ -41,7 +41,7 @@ public interface CourseDao {
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param courses
+     * @param courses The courses to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<CourseEntity> courses);
@@ -49,7 +49,7 @@ public interface CourseDao {
     /**
      * Deletes the given entity
      *
-     * @param course
+     * @param course The course to delete
      */
     @Delete
     void delete(CourseEntity course);
@@ -64,7 +64,7 @@ public interface CourseDao {
      * Gets the courses (observable) associated with the given term id
      *
      * @param termId The identifier
-     * @return
+     * @return An observable list of courses for the given term
      */
     @Query("select * from courses where term_id = :termId")
     LiveData<List<CourseEntity>> getAllCoursesForTerm(int termId);
@@ -72,8 +72,8 @@ public interface CourseDao {
     /**
      * Gets a course by course id
      *
-     * @param courseId
-     * @return
+     * @param courseId The id of the course
+     * @return The course with the given id
      */
     @Query("select * from courses where course_id = :courseId")
     CourseEntity getCourseById(int courseId);
@@ -81,8 +81,8 @@ public interface CourseDao {
     /**
      * Gets the courses (observable) of courses with the given status
      *
-     * @param status
-     * @return
+     * @param status of the course
+     * @return An observable count of all courses with the given status
      */
     @Query("select count(*) from courses where status = :status")
     LiveData<Integer> getCoursesByStatus(String status);
@@ -90,7 +90,7 @@ public interface CourseDao {
     /**
      * Gets a count of all courses
      *
-     * @return
+     * @return An observable count of all courses
      */
     @Query("select count(*) from courses")
     Integer getCount();
@@ -98,7 +98,7 @@ public interface CourseDao {
     /**
      * Gets a count (observable) of all course
      *
-     * @return
+     * @return An observable count of all courses
      */
     @Query("select count(*) from courses")
     LiveData<Integer> getLiveCount();

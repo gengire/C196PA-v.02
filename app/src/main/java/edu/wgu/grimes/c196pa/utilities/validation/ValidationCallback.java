@@ -18,6 +18,9 @@ package edu.wgu.grimes.c196pa.utilities.validation;
  */
 public interface ValidationCallback {
 
+    /**
+     * Success or Failure strategy hook
+     */
     void callback();
 
 }

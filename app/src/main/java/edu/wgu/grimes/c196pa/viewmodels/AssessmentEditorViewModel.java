@@ -38,7 +38,7 @@ public class AssessmentEditorViewModel extends BaseViewModel {
     /**
      * Constructor
      *
-     * @param application
+     * @param application The context
      */
     public AssessmentEditorViewModel(@NonNull Application application) {
         super(application);
@@ -47,7 +47,7 @@ public class AssessmentEditorViewModel extends BaseViewModel {
     /**
      * Sets the assessment with the given id as the observable for this editor
      *
-     * @param assessmentId
+     * @param assessmentId The id of the assessment
      */
     public void loadAssessment(int assessmentId) {
         executor.execute(() -> {
@@ -59,12 +59,12 @@ public class AssessmentEditorViewModel extends BaseViewModel {
     /**
      * Passes the data from the screen into the repo for persisting
      *
-     * @param courseId
-     * @param assessmentType
-     * @param title
-     * @param status
-     * @param completionDate
-     * @param completionDateAlarm
+     * @param courseId The id of the course this assessment is associated to
+     * @param assessmentType The assessment type
+     * @param title The assessment title
+     * @param status The assessment status
+     * @param completionDate The assessment completion date
+     * @param completionDateAlarm The assessment completion date alarm
      */
     public void saveAssessment(Integer courseId, String assessmentType, String title, String status, String completionDate, Date completionDateAlarm) {
         if (TextUtils.isEmpty(title)) {
