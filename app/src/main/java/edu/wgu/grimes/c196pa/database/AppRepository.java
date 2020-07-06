@@ -27,7 +27,7 @@ import edu.wgu.grimes.c196pa.database.entities.AssessmentEntity;
 import edu.wgu.grimes.c196pa.database.entities.CourseEntity;
 import edu.wgu.grimes.c196pa.database.entities.MentorEntity;
 import edu.wgu.grimes.c196pa.database.entities.NoteEntity;
-import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
+import edu.wgu.grimes.c196pa.database.entities.TermCompetencyUnitsTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.database.entities.TermWithCourses;
 import edu.wgu.grimes.c196pa.utilities.SampleData;
@@ -332,8 +332,8 @@ public class AppRepository {
      *
      * @return An observable list of TermCusTuples for all terms
      */
-    public LiveData<List<TermCusTuple>> getAllTermCus() {
-        return termDao.getTermCus();
+    public LiveData<List<TermCompetencyUnitsTuple>> getAllTermCompetencyUnits() {
+        return termDao.getTermCompetencyUnits();
     }
 
     /**

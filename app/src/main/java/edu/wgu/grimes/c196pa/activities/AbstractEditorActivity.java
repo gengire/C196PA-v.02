@@ -37,12 +37,12 @@ public abstract class AbstractEditorActivity extends AbstractActivity {
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         // noop
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         // noop
     }
 

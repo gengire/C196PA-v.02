@@ -19,7 +19,7 @@ import androidx.room.ColumnInfo;
  * @author Chris Grimes Copyright (2020)
  * @version 1.0
  */
-public class TermCusTuple {
+public class TermCompetencyUnitsTuple {
     @ColumnInfo(name = "term_id")
     public int termId;
 

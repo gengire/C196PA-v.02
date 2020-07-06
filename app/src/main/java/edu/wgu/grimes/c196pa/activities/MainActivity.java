@@ -78,19 +78,19 @@ public class MainActivity extends AppCompatActivity {
     private int iAssessmentFailed = 0;
 
     @BindView(R.id.text_view_courses_completed_value)
-    TextView mCoursesCompleted;
+    protected TextView mCoursesCompleted;
     @BindView(R.id.text_view_courses_in_progress_value)
-    TextView mCoursesInProgress;
+    protected TextView mCoursesInProgress;
     @BindView(R.id.text_view_courses_dropped_value)
-    TextView mCoursesDropped;
+    protected TextView mCoursesDropped;
     @BindView(R.id.text_view_courses_failed_value)
-    TextView mCoursesFailed;
+    protected TextView mCoursesFailed;
     @BindView(R.id.text_view_assessments_passed_value)
-    TextView mAssessmentsPassed;
+    protected TextView mAssessmentsPassed;
     @BindView(R.id.text_view_assessments_pending_value)
-    TextView mAssessmentsPending;
+    protected TextView mAssessmentsPending;
     @BindView(R.id.text_view_assessments_failed_value)
-    TextView mAssessmentsFailed;
+    protected TextView mAssessmentsFailed;
 
     /**
      * Set's up all the observers of the live data coming from the database and updates the view
@@ -197,19 +197,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_terms_list)
-    void termsClickHandler() {
+    protected void onTermsClick() {
         Intent intent = new Intent(MainActivity.this, TermsListActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.btn_add_sample_terms)
-    void addSamplesClickHandler() {
+    protected void onAddSamplesClick() {
         mViewModel.addSampleData();
     }
 
     @OnClick(R.id.btn_delete_all_terms)
-    void deleteAllClickHandler() {
-        mViewModel.deleteAll();
+    protected void onDeleteAllClick() {
+        mViewModel.deleteAllData();
     }
 
 }

@@ -89,36 +89,36 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     /**
      * Local internal state for this activity
      */
-    private final State state = new State();
+    private final CourseState state = new CourseState();
 
     @BindView(R.id.edit_text_course_editor_title)
-    EditText mTitle;
+    protected EditText mTitle;
     @BindView(R.id.edit_text_course_editor_code)
-    EditText mCode;
+    protected EditText mCode;
     @BindView(R.id.text_view_course_editor_cus_value)
-    TextView mCus;
+    protected TextView mCompetencyUnits;
     @BindView(R.id.spinner_course_editor_status)
-    Spinner mStatus;
+    protected Spinner mStatus;
     @BindView(R.id.text_view_course_editor_start_date_value)
-    TextView mStartDate;
+    protected TextView mStartDate;
     @BindView(R.id.text_view_course_editor_end_date_value)
-    TextView mEndDate;
+    protected TextView mEndDate;
     @BindView(R.id.text_view_course_editor_alarm_start_date_value)
-    TextView mStartDateAlarm;
+    protected TextView mStartDateAlarm;
     @BindView(R.id.text_view_course_editor_alarm_end_date_value)
-    TextView mEndDateAlarm;
+    protected TextView mEndDateAlarm;
     @BindView(R.id.recycler_view_course_editor_assessment_list)
-    RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
     @BindView(R.id.fab_add_assessment)
-    FloatingActionButton mFab;
+    protected FloatingActionButton mFab;
     @BindView(R.id.btn_course_notes)
-    Button mCourseNotes;
+    protected Button mCourseNotes;
     @BindView(R.id.btn_course_mentors)
-    Button mCourseMentors;
+    protected Button mCourseMentors;
     @BindView(R.id.image_view_course_start_date_alert)
-    ImageView imageViewStartDateAlert;
+    protected ImageView mStartDateAlarmBell;
     @BindView(R.id.image_view_course_end_date_alert)
-    ImageView imageViewEndDateAlert;
+    protected ImageView mEndDateAlarmBell;
 
     /**
      * Loads the data from the internal state to the screen
@@ -126,7 +126,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     private void loadState() {
         mTitle.setText(state.title);
         mCode.setText(state.code);
-        mCus.setText(state.cus);
+        mCompetencyUnits.setText(state.cus);
         mStatus.setSelection(state.status);
         mStartDate.setText(state.startDate);
         if (state.startDate != null) {
@@ -167,7 +167,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         dialog.setTitle("Competency Units");
         dialog.setContentView(R.layout.number_picker);
 
-        String strCus = String.valueOf(mCus.getText());
+        String strCus = String.valueOf(mCompetencyUnits.getText());
         int cusValue = "".equals(strCus) ? 0 : Integer.parseInt(strCus);
 
         NumberPicker mCuPicker = dialog.findViewById(R.id.number_picker);
@@ -179,7 +179,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
         Button btnSetCus = dialog.findViewById(R.id.btn_set_cus);
         btnSetCus.setOnClickListener(v -> {
-            mCus.setText(String.valueOf(mCuPicker.getValue()));
+            mCompetencyUnits.setText(String.valueOf(mCuPicker.getValue()));
             dialog.dismiss();
         });
         Button btnCancelCus = dialog.findViewById(R.id.btn_cancel_cus);
@@ -194,7 +194,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
      * @param whichAlarm Start or end alarm date
      */
     private void renderAlarm(Date alarmDate, int whichAlarm) {
-        ImageView iv = whichAlarm == 1 ? imageViewStartDateAlert : imageViewEndDateAlert;
+        ImageView iv = whichAlarm == 1 ? mStartDateAlarmBell : mEndDateAlarmBell;
         int dr = alarmDate == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
         float x = alarmDate == null ? 1F : 1.2F;
         float y = alarmDate == null ? 1F : 1.1F;
@@ -251,7 +251,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     protected void saveState(Bundle outState) {
         outState.putString(getString(R.string.COURSE_TITLE_KEY), String.valueOf(mTitle.getText()));
         outState.putString(getString(R.string.COURSE_CODE_KEY), String.valueOf(mCode.getText()));
-        outState.putString(getString(R.string.COURSE_COMPETENCY_UNITS_KEY), String.valueOf(mCus.getText()));
+        outState.putString(getString(R.string.COURSE_COMPETENCY_UNITS_KEY), String.valueOf(mCompetencyUnits.getText()));
         outState.putInt(getString(R.string.COURSE_STATUS_KEY), mStatus.getSelectedItemPosition());
         outState.putString(getString(R.string.COURSE_START_DATE_KEY), String.valueOf(mStartDate.getText()));
         outState.putString(getString(R.string.COURSE_END_DATE_KEY), String.valueOf(mEndDate.getText()));
@@ -303,11 +303,11 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
 
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        mCus.setText(String.valueOf(newVal));
+        mCompetencyUnits.setText(String.valueOf(newVal));
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         AssessmentEntity assessment = mAdapter.getAssessmentAt(viewHolder.getAdapterPosition());
         String assessmentTitle = assessment.getTitle();
 
@@ -317,7 +317,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 
@@ -352,7 +352,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             if (course != null) {
                 mTitle.setText(state.title == null ? course.getTitle() : state.title);
                 mCode.setText(state.code == null ? course.getCode() : state.code);
-                mCus.setText(state.cus == null ? String.valueOf(course.getCompetencyUnits()) : state.cus);
+                mCompetencyUnits.setText(state.cus == null ? String.valueOf(course.getCompetencyUnits()) : state.cus);
 
                 SpinnerAdapter ssa = mStatus.getAdapter();
                 ArrayAdapter<String> statusAdapter = (ArrayAdapter<String>) ssa;
@@ -403,7 +403,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     protected void save() {
         String title = String.valueOf(mTitle.getText());
         String code = String.valueOf(mCode.getText());
-        String cus = String.valueOf(mCus.getText());
+        String cus = String.valueOf(mCompetencyUnits.getText());
         String status = String.valueOf(mStatus.getSelectedItem());
         String termId = String.valueOf(mParentId);
         String startDate = String.valueOf(mStartDate.getText());
@@ -441,55 +441,55 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     }
 
     @OnClick(R.id.btn_course_notes)
-    void courseNotesClickHandler() {
+    protected void onCourseNotesClick() {
         Intent intent = new Intent(CourseEditorActivity.this, NotesListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
         openActivity(intent);
     }
 
     @OnClick(R.id.btn_course_mentors)
-    void courseMentorsClickHandler() {
+    protected void onCourseMentorsClick() {
         Intent intent = new Intent(CourseEditorActivity.this, MentorsListActivity.class);
         intent.putExtra(Constants.COURSE_ID_KEY, mId);
         openActivity(intent);
     }
 
     @OnClick(R.id.text_view_course_editor_start_date)
-    void startDateLabelClickHandler() {
+    protected void onStartDateLabelClick() {
         DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
         dateDialog.show(getSupportFragmentManager(), "courseStartDatePicker");
     }
 
     @OnClick(R.id.text_view_course_editor_start_date_value)
-    void startDateClickHandler() {
+    protected void onStartDateClick() {
         DialogFragment dateDialog = new DatePickerFragment(mStartDate, startDate);
         dateDialog.show(getSupportFragmentManager(), "courseStartDatePicker");
     }
 
     @OnClick(R.id.text_view_course_editor_end_date)
-    void endDateLabelClickHandler() {
+    protected void onEndDateLabelClick() {
         DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
     @OnClick(R.id.text_view_course_editor_end_date_value)
-    void endDateClickHandler() {
+    protected void onEndDateClick() {
         DialogFragment dateDialog = new DatePickerFragment(mEndDate, endDate);
         dateDialog.show(getSupportFragmentManager(), "courseEndDatePicker");
     }
 
     @OnClick(R.id.text_view_course_editor_cus)
-    void cusLabelClickHandler() {
+    protected void onCompetencyUnitsLabelClick() {
         openCompetencyUnitsPickerDialog();
     }
 
     @OnClick(R.id.text_view_course_editor_cus_value)
-    void cusClickHandler() {
+    protected void onCompetencyUnitsClick() {
         openCompetencyUnitsPickerDialog();
     }
 
     @OnClick(R.id.image_view_course_start_date_alert)
-    void startDateAlertClickHandler() {
+    protected void onStartDateAlarmClick() {
         if ("".equals(String.valueOf(mStartDate.getText()))) {
             String text = "Please select a start date before adding a start date alarm";
             showValidationError("Missing start date", text);
@@ -518,7 +518,7 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     }
 
     @OnClick(R.id.image_view_course_end_date_alert)
-    void endDateAlertClickHandler() {
+    protected void onEndDateAlarmClick() {
         if ("".equals(String.valueOf(mEndDate.getText()))) {
             String text = "Please select an end date before adding an end date alarm";
             showValidationError("Missing end date", text);
@@ -547,18 +547,18 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
     }
 
     @OnClick(R.id.text_view_course_editor_status)
-    void statusLabelClickHandler() {
+    protected void onStatusLabelClick() {
         mStatus.performClick();
     }
 
-    private static class State {
-        String title;
-        String code;
-        String cus;
-        Integer status;
-        String startDate;
-        String endDate;
-        String startDateAlarm;
-        String endDateAlarm;
+    private static class CourseState {
+        private String title;
+        private String code;
+        private String cus;
+        private Integer status;
+        private String startDate;
+        private String endDate;
+        private String startDateAlarm;
+        private String endDateAlarm;
     }
 }

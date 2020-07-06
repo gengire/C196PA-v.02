@@ -41,16 +41,16 @@ public class MentorEditorActivity extends AbstractEditorActivity {
     /**
      * Local internal state for this activity
      */
-    private final State state = new State();
+    private final MentorState state = new MentorState();
 
     @BindView(R.id.edit_text_mentor_editor_first_name)
-    EditText mFirstName;
+    protected EditText mFirstName;
     @BindView(R.id.edit_text_mentor_editor_last_name)
-    EditText mLastName;
+    protected EditText mLastName;
     @BindView(R.id.edit_text_mentor_editor_phone)
-    EditText mPhone;
+    protected EditText mPhone;
     @BindView(R.id.edit_text_mentor_editor_email)
-    EditText mEmail;
+    protected EditText mEmail;
 
     /**
      * Loads the data from the internal state to the screen
@@ -158,10 +158,10 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         }
     }
 
-    private static class State {
-        String firstName;
-        String lastName;
-        String phoneNumber;
-        String email;
+    private static class MentorState {
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+        private String email;
     }
 }

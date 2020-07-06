@@ -51,7 +51,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     /**
      * Local View Model for the assessment editor
      */
-    AssessmentEditorViewModel mViewModel;
+    private AssessmentEditorViewModel mViewModel;
 
     /**
      * Used with the Date Picker Fragment
@@ -64,25 +64,25 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     /**
      * Local internal state for this activity
      */
-    private final State state = new State();
+    private final AssessmentState state = new AssessmentState();
 
     @BindView(R.id.edit_text_assessment_editor_title)
-    EditText mTitle;
+    protected EditText mTitle;
 
     @BindView(R.id.spinner_assessment_editor_assessment_type)
-    Spinner mAssessmentType;
+    protected Spinner mAssessmentType;
 
     @BindView(R.id.spinner_assessment_editor_status)
-    Spinner mStatus;
+    protected Spinner mStatus;
 
     @BindView(R.id.text_view_assessment_editor_end_date_value)
-    TextView mCompletionDate;
+    protected TextView mCompletionDate;
 
     @BindView(R.id.text_view_assessment_editor_alarm_end_date_value)
-    TextView mCompletionDateAlarm;
+    protected TextView mCompletionDateAlarm;
 
     @BindView(R.id.image_view_assessment_end_date_alert)
-    ImageView imageViewCompletionDateAlert;
+    protected ImageView mCompletionDateAlarmBell;
 
     /**
      * Loads the data from the internal state to the screen
@@ -126,7 +126,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
      * @param alarmDate The alarm alarmDate
      */
     private void renderAlarm(Date alarmDate) {
-        ImageView imageView = imageViewCompletionDateAlert;
+        ImageView imageView = mCompletionDateAlarmBell;
         int dr = alarmDate == null ? R.drawable.ic_add_alert : R.drawable.ic_alarm_active;
         float scaleX = alarmDate == null ? 1F : 1.2F;
         float scaleY = alarmDate == null ? 1F : 1.1F;
@@ -139,7 +139,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     /**
      * Handles the completion date alarm notification scheduling.
      */
-    private void handleAlarmNotification() {
+    private void onAlarmNotification() {
         AlarmNotificationManager alm = AlarmNotificationManager.getInstance();
         String title = "WGU Scheduler Assessment Alert";
         String message = mTitle.getText() + " is ";
@@ -218,7 +218,7 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
             return;
         }
         mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);
-        handleAlarmNotification();
+        onAlarmNotification();
         Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
         closeActivity();
     }
@@ -281,19 +281,19 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     }
 
     @OnClick(R.id.text_view_assessment_editor_end_date)
-    void completionDateLabelClickHandler() {
+    protected void onCompletionDateLabelClick() {
         DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
         dateDialog.show(getSupportFragmentManager(), "assessmentCompletionDatePicker");
     }
 
     @OnClick(R.id.text_view_assessment_editor_end_date_value)
-    void completionDateClickHandler() {
+    protected void onCompletionDateClick() {
         DialogFragment dateDialog = new DatePickerFragment(mCompletionDate, completionDate);
         dateDialog.show(getSupportFragmentManager(), "assessmentCompletionDatePicker");
     }
 
     @OnClick(R.id.image_view_assessment_end_date_alert)
-    void completionDateAlertClickHandler() {
+    protected void onCompletionDateAlarmClick() {
         if ("".equals(String.valueOf(mCompletionDate.getText()))) {
             String text = "Please select a end date before adding an end date alarm";
             showValidationError("Missing end date", text);
@@ -322,20 +322,20 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
     }
 
     @OnClick(R.id.text_view_assessment_editor_assessment_type)
-    void assessmentTypeLabelClickHandler() {
+    protected void onAssessmentTypeLabelClick() {
         mAssessmentType.performClick();
     }
 
     @OnClick(R.id.text_view_assessment_editor_status)
-    void statusLabelClickHandler() {
+    protected void onStatusLabelClick() {
         mStatus.performClick();
     }
 
-    private static class State {
-        String title;
-        Integer assessmentTypePosition;
-        Integer statusPosition;
-        String completionDate;
-        String completionDateAlarm;
+    private static class AssessmentState {
+        private String title;
+        private Integer assessmentTypePosition;
+        private Integer statusPosition;
+        private String completionDate;
+        private String completionDateAlarm;
     }
 }

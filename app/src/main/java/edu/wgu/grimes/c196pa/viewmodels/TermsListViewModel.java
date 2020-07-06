@@ -17,7 +17,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
+import edu.wgu.grimes.c196pa.database.entities.TermCompetencyUnitsTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 import edu.wgu.grimes.c196pa.utilities.validation.DeleteTermValidator;
 import edu.wgu.grimes.c196pa.utilities.validation.ValidationCallback;
@@ -93,7 +93,7 @@ public class TermsListViewModel extends BaseViewModel {
      *
      * @return An observable TermCusTuple for all terms
      */
-    public LiveData<List<TermCusTuple>> getAllTermCus() {
-        return mRepository.getAllTermCus();
+    public LiveData<List<TermCompetencyUnitsTuple>> getAllTermCus() {
+        return mRepository.getAllTermCompetencyUnits();
     }
 }

@@ -134,7 +134,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
             save();
             return true;
         } else if (itemId == getDeleteMenuItem()) {
-            alertDelete(this::delete, this::onCancel).show();
+            alertDelete(this::delete, this::onMenuDeleteCancel).show();
             return true;
         } else if (itemId == android.R.id.home) {
             closeActivity();
@@ -169,7 +169,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
     /**
      * Default cancel strategy for the alertDelete method
      */
-    protected void onCancel() {
+    protected void onMenuDeleteCancel() {
         // noop
     }
 
@@ -178,7 +178,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * currently have recycler views and need this init. It sets recycler view to detect the
      * swipe and calls the hooks so that the subclasses can handle the delete action
      */
-    public void initSwipeDelete() {
+    protected void initSwipeDelete() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -188,8 +188,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Runnable onCancel = () -> onSwipeCancel(viewHolder);
-                alertDelete(() -> handleSwipeDelete(viewHolder), onCancel).show();
+                Runnable onCancel = () -> onSwipeDeleteCancel(viewHolder);
+                alertDelete(() -> onSwipeDelete(viewHolder), onCancel).show();
             }
         }).attachToRecyclerView(getRecyclerView());
     }
@@ -308,14 +308,14 @@ public abstract class AbstractActivity extends AppCompatActivity {
      *
      * @param viewHolder RecyclerView.ViewHolder
      */
-    protected abstract void handleSwipeDelete(RecyclerView.ViewHolder viewHolder);
+    protected abstract void onSwipeDelete(RecyclerView.ViewHolder viewHolder);
 
     /**
      * Hook to trigger the subclass to handle a canceled swipe delete
      *
      * @param viewHolder RecyclerView.ViewHolder
      */
-    protected abstract void onSwipeCancel(RecyclerView.ViewHolder viewHolder);
+    protected abstract void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder);
 
     /**
      * Hook to restore the internal activity state from the savedInstanceState Bundle

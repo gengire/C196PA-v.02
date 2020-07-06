@@ -102,7 +102,7 @@ public class MentorsListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         MentorEntity mentor = mAdapter.getMentorAt(viewHolder.getAdapterPosition());
         String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
 
@@ -112,7 +112,7 @@ public class MentorsListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 

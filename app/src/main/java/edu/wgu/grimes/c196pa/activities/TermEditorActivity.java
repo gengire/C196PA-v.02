@@ -120,7 +120,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         CourseEntity course = mAdapter.getCourseAt(viewHolder.getAdapterPosition());
         String courseTitle = course.getTitle();
 
@@ -137,7 +137,7 @@ public class TermEditorActivity extends AbstractEditorActivity {
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 

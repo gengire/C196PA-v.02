@@ -100,7 +100,7 @@ public class NotesListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void handleSwipeDelete(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         NoteEntity note = mAdapter.getNoteAt(viewHolder.getAdapterPosition());
         String noteTitle = note.getTitle();
 
@@ -110,7 +110,7 @@ public class NotesListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void onSwipeCancel(RecyclerView.ViewHolder viewHolder) {
+    protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 

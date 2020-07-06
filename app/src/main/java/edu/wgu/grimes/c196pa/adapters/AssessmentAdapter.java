@@ -34,7 +34,7 @@ import static edu.wgu.grimes.c196pa.utilities.StringUtils.getFormattedDate;
  * @author Chris Grimes Copyright (2020)
  * @version 1.0
  */
-public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentAdapter.ViewHolder> {
+public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentAdapter.AssessmentViewHolder> {
 
     /**
      * Used to more optimally handle how the recycler view handles changes to the items in it
@@ -69,29 +69,29 @@ public class AssessmentAdapter extends ListAdapter<AssessmentEntity, AssessmentA
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AssessmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_assessment, parent, false);
-        return new ViewHolder(view);
+        return new AssessmentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AssessmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AssessmentViewHolder holder, int position) {
         AssessmentEntity currentAssessment = getItem(position);
-        holder.textViewTitle.setText(currentAssessment.getTitle());
+        holder.mTitle.setText(currentAssessment.getTitle());
         Date cDate = currentAssessment.getCompletionDate();
         String completionDate = cDate == null ? "???? " : getFormattedDate(cDate);
-        holder.textViewCompletionDate.setText(completionDate);
+        holder.mCompletionDate.setText(completionDate);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewTitle;
-        private final TextView textViewCompletionDate;
+    protected class AssessmentViewHolder extends RecyclerView.ViewHolder {
+        private final TextView mTitle;
+        private final TextView mCompletionDate;
 
-        public ViewHolder(@NonNull View itemView) {
+        public AssessmentViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.text_view_assessment_title);
-            textViewCompletionDate = itemView.findViewById(R.id.text_view_assessment_completion_date);
+            mTitle = itemView.findViewById(R.id.text_view_assessment_title);
+            mCompletionDate = itemView.findViewById(R.id.text_view_assessment_completion_date);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

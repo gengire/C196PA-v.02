@@ -88,7 +88,7 @@ public class MainViewModel extends BaseViewModel {
     /**
      * Directs the repo to delete all data
      */
-    public void deleteAll() {
+    public void deleteAllData() {
         mRepository.deleteAllData();
     }
 }

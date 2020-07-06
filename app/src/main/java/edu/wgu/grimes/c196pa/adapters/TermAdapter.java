@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.wgu.grimes.c196pa.R;
-import edu.wgu.grimes.c196pa.database.entities.TermCusTuple;
+import edu.wgu.grimes.c196pa.database.entities.TermCompetencyUnitsTuple;
 import edu.wgu.grimes.c196pa.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196pa.utilities.DateUtils.sameDate;
@@ -91,9 +91,9 @@ public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder>
         return getItem(position);
     }
 
-    public void setTotalCus(List<TermCusTuple> allTermCus) {
+    public void setTotalCus(List<TermCompetencyUnitsTuple> allTermCus) {
         if (allTermCus != null) {
-            for (TermCusTuple tc : allTermCus) {
+            for (TermCompetencyUnitsTuple tc : allTermCus) {
                 termCus.put(tc.termId, tc.cus);
             }
             notifyDataSetChanged();
