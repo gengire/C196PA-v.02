@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Grimes C196 PA</string>
-    <string name="send_email_to_hint">To: one@wgu.edu, two@wgu.edu</string>
+    <string name="app_name">Grimes C868 PA</string>
+    <string name="send_email_to_hint">To: one@school.edu, two@school.edu</string>
     <string name="send_email_subject_hint">Subject:</string>
     <string name="send_email_message_hint">Message:</string>
     <string name="send_email_button_text">send</string>
@@ -10,9 +10,9 @@
     <string name="assessment_end_date_text">End Date</string>
     <string name="assessment_end_date_value_hint">Select End Date</string>
     <string name="assessment_end_date_alert_content_description">End Date Alarm</string>
-    <string name="terms_list_title">WGU Term List</string>
-    <string name="wgu_assessments">WGU Assessments</string>
-    <string name="wgu_courses">WGU Courses</string>
+    <string name="terms_list_title">Term List</string>
+    <string name="assessments">Assessments</string>
+    <string name="courses">Courses</string>
     <string name="new_term">New Term</string>
     <string name="edit_term">Edit Term</string>
     <string name="new_course">New Course</string>
@@ -23,7 +23,7 @@
     <string name="dropped">Dropped</string>
     <string name="pending">Pending</string>
     <string name="passed">Passed</string>
-    <string name="term_list">WGU Term List</string>
+    <string name="term_list">Term List</string>
     <string name="add_samples">Add Sample Data</string>
     <string name="delete_all">Delete All Data</string>
     <string name="course_title_hint">Course Title</string>
@@ -62,7 +62,7 @@
     <string name="note_title_text">title</string>
     <string name="note_description_text">description</string>
     <string name="term_title_text">Spring Term 2020</string>
-    <string name="term_date_range_text">Sep 30, 2020 - Sep 30, 2020</string>
+    <string name="term_date_range_text">April 1, 2020 - Sep 30, 2020</string>
     <string name="term_total_cus_text">Total CUs:</string>
     <string name="term_competency_units_text">99</string>
     <string name="number_picker_cancel_button_text">Cancel</string>
