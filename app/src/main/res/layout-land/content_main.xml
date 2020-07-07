@@ -35,7 +35,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/wgu_courses"
+                android:text="@string/courses"
                 android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/wgu_assessments"
+                android:text="@string/assessments"
                 android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="match_parent"
