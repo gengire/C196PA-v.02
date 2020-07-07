@@ -36,7 +36,7 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
  * @version 1.0
  */
 @Database(entities = {TermEntity.class, CourseEntity.class, AssessmentEntity.class,
-        NoteEntity.class, MentorEntity.class}, version = 12, exportSchema = false)
+        NoteEntity.class, MentorEntity.class}, version = 1, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -46,7 +46,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class, "grimesc196pa.db")
+                    AppDatabase.class, "grimesc868pa.db")
                     .fallbackToDestructiveMigration()
                     .build();
         }

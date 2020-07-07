@@ -23,10 +23,10 @@ public interface AccountDao {
     /**
      * Inserts / Updates the given list of entities
      *
-     * @param account The terms to save
+     * @param accounts The accounts to save
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void saveAll(List<AccountEntity> account);
+    void saveAll(List<AccountEntity> accounts);
 
     /**
      * Deletes the given entity
