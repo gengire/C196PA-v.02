@@ -36,7 +36,7 @@ import edu.wgu.grimes.c196pa.database.entities.TermEntity;
  * @version 1.0
  */
 @Database(entities = {TermEntity.class, CourseEntity.class, AssessmentEntity.class,
-        NoteEntity.class, MentorEntity.class}, version = 11, exportSchema = false)
+        NoteEntity.class, MentorEntity.class}, version = 12, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 

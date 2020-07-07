@@ -59,7 +59,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    // Can't use external libraries other than the above for this PA
 //    // Easy Splash Screen
 //    implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
 
