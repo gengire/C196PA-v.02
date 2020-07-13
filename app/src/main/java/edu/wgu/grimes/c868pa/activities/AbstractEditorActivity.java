@@ -31,21 +31,33 @@ public abstract class AbstractEditorActivity extends AbstractActivity {
         return R.drawable.ic_close;
     }
 
+    /**
+     * Generally not used by editor activities
+     */
     @Override
     protected void initRecyclerView() {
         // noop
     }
 
+    /**
+     * Generally not used by editor activities
+     */
     @Override
     protected void onSwipeDelete(RecyclerView.ViewHolder viewHolder) {
         // noop
     }
 
+    /**
+     * Generally not used by editor activities
+     */
     @Override
     protected void onSwipeDeleteCancel(RecyclerView.ViewHolder viewHolder) {
         // noop
     }
 
+    /**
+     * Generally not used by editor activities
+     */
     @Override
     protected RecyclerView getRecyclerView() {
         return null; // noop

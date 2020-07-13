@@ -10,10 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.function.Consumer;
-
-import javax.crypto.spec.PBEKeySpec;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,6 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void showToast(final String toastMessage) {
         RegisterActivity.this.runOnUiThread(() ->
-                Toast.makeText(RegisterActivity.this, toastMessage, Toast.LENGTH_SHORT).show());
+            Toast.makeText(RegisterActivity.this, toastMessage, Toast.LENGTH_SHORT).show());
     }
 }

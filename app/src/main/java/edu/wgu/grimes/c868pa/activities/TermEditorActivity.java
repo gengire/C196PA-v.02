@@ -130,8 +130,8 @@ public class TermEditorActivity extends AbstractEditorActivity {
         mViewModel.validateDeleteCourse(course,
                 () -> { // success
                     mViewModel.deleteCourse(course);
-                    String text = courseTitle + " Deleted";
-                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                    String toastMessage = courseTitle + " Deleted";
+                    showToast(toastMessage);
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     String text = courseTitle + " can't be deleted because it has at least one assessment associated with it";
@@ -188,7 +188,8 @@ public class TermEditorActivity extends AbstractEditorActivity {
             return;
         }
         mViewModel.saveTerm(title, startDate, endDate);
-        Toast.makeText(TermEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " saved";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -199,8 +200,8 @@ public class TermEditorActivity extends AbstractEditorActivity {
         mViewModel.validateDeleteTerm(term,
                 () -> { // success
                     mViewModel.deleteTerm();
-                    String text = termTitle + " Deleted";
-                    Toast.makeText(TermEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                    String toastMessage = termTitle + " Deleted";
+                    showToast(toastMessage);
                     closeActivity();
                 }, () -> { // failure
                     String text = termTitle + " can't be deleted because it has at least one course associated with it";

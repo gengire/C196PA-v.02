@@ -72,11 +72,11 @@ public class TermsListActivity extends AbstractListActivity {
         switch (item.getItemId()) {
             case R.id.delete_all_terms:
                 mViewModel.deleteAll();
-                Toast.makeText(TermsListActivity.this, "All terms deleted", Toast.LENGTH_SHORT).show();
+                showToast("All terms deleted");
                 return true;
             case R.id.add_sample_terms:
                 mViewModel.addSampleData();
-                Toast.makeText(TermsListActivity.this, "Sample terms added", Toast.LENGTH_SHORT).show();
+                showToast("Sample terms added");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -113,8 +113,8 @@ public class TermsListActivity extends AbstractListActivity {
         mViewModel.validateDeleteTerm(term,
                 () -> { // success
                     mViewModel.deleteTerm(term);
-                    String text = termTitle + " Deleted";
-                    Toast.makeText(TermsListActivity.this, text, Toast.LENGTH_SHORT).show();
+                    String toastMessage = termTitle + " Deleted";
+                    showToast(toastMessage);
                 }, () -> { // failure
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     String text = termTitle + " can't be deleted because it has at least one course associated with it";

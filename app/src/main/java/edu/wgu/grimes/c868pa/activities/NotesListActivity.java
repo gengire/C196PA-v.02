@@ -105,8 +105,8 @@ public class NotesListActivity extends AbstractListActivity {
         String noteTitle = note.getTitle();
 
         mViewModel.deleteNote(note);
-        String text = noteTitle + " Deleted";
-        Toast.makeText(NotesListActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = noteTitle + " Deleted";
+        showToast(toastMessage);
     }
 
     @Override

@@ -13,7 +13,6 @@ package edu.wgu.grimes.c868pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,8 +106,8 @@ public class MentorsListActivity extends AbstractListActivity {
         String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
 
         mViewModel.deleteMentor(mentor);
-        String text = mentorName + " Deleted";
-        Toast.makeText(MentorsListActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = mentorName + " Deleted";
+        showToast(toastMessage);
     }
 
     @Override

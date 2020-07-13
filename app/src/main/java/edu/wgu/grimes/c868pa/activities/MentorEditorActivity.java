@@ -13,7 +13,6 @@ package edu.wgu.grimes.c868pa.activities;
 
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -119,7 +118,8 @@ public class MentorEditorActivity extends AbstractEditorActivity {
             return;
         }
         mViewModel.saveMentor(courseId, firstName, lastName, phone, email);
-        Toast.makeText(MentorEditorActivity.this, firstName + " " + lastName + " saved", Toast.LENGTH_SHORT).show();
+        String toastMessage = firstName + " " + lastName + " saved";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -128,8 +128,8 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         MentorEntity mentor = mViewModel.mLiveMentor.getValue();
         String mentorName = mentor.getFirstName() + " " + mentor.getLastName();
         mViewModel.deleteMentor();
-        String text = mentorName + " Deleted";
-        Toast.makeText(MentorEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = mentorName + " Deleted";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -158,6 +158,9 @@ public class MentorEditorActivity extends AbstractEditorActivity {
         }
     }
 
+    /**
+     * Local state class
+     */
     private static class MentorState {
         private String firstName;
         private String lastName;

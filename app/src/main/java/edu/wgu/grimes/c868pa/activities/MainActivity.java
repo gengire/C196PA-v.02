@@ -25,7 +25,6 @@ import java.text.DecimalFormat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c868pa.App;
 import edu.wgu.grimes.c868pa.R;
 import edu.wgu.grimes.c868pa.viewmodels.MainViewModel;
 
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     protected TextView mAssessmentsFailed;
 
     /**
-     * Set's up all the observers of the live data coming from the database and updates the view
+     * Sets up all the observers of the live data coming from the database and updates the view
      * when the data changes.
      */
     private void initViewModel() {

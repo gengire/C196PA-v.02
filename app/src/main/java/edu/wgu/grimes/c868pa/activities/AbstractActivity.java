@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.wgu.grimes.c868pa.App;
 import edu.wgu.grimes.c868pa.R;
 
 /**
@@ -41,6 +41,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * Boolean flag to set the state of the activity to either true for new or false for editing
      */
     protected boolean mNew;
+
     /**
      * Contains the ID of the entity if there is one.
      */
@@ -50,6 +51,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * Contains the ID of the parent entity if there is one.
      */
     protected int mParentId;
+
     /**
      * Base  view model provider factory to create ViewModels
      */
@@ -332,5 +334,23 @@ public abstract class AbstractActivity extends AppCompatActivity {
      */
     protected abstract void saveState(Bundle outState);
 
+    /**
+     * Helper to show toast messages in subclasses
+     *
+     * @param toastMessage The message to show in a toast
+     */
+    protected void showToast(final String toastMessage) {
+        showToast(toastMessage, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * Helper to show toast messages in subclasses
+     *
+     * @param toastMessage The message to show in a toast
+     * @param length The toast length, e.g. Toast.LENGTH_SHORT
+     */
+    protected void showToast(final String toastMessage, int length) {
+        runOnUiThread(() -> Toast.makeText(this, toastMessage, length).show());
+    }
 }
 

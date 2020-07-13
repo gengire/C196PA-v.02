@@ -31,36 +31,57 @@ public abstract class AbstractListActivity extends AbstractActivity {
         return R.drawable.ic_arrow_back;
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected int getMenu() {
         return 0; // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected int getDeleteMenuItem() {
         return 0; // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected int getSaveMenuItem() {
         return 0; // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected void save() {
         // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected void delete() {
         // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected void saveState(Bundle outState) {
         // noop
     }
 
+    /**
+     * Generally not used by list activities
+     */
     @Override
     protected void restoreState(Bundle savedStateInstance) {
         // noop

@@ -23,7 +23,6 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -312,8 +311,8 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         String assessmentTitle = assessment.getAssessmentTitle();
 
         mViewModel.deleteAssessment(assessment);
-        String text = assessmentTitle + " Deleted";
-        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = assessmentTitle + " Deleted";
+        showToast(toastMessage);
     }
 
     @Override
@@ -418,7 +417,8 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         mViewModel.saveCourse(title, code, termId, cus, status, startDate, sdAlarm, endDate, edAlarm);
         handleAlarmNotifications();
 
-        Toast.makeText(CourseEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " saved";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -430,8 +430,8 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             mViewModel.validateDeleteCourse(course,
                     () -> { // success
                         mViewModel.deleteCourse();
-                        String text = title + " Deleted";
-                        Toast.makeText(CourseEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+                        String toastMessage = title + " Deleted";
+                        showToast(toastMessage);
                         closeActivity();
                     }, () -> { // failure
                         String text = title + " can't be deleted because it has at least one assessment associated with it";
@@ -551,6 +551,9 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
         mStatus.performClick();
     }
 
+    /**
+     * Local state class
+     */
     private static class CourseState {
         private String title;
         private String code;

@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -151,6 +150,9 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         }
     }
 
+    /**
+     * @param savedInstanceState Holds state from previous construction if populated
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,7 +221,8 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         }
         mViewModel.saveAssessment(mParentId, assessmentType, title, status, completionDate, cdAlarm);
         onAlarmNotification();
-        Toast.makeText(AssessmentEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " saved";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -228,8 +231,8 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         AssessmentEntity course = mViewModel.mLiveAssessment.getValue();
         String title = course.getAssessmentTitle();
         mViewModel.deleteAssessment();
-        String text = title + " Deleted";
-        Toast.makeText(AssessmentEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " Deleted";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -331,6 +334,9 @@ public class AssessmentEditorActivity extends AbstractEditorActivity {
         mStatus.performClick();
     }
 
+    /**
+     * Local state class
+     */
     private static class AssessmentState {
         private String title;
         private Integer assessmentTypePosition;

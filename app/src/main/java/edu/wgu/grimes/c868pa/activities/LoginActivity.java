@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c868pa.App;
 import edu.wgu.grimes.c868pa.R;
 import edu.wgu.grimes.c868pa.utilities.HashingUtil;
 import edu.wgu.grimes.c868pa.viewmodels.LoginViewModel;
@@ -55,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("LOGIN", "LoginActivity:onCreate complete");
 }
 
+    /**
+     * Init the local view model
+     */
     private void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
@@ -64,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onRegisterClick() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @OnClick(R.id.btn_login)
@@ -73,30 +74,37 @@ public class LoginActivity extends AppCompatActivity {
         String password = mPassword.getText().toString();
         Log.d("LOGIN", "user: " + username + " attempting to login with password: " + password);
         mViewModel.getAccount(username, account -> {
+            boolean loginSucceeded = false;
             if (account != null) {
                 Log.d("LOGIN", "verified active account, verifying password");
                 if (password != null && !"".equals(password.trim())) {
-                    boolean loginSucceeded = HashingUtil.validatePassword(password, account.getPassword());
+                    loginSucceeded = HashingUtil.validatePassword(password, account.getPassword());
                     if (loginSucceeded) {
                         Log.d("LOGIN", "password verified, logging into the system");
                         mViewModel.setLoggedInAccountId(account.getId());
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Log.d("LOGIN", "the password given was incorrect: " + password);
-                        showToast("Login failed");
                     }
                 } else {
                     Log.d("LOGIN", "blank password, failing login");
-                    showToast("Login failed");
                 }
             } else {
                 Log.d("LOGIN", "the username given was not valid");
+            }
+            if (!loginSucceeded) {
                 showToast("Login failed");
             }
         });
     }
 
+    /**
+     * Helper to fire a toast message
+     *
+     * @param toastMessage The message to show in the toast
+     */
     private void showToast(final String toastMessage) {
         LoginActivity.this.runOnUiThread(() ->
             Toast.makeText(LoginActivity.this, toastMessage, Toast.LENGTH_SHORT).show());

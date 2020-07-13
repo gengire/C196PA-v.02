@@ -115,7 +115,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
             return;
         }
         mViewModel.saveNote(courseId, title, description);
-        Toast.makeText(NoteEditorActivity.this, title + " saved", Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " saved";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -124,8 +125,8 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         NoteEntity course = mViewModel.mLiveNote.getValue();
         String title = course.getTitle();
         mViewModel.deleteNote();
-        String text = title + " Deleted";
-        Toast.makeText(NoteEditorActivity.this, text, Toast.LENGTH_SHORT).show();
+        String toastMessage = title + " Deleted";
+        showToast(toastMessage);
         closeActivity();
     }
 
@@ -161,6 +162,9 @@ public class NoteEditorActivity extends AbstractEditorActivity {
         openActivity(intent);
     }
 
+    /**
+     * Local state class
+     */
     private static class State {
         String title;
         String description;
