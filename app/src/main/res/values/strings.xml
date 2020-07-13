@@ -100,6 +100,13 @@
     <string name="TERM_TITLE_KEY">term.title.key</string>
     <string name="TERM_START_DATE_KEY">term.startDate.key</string>
     <string name="TERM_END_DATE_KEY">term.endDate.key</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="register">REGISTER</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_registered">Already registered?</string>
     <string-array name="assessment_types">
         <item>Performance</item>
         <item>Objective</item>

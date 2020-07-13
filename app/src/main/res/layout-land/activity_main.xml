@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:title="WGU Student Scheduler"
+                app:title="Student Scheduler"
                 app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 

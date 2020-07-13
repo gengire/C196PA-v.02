@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "edu.wgu.grimes.c196pa"
+        applicationId "edu.wgu.grimes.c868pa"
         minSdkVersion defaultMinSdkVersion
         targetSdkVersion 29
         versionCode 1

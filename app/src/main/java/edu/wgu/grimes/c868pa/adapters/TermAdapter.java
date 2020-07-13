@@ -1,0 +1,126 @@
+//*********************************************************************************
+//  File:             TermAdapter.java
+//*********************************************************************************
+//  Course:           Software Development Capstone - C868
+//  Semester:         Spring 2020
+//*********************************************************************************
+//  Author:           Chris Grimes Copyright (2020). All rights reserved.
+//  Student ID:       000981634
+//  Program Mentor:   JoAnne McDermand
+//*********************************************************************************
+package edu.wgu.grimes.c868pa.adapters;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.wgu.grimes.c868pa.R;
+import edu.wgu.grimes.c868pa.database.entities.TermCompetencyUnitsTuple;
+import edu.wgu.grimes.c868pa.database.entities.TermEntity;
+
+import static edu.wgu.grimes.c868pa.utilities.DateUtils.sameDate;
+import static edu.wgu.grimes.c868pa.utilities.StringUtils.getFormattedDate;
+
+/**
+ * Term Adapter, Used to binds the TermEntity to the RecyclerView
+ *
+ * @author Chris Grimes Copyright (2020)
+ * @version 1.0
+ */
+public class TermAdapter extends ListAdapter<TermEntity, TermAdapter.ViewHolder> {
+
+    /**
+     * Used to more optimally handle how the recycler view handles changes to the items in it
+     */
+    private static final DiffUtil.ItemCallback<TermEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<TermEntity>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull TermEntity oldItem, @NonNull TermEntity newItem) {
+            boolean sameTitle = oldItem.getTitle().equals(newItem.getTitle());
+            boolean sameStartDate = sameDate(oldItem.getStartDate(), newItem.getStartDate());
+            boolean sameEndDate = sameDate(oldItem.getEndDate(), newItem.getEndDate());
+            return sameTitle && sameStartDate && sameEndDate;
+        }
+    };
+    final Map<Integer, Integer> termCus = new HashMap<>();
+    private OnItemClickListener<TermEntity> listener;
+
+    public TermAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_term, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        TermEntity currentTerm = getItem(position);
+        holder.textViewTitle.setText(currentTerm.getTitle());
+        Date sDate = currentTerm.getStartDate();
+        Date eDate = currentTerm.getEndDate();
+        String startDate = sDate == null ? "????" : getFormattedDate(sDate);
+        String endDate = eDate == null ? "???? " : getFormattedDate(eDate);
+        String dateRange = startDate + " - " + endDate;
+        holder.textViewDateRange.setText(dateRange);
+        Integer cus = termCus.get(currentTerm.getId());
+        String sCus = cus == null ? "0" : String.valueOf(cus);
+        holder.textViewCompetencyUnits.setText(sCus);
+    }
+
+    public TermEntity getTermAt(int position) {
+        return getItem(position);
+    }
+
+    public void setTotalCus(List<TermCompetencyUnitsTuple> allTermCus) {
+        if (allTermCus != null) {
+            for (TermCompetencyUnitsTuple tc : allTermCus) {
+                termCus.put(tc.termId, tc.cus);
+            }
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<TermEntity> listener) {
+        this.listener = listener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewTitle;
+        private final TextView textViewDateRange;
+        private final TextView textViewCompetencyUnits;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewTitle = itemView.findViewById(R.id.text_view_title);
+            textViewDateRange = itemView.findViewById(R.id.text_view_date_range);
+            textViewCompetencyUnits = itemView.findViewById(R.id.text_view_competency_units_value);
+
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(position));
+                }
+            });
+        }
+    }
+}
