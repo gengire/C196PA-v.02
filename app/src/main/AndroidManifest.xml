@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name="edu.wgu.grimes.c868pa.utilities.AlertReceiver" />
+        <receiver android:name=".utilities.AlertReceiver" />
 
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,66 +31,76 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="edu.wgu.grimes.c868pa.activities.RegisterActivity"
-            android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.MainActivity"
+            android:name=".activities.RegisterActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.AccountsListActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.TermsListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.AccountEditorActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountsListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MainActivity"
             android:label="Grimes C868 PA"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.LoginActivity"
+            android:parentActivityName=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.TermsListActivity"
+            android:name=".activities.TermsListActivity"
             android:label="@string/terms_list_title"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.TermEditorActivity"
+            android:name=".activities.TermEditorActivity"
             android:label="TermEditorActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.TermsListActivity"
+            android:parentActivityName=".activities.TermsListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.CourseEditorActivity"
+            android:name=".activities.CourseEditorActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.TermEditorActivity"
+            android:parentActivityName=".activities.TermEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.NoteEditorActivity"
+            android:name=".activities.NoteEditorActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.NotesListActivity"
+            android:parentActivityName=".activities.NotesListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.SendEmailActivity"
+            android:name=".activities.SendEmailActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.NoteEditorActivity"
+            android:parentActivityName=".activities.NoteEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.NotesListActivity"
+            android:name=".activities.NotesListActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.CourseEditorActivity"
+            android:parentActivityName=".activities.CourseEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.AssessmentEditorActivity"
+            android:name=".activities.AssessmentEditorActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.CourseEditorActivity"
+            android:parentActivityName=".activities.CourseEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.MentorEditorActivity"
+            android:name=".activities.MentorEditorActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.MentorsListActivity"
+            android:parentActivityName=".activities.MentorsListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="edu.wgu.grimes.c868pa.activities.MentorsListActivity"
+            android:name=".activities.MentorsListActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="edu.wgu.grimes.c868pa.activities.CourseEditorActivity"
+            android:parentActivityName=".activities.CourseEditorActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

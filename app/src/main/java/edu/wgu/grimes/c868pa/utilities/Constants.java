@@ -17,6 +17,8 @@ package edu.wgu.grimes.c868pa.utilities;
  * @version 1.0
  */
 public class Constants {
+    public static final String ACCOUNT_ID_KEY =
+            "edu.wgu.grimes.c868pa.utilities.account_editor.account_id_key";
     public static final String TERM_ID_KEY =
             "edu.wgu.grimes.c868pa.utilities.term_editor.term_id_key";
     public static final String COURSE_ID_KEY =

@@ -33,7 +33,7 @@ import static edu.wgu.grimes.c868pa.utilities.DateUtils.sameDate;
 import static edu.wgu.grimes.c868pa.utilities.StringUtils.getFormattedDate;
 
 /**
- * Term Adapter, Used to binds the TermEntity to the RecyclerView
+ * Term Adapter, Used to bind the TermEntity to the RecyclerView
  *
  * @author Chris Grimes Copyright (2020)
  * @version 1.0

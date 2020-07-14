@@ -65,6 +65,7 @@ public class AppRepository {
      * Term Data Access Object
      */
     private final TermDao termDao;
+
     /**
      * Course Data Access Object
      */
@@ -117,6 +118,10 @@ public class AppRepository {
             instance = new AppRepository(context);
         }
         return instance;
+    }
+
+    public int getLoggedInAccountId() {
+        return loggedInAccountId;
     }
 
     public void setLoggedInAccountId(int loggedInAccountId) {
@@ -421,4 +426,17 @@ public class AppRepository {
             accountDao.deleteAll();
         });
     }
+
+    public void deleteAccount(AccountEntity account) {
+        executor.execute(() -> accountDao.delete(account));
+    }
+
+    public LiveData<List<AccountEntity>> getAllAccounts() {
+        return accountDao.getAllAccounts();
+    }
+
+    public AccountEntity getAccountById(int accountId) {
+        return accountDao.getAccountById(accountId);
+    }
 }
+

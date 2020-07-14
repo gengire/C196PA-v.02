@@ -14,7 +14,9 @@
     <string name="assessments">Assessments</string>
     <string name="courses">Courses</string>
     <string name="new_term">New Term</string>
+    <string name="new_account">New Account</string>
     <string name="edit_term">Edit Term</string>
+    <string name="edit_account">Edit Account</string>
     <string name="new_course">New Course</string>
     <string name="edit_course">Edit Course</string>
     <string name="in_progress">In Progress</string>
@@ -76,6 +78,8 @@
     <string name="send_email_title">Send</string>
     <string name="save_term_title">Save Term</string>
     <string name="delete_term_title">Delete Term</string>
+    <string name="save_account_title">Save Account</string>
+    <string name="delete_account_title">Delete Account</string>
     <string name="add_sample_terms_title">Add sample terms</string>
     <string name="delete_all_terms_title">Delete all terms</string>
     <string name="ASSESSMENT_TITLE_KEY">assessment.title.key</string>
@@ -100,6 +104,8 @@
     <string name="TERM_TITLE_KEY">term.title.key</string>
     <string name="TERM_START_DATE_KEY">term.startDate.key</string>
     <string name="TERM_END_DATE_KEY">term.endDate.key</string>
+    <string name="ACCOUNT_USERNAME_KEY">account.username.key</string>
+    <string name="ACCOUNT_PASSWORD_KEY">account.password.key</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
