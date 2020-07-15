@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".activities.SendEmailActivity">
 
-    <EditText
-        android:id="@+id/edit_text_send_email_text_to"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="auto"
-        android:hint="@string/send_email_to_hint"
-        android:inputType="textEmailAddress" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <EditText
-        android:id="@+id/edit_text_send_email_text_subject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="auto"
-        android:hint="@string/send_email_subject_hint"
-        android:inputType="textEmailSubject" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <EditText
-        android:id="@+id/edit_text_send_electronic_mail_text_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="auto"
-        android:hint="@string/send_email_message_hint"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:lines="10" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-</LinearLayout>
+    <include layout="@layout/content_send_email" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
