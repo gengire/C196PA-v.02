@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onRegisterClick() {
         String username = mUsername.getText().toString();
 
-        if (username == null || "".equals(username)) {
+        if ("".equals(username.trim())) {
             showToast("Please provide a username");
         } else {
             mViewModel.userExists(username, exists -> {
@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     String password = mPassword.getText().toString();
                     String confirmPassword = mConfirmPassword.getText().toString();
-                    if (password == null || "".equals(password)) {
+                    if ("".equals(password.trim())) {
                         showToast("Please provide a password");
                     } else {
                         if (password.equals(confirmPassword)) {

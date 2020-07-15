@@ -17,7 +17,7 @@
         android:background="#ffffff"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
-        android:drawableStart="@drawable/username"
+        android:drawableStart="@drawable/ic_username"
         android:hint="@string/username"/>
 
     <EditText
@@ -27,7 +27,7 @@
         android:layout_marginTop="20dp"
         android:background="#ffffff"
         android:inputType="textPassword"
-        android:drawableStart="@drawable/password"
+        android:drawableStart="@drawable/ic_password"
         android:hint="@string/password"/>
 
     <EditText
@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         android:background="#ffffff"
         android:inputType="textPassword"
-        android:drawableStart="@drawable/password"
+        android:drawableStart="@drawable/ic_password"
         android:hint="@string/confirm_password"/>
 
     <Button
