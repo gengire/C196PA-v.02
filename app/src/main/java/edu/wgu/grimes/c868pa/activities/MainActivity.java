@@ -13,9 +13,12 @@ package edu.wgu.grimes.c868pa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
 
         mViewModel.mTotalCourses.observe(MainActivity.this, courseCount -> {
+            Log.d("LOGIN", "course count changed: " + courseCount);
             iCourseCount = courseCount;
             updateStats(iCourseCompleted, iCourseCount, mCoursesCompleted);
             updateStats(iCourseInProgress, iCourseCount, mCoursesInProgress);
@@ -194,6 +198,18 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.manage_accounts:
+                Intent intent = new Intent(this, AccountsListActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.btn_terms_list)

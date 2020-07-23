@@ -135,8 +135,8 @@ public class AccountsListActivity extends AbstractListActivity {
         mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
 
-    @OnClick(R.id.fab_add_term)
-    void addTermClickHandler() {
+    @OnClick(R.id.fab_add_account)
+    void addAccountClickHandler() {
         openActivity(AccountEditorActivity.class);
     }
 }

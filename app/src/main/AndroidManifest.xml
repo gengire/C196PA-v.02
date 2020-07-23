@@ -42,6 +42,7 @@
         <activity
             android:name=".activities.AccountsListActivity"
             android:launchMode="singleTop"
+            android:label="@string/manage_accounts"
             android:parentActivityName=".activities.TermsListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

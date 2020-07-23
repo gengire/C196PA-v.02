@@ -1,45 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.AccountEditorActivity">
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/edit_text_account_editor_password"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:autofillHints="auto"-->
+    <!--        android:layout_marginHorizontal="10dp"-->
+    <!--        android:hint="Enter Password"-->
+    <!--        android:singleLine="true"-->
+    <!--        android:ellipsize="end"-->
+    <!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+    <!--        android:inputType="textPassword" />-->
 
     <EditText
         android:id="@+id/edit_text_account_editor_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="auto"
         android:layout_marginHorizontal="10dp"
+        android:autofillHints="auto"
+        android:ellipsize="end"
         android:hint="Enter Username"
+        android:inputType="text"
         android:singleLine="true"
-        android:ellipsize="end"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/edit_text_account_editor_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="auto"
-        android:layout_marginHorizontal="10dp"
-        android:hint="Enter Password"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:inputType="textPassword" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/text_view_account_editor_last_login_date"
+        android:id="@+id/text_view_account_editor_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center_horizontal"
         android:inputType="text"
-        />
+        android:textSize="30sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_account_editor_change_pasword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/text_view_account_editor_username"
+        android:layout_marginTop="65dp"
+        android:text="Change Password" />
+
+</RelativeLayout>

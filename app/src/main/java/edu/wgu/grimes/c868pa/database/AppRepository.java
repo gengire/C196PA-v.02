@@ -328,7 +328,7 @@ public class AppRepository {
      */
     public void addSampleData() {
         executor.execute(() -> {
-            termDao.saveAll(SampleData.getSampleTerms());
+            termDao.saveAll(SampleData.getSampleTerms(loggedInAccountId));
             courseDao.saveAll(SampleData.getSampleCourses());
             assessmentDao.saveAll(SampleData.getSampleAssessments());
             noteDao.saveAll(SampleData.getSampleCourseNotes());
@@ -401,6 +401,8 @@ public class AppRepository {
      * @return An observable count of all courses
      */
     public LiveData<Integer> getTotalCourseCount() {
+        Log.d("LOGIN", "getting live total course count for user: " + loggedInAccountId);
+//        return courseDao.getLiveCount2();
         return courseDao.getLiveCount(loggedInAccountId);
     }
 

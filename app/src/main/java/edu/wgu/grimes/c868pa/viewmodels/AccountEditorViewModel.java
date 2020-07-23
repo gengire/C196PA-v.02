@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import edu.wgu.grimes.c868pa.database.entities.AccountEntity;
+import edu.wgu.grimes.c868pa.utilities.HashingUtil;
 import edu.wgu.grimes.c868pa.utilities.validation.DeleteAccountValidator;
 import edu.wgu.grimes.c868pa.utilities.validation.ValidationCallback;
 
@@ -61,6 +62,29 @@ public class AccountEditorViewModel extends BaseViewModel {
             account.setPassword(password);
         }
         mRepository.saveAccount(account);
+    }
+
+    public void updateUsername(String username) {
+        if (TextUtils.isEmpty(username.trim())) {
+            return; // no saving blank titles
+        }
+        AccountEntity account = mLiveData.getValue();
+        if (account == null) {
+            throw new IllegalStateException("Account cannot be null when updating username");
+        } else {
+            account.setUsername(username.trim());
+            mRepository.saveAccount(account);
+        }
+    }
+
+    public void updatePassword(String password) {
+        AccountEntity account = mLiveData.getValue();
+        if (account == null) {
+            throw new IllegalStateException("Account cannot be null when updating password");
+        } else {
+            account.setPassword(HashingUtil.generateStrongPassword(password));
+            mRepository.saveAccount(account);
+        }
     }
 
     /**

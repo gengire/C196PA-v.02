@@ -11,13 +11,18 @@
 package edu.wgu.grimes.c868pa.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.wgu.grimes.c868pa.R;
 import edu.wgu.grimes.c868pa.database.entities.AccountEntity;
 import edu.wgu.grimes.c868pa.viewmodels.AccountEditorViewModel;
@@ -38,22 +43,26 @@ public class AccountEditorActivity extends AbstractEditorActivity {
     private AccountEditorViewModel mViewModel;
 
     @BindView(R.id.edit_text_account_editor_username)
-    EditText mUsername;
+    protected EditText mUsername;
 
-    @BindView(R.id.edit_text_account_editor_password)
-    EditText mPassword;
+
+    @BindView(R.id.button_account_editor_change_pasword)
+    protected Button btnChangePassword;
 
     /**
      * Local internal state for this activity
      */
     private final AccountState state = new AccountState();
-
+    /**
+     * Password text - pre-hashed
+     */
+    private String password;
     /**
      * Loads the data from the internal state to the screen
      */
     private void loadState() {
         mUsername.setText(state.username);
-        mPassword.setText(state.password);
+        password = state.password;
     }
 
     @Override
@@ -74,7 +83,6 @@ public class AccountEditorActivity extends AbstractEditorActivity {
         mViewModel.mLiveData.observe(this, (account) -> {
             if (account != null) {
                 mUsername.setText(state.username == null ? account.getUsername() : state.username);
-                mUsername.setText(state.password == null ? account.getPassword() : state.password);
             }
         });
 
@@ -92,12 +100,12 @@ public class AccountEditorActivity extends AbstractEditorActivity {
     @Override
     protected void save() {
         String username = String.valueOf(mUsername.getText());
-        String password = String.valueOf(mPassword.getText());
         if (username.trim().isEmpty()) {
             showValidationError("Missing Username", "Please enter a username");
             return;
         }
-        mViewModel.saveAccount(username, password);
+        mViewModel.updateUsername(username);
+        mViewModel.updatePassword(password);
         String toastMessage = username + " saved";
         showToast(toastMessage);
         closeActivity();
@@ -131,7 +139,7 @@ public class AccountEditorActivity extends AbstractEditorActivity {
     @Override
     protected void saveState(@NonNull Bundle outState) {
         outState.putString(getString(R.string.ACCOUNT_USERNAME_KEY), String.valueOf(mUsername.getText()));
-        outState.putString(getString(R.string.ACCOUNT_PASSWORD_KEY), String.valueOf(mPassword.getText()));
+        outState.putString(getString(R.string.ACCOUNT_PASSWORD_KEY), String.valueOf(password));
     }
 
     @Override
@@ -147,6 +155,52 @@ public class AccountEditorActivity extends AbstractEditorActivity {
     @Override
     protected int getSaveMenuItem() {
         return R.id.save_account;
+    }
+
+    @OnClick(R.id.button_account_editor_change_pasword)
+    protected void onChangePasswordClick() {
+        openDialog();
+    }
+
+    private void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.layout_change_password_dialog, null);
+        final EditText mPassword = (EditText) view.findViewById(R.id.edit_text_change_password);
+        final EditText mConfirmPassword = (EditText) view.findViewById(R.id.edit_text_change_confirm_password);
+
+        builder.setPositiveButton("Okay", (dialog, which) -> {
+           // overriding this later to add some validation
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+           dialog.dismiss();
+        });
+
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((v) -> {
+            Log.d("CHANGE_PASS", "change password positive");
+            String password = mPassword.getText().toString();
+            String confirmPassword = mConfirmPassword.getText().toString();
+            boolean passwordValid = false;
+            if (password.length() == 0) {
+                showToast("Please enter a password");
+            } else if (!password.equals(confirmPassword)) {
+                showToast("Passwords must match");
+            } else {
+                passwordValid = true;
+            }
+            if (passwordValid) {
+                applyText(password);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void applyText(String text) {
+        Log.d("CHANGE_PASS", "apply text: " + text);
+        this.password = text;
     }
 
     private static class AccountState {
