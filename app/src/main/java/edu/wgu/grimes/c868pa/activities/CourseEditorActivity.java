@@ -382,13 +382,13 @@ public class CourseEditorActivity extends AbstractEditorActivity implements Numb
             mParentId = extras.getInt(TERM_ID_KEY);
 
             if (extras.getInt(COURSE_ID_KEY) == 0) {
-                setTitle(getString(R.string.new_course));
+                setTitle(getString(R.string.title_new_course));
                 mNew = true;
                 mCourseNotes.setVisibility(View.GONE);
                 mCourseMentors.setVisibility(View.GONE);
                 mFab.setVisibility(View.GONE);
             } else {
-                setTitle(getString(R.string.edit_course));
+                setTitle(getString(R.string.title_edit_course));
                 mId = extras.getInt(COURSE_ID_KEY);
                 mViewModel.loadCourse(mId);
                 mViewModel.loadCourseAssessments(mId);

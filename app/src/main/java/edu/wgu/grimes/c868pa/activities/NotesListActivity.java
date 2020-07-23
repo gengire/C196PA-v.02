@@ -55,7 +55,7 @@ public class NotesListActivity extends AbstractListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("Course Notes");
+//        setTitle("Course Notes");
         FloatingActionButton mFab = findViewById(R.id.fab_add_note);
         mFab.setOnClickListener(view -> {
             Intent intent = new Intent(NotesListActivity.this, NoteEditorActivity.class);

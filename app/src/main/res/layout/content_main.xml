@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:text="@string/courses"
+            android:text="@string/main_courses"
             android:textSize="30sp" />
 
         <LinearLayout
@@ -31,26 +30,26 @@
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_completed"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/completed"
-                android:textStyle="bold"
-                android:textColor="@color/color_completed" />
+                android:text="@string/main_completed"
+                android:textColor="@color/color_completed"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_courses_completed_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:textStyle="bold"
-                android:textColor="@color/color_completed"/>
+                android:textColor="@color/color_completed"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -58,17 +57,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_in_progress"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/in_progress" />
+                android:text="@string/main_in_progress" />
 
             <TextView
                 android:id="@+id/text_view_courses_in_progress_value"
@@ -82,16 +81,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_dropped"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:text="@string/dropped" />
+                android:text="@string/main_dropped" />
 
             <TextView
                 android:id="@+id/text_view_courses_dropped_value"
@@ -105,26 +104,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_failed"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/failed"
-                android:textStyle="bold"
-                android:textColor="@color/color_failed" />
+                android:text="@string/main_failed"
+                android:textColor="@color/color_failed"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_courses_failed_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="end"
                 android:textColor="@color/color_failed"
-                android:layout_gravity="end" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
@@ -136,7 +135,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:text="@string/assessments"
+            android:text="@string/main_assessments"
             android:textSize="30sp" />
 
         <LinearLayout
@@ -144,26 +143,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_assessments_passed"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:text="@string/main_passed"
                 android:textColor="@color/color_completed"
-                android:text="@string/passed" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_assessments_passed_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="end"
                 android:textColor="@color/color_completed"
-                android:layout_gravity="end" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -171,16 +170,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_assessments_pending"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/pending" />
+                android:text="@string/main_pending" />
 
             <TextView
                 android:id="@+id/text_view_assessments_pending_value"
@@ -194,68 +193,71 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/text_view_assessments_failed"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:text="@string/main_failed"
                 android:textColor="@color/color_failed"
-                android:text="@string/failed" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_assessments_failed_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="end"
                 android:textColor="@color/color_failed"
-                android:layout_gravity="end" />
+                android:textStyle="bold" />
         </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_terms_list"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:paddingHorizontal="16dp"
-                style="?android:attr/buttonStyleInset"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:text="@string/term_list" />
+        <Button
+            android:id="@+id/btn_terms_list"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="16dp"
+            android:text="@string/main_button_term_list" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
             android:layout_gravity="bottom"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_add_sample_terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            style="?android:attr/buttonStyleInset"
-            android:background="@color/color_completed"
-            android:textColor="@color/color_badge_complete"
-            android:text="@string/add_samples" />
-        <Button
-            android:id="@+id/btn_delete_all_terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@color/color_failed"
-            android:textColor="@color/color_badge_complete"
-            style="?android:attr/buttonStyleInset"
-            android:text="@string/delete_all" />
+
+            <Button
+                android:id="@+id/btn_add_sample_terms"
+                style="?android:attr/buttonStyleInset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/color_completed"
+                android:text="@string/main_button_add_samples"
+                android:textColor="@color/color_badge_complete" />
+
+            <Button
+                android:id="@+id/btn_delete_all_terms"
+                style="?android:attr/buttonStyleInset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/color_failed"
+                android:text="@string/main_button_delete_all"
+                android:textColor="@color/color_badge_complete" />
         </LinearLayout>
 
     </LinearLayout>

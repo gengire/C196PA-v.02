@@ -116,9 +116,9 @@
 
                 <ImageView
                     android:id="@+id/image_view_assessment_badge3_background"
-                    android:contentDescription="@string/course_competency_units_badge_background_content_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/course_competency_units_badge_background_content_description"
                     android:paddingTop="3dp"
                     app:srcCompat="@drawable/ic_assessment_complete" />
 

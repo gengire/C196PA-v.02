@@ -87,14 +87,14 @@ public class AccountEditorActivity extends AbstractEditorActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            setTitle(getString(R.string.new_account));
-            mNew = true;
-        } else {
-            setTitle(getString(R.string.edit_account));
+//        if (extras == null) {
+//            setTitle(getString(R.string.new_account));
+//            mNew = true;
+//        } else {
+//            setTitle(getString(R.string.edit_account));
             mId = extras.getInt(ACCOUNT_ID_KEY);
             mViewModel.loadAccount(mId);
-        }
+//        }
     }
 
     @Override

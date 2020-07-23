@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -165,11 +164,11 @@ public class TermEditorActivity extends AbstractEditorActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            setTitle(getString(R.string.new_term));
+            setTitle(getString(R.string.title_new_term));
             mNew = true;
             mFab.setVisibility(View.GONE);
         } else {
-            setTitle(getString(R.string.edit_term));
+            setTitle(getString(R.string.title_edit_term));
             mId = extras.getInt(TERM_ID_KEY);
             mViewModel.loadTerm(mId);
             mViewModel.loadTermCourses(mId);

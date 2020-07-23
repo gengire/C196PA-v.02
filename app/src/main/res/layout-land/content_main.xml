@@ -35,7 +35,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/courses"
+                android:text="@string/main_courses"
                 android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                     android:id="@+id/text_view_completed"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/completed"
+                    android:text="@string/main_completed"
                     android:textStyle="bold"
                     android:textColor="@color/color_completed" />
 
@@ -77,7 +77,7 @@
                     android:id="@+id/text_view_in_progress"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/in_progress" />
+                    android:text="@string/main_in_progress" />
 
                 <TextView
                     android:id="@+id/text_view_courses_in_progress_value"
@@ -99,7 +99,7 @@
                     android:id="@+id/text_view_dropped"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="@string/dropped" />
+                    android:text="@string/main_dropped" />
 
                 <TextView
                     android:id="@+id/text_view_courses_dropped_value"
@@ -121,7 +121,7 @@
                     android:id="@+id/text_view_failed"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/failed"
+                    android:text="@string/main_failed"
                     android:textStyle="bold"
                     android:textColor="@color/color_failed" />
 
@@ -149,7 +149,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/assessments"
+                android:text="@string/main_assessments"
                 android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textColor="@color/color_completed"
-                    android:text="@string/passed" />
+                    android:text="@string/main_passed" />
 
                 <TextView
                     android:id="@+id/text_view_assessments_passed_value"
@@ -191,7 +191,7 @@
                     android:id="@+id/text_view_assessments_pending"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/pending" />
+                    android:text="@string/main_pending" />
 
                 <TextView
                     android:id="@+id/text_view_assessments_pending_value"
@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textColor="@color/color_failed"
-                    android:text="@string/failed" />
+                    android:text="@string/main_failed" />
 
                 <TextView
                     android:id="@+id/text_view_assessments_failed_value"
@@ -237,7 +237,7 @@
         style="?android:attr/buttonStyleInset"
         android:paddingHorizontal="16dp"
         android:layout_gravity="center"
-        android:text="@string/term_list" />
+        android:text="@string/main_button_term_list" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -257,7 +257,7 @@
             android:background="@color/color_completed"
             android:textColor="@color/color_badge_complete"
             style="?android:attr/buttonStyleInset"
-            android:text="@string/add_samples" />
+            android:text="@string/main_button_add_samples" />
         <Button
             android:id="@+id/btn_delete_all_terms"
             android:layout_width="wrap_content"
@@ -267,7 +267,7 @@
             android:background="@color/color_failed"
             android:textColor="@color/color_badge_complete"
             style="?android:attr/buttonStyleInset"
-            android:text="@string/delete_all" />
+            android:text="@string/main_button_delete_all" />
     </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

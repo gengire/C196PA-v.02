@@ -56,7 +56,7 @@ public class MentorsListActivity extends AbstractListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("Course Mentors");
+//        setTitle("Course Mentors");
         FloatingActionButton fab = findViewById(R.id.fab_add_mentor);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MentorsListActivity.this, MentorEditorActivity.class);
